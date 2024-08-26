@@ -44,3 +44,6 @@ npm install prop-types
 
 #Instalar classnames.
 npm install classnames
+
+#Instalar bootstrap
+npm install bootstrap

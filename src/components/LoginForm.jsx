@@ -25,123 +25,125 @@ const LoginForm = ({ onLogin, onRegister }) => {
   };
 
   return (
-    <div className="flex justify-center py-4">
-      <div className="w-full max-w-md">
-        <ul className="flex justify-between mb-4">
-          <li>
-            <button
-              className={`py-2 px-4 border rounded-md w-full ${active === 'login' ? 'bg-blue-600 text-white' : ''}`}
-              onClick={() => setActive('login')}
-            >
-              Login
-            </button>
-          </li>
-          <li>
-            <button
-              className={`py-2 px-4 border rounded-md w-full ${active === 'register' ? 'bg-blue-600 text-white' : ''}`}
-              onClick={() => setActive('register')}
-            >
-              Register
-            </button>
-          </li>
-        </ul>
+    <div className="container d-flex justify-content-center align-items-center min-vh-100">
+      <div className="card shadow-lg p-4" style={{ width: '100%', maxWidth: '500px' }}>
+        <div className="card-body">
+          <ul className="nav nav-pills mb-4">
+              <button
+                className={`nav-link ${active === 'login' ? 'active' : ''}`}
+                onClick={() => setActive('login')}
+              >
+                Login
+              </button>
+              <button
+                className={`nav-link ${active === 'register' ? 'active' : ''}`}
+                onClick={() => setActive('register')}
+              >
+                Register
+              </button>
+          </ul>
 
-        <div className="bg-white p-6 rounded-md shadow-md">
           {active === 'login' ? (
             <form onSubmit={onSubmitHandler}>
-              <div className="mb-4 relative">
-                <input
-                  type="text"
-                  id="loginName"
-                  name="login"
-                  value={login}
-                  onChange={(e) => setLogin(e.target.value)}
-                  className="w-full p-3 border rounded-md"
-                  placeholder="Username"
-                />
-              </div>
-
-              <div className="mb-4 relative">
-                <input
-                  type={passwordVisible ? 'text' : 'password'}
-                  id="loginPassword"
-                  name="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full p-3 border rounded-md pr-10"
-                  placeholder="Password"
-                />
-                <button
-                  type="button"
-                  className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-600"
-                  onClick={togglePasswordVisibility}
-                >
-                  {passwordVisible ? <FaEyeSlash /> : <FaEye />}
-                </button>
-              </div>
-
-              <button type="submit" className="w-full bg-blue-600 text-white py-3 rounded-md">
-                Sign In
-              </button>
-            </form>
-          ) : (
-            <form onSubmit={onSubmitRegister}>
-              <div className="mb-4 relative">
-                <input
-                  type="text"
-                  id="firstName"
-                  name="firstName"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                  className="w-full p-3 border rounded-md"
-                  placeholder="First Name"
-                />
-              </div>
-
-              <div className="mb-4 relative">
-                <input
-                  type="text"
-                  id="lastName"
-                  name="lastName"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                  className="w-full p-3 border rounded-md"
-                  placeholder="Last Name"
-                />
-              </div>
-
-              <div className="mb-4 relative">
+              <div className="mb-3">
+                <label htmlFor="login" className="form-label">Username</label>
                 <input
                   type="text"
                   id="login"
                   name="login"
                   value={login}
                   onChange={(e) => setLogin(e.target.value)}
-                  className="w-full p-3 border rounded-md"
+                  className="form-control"
                   placeholder="Username"
                 />
               </div>
 
-              <div className="mb-4 relative">
+              <div className="mb-3 position-relative">
+                <label htmlFor="password" className="form-label">Password</label>
                 <input
                   type={passwordVisible ? 'text' : 'password'}
                   id="password"
                   name="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full p-3 border rounded-md pr-10"
+                  className="form-control pe-5"
                   placeholder="Password"
                 />
                 <button
                   type="button"
-                  className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-600"
+                  className="btn btn-outline-secondary position-absolute top-50 end-0 translate-middle-y"
                   onClick={togglePasswordVisibility}
                 >
                   {passwordVisible ? <FaEyeSlash /> : <FaEye />}
                 </button>
               </div>
 
-              <button type="submit" className="w-full bg-blue-600 text-white py-3 rounded-md">
+              <button type="submit" className="btn btn-primary w-100">
+                Sign In
+              </button>
+            </form>
+          ) : (
+            <form onSubmit={onSubmitRegister}>
+              <div className="mb-3">
+                <label htmlFor="firstName" className="form-label">First Name</label>
+                <input
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  className="form-control"
+                  placeholder="First Name"
+                />
+              </div>
+
+              <div className="mb-3">
+                <label htmlFor="lastName" className="form-label">Last Name</label>
+                <input
+                  type="text"
+                  id="lastName"
+                  name="lastName"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  className="form-control"
+                  placeholder="Last Name"
+                />
+              </div>
+
+              <div className="mb-3">
+                <label htmlFor="login" className="form-label">Username</label>
+                <input
+                  type="text"
+                  id="login"
+                  name="login"
+                  value={login}
+                  onChange={(e) => setLogin(e.target.value)}
+                  className="form-control"
+                  placeholder="Username"
+                />
+              </div>
+
+              <div className="mb-3 position-relative">
+                <label htmlFor="password" className="form-label">Password</label>
+                <input
+                  type={passwordVisible ? 'text' : 'password'}
+                  id="password"
+                  name="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="form-control pe-5"
+                  placeholder="Password"
+                />
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary position-absolute top-50 end-0 translate-middle-y"
+                  onClick={togglePasswordVisibility}
+                >
+                  {passwordVisible ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
+
+              <button type="submit" className="btn btn-primary w-100">
                 Register
               </button>
             </form>
@@ -152,7 +154,6 @@ const LoginForm = ({ onLogin, onRegister }) => {
   );
 };
 
-// Añadimos PropTypes para validar las props
 LoginForm.propTypes = {
   onLogin: PropTypes.func.isRequired,
   onRegister: PropTypes.func.isRequired,
