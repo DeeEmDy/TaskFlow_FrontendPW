@@ -173,45 +173,45 @@ const LoginForm = ({ onLogin, onRegister }) => {
               </div>
 
               <div className="mb-3 position-relative">
-                <label htmlFor="password" className="form-label">Contraseña</label>
-                <input
-                  type={passwordVisible ? 'text' : 'password'}
-                  id="password"
-                  name="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="form-control"
-                  placeholder="Ingrese su contraseña aquí"
-                />
-                <button
-                  type="button"
-                  className="btn-password-toggle"
-                  onClick={togglePasswordVisibility}
-                >
-                  {passwordVisible ? <FaEyeSlash /> : <FaEye />}
-                </button>
-              </div>
+  <label htmlFor="password" className="form-label">Contraseña</label>
+  <input
+    type={passwordVisible ? 'text' : 'password'}
+    id="password"
+    name="password"
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+    className="form-control pe-5" // Añado la clase pe-5 para espacio a la derecha
+    placeholder="Ingrese su contraseña aquí"
+  />
+  <button
+    type="button"
+    className="btn-password-toggle" // Clase personalizada para posicionar el botón
+    onClick={togglePasswordVisibility}
+  >
+    {passwordVisible ? <FaEyeSlash /> : <FaEye />}
+  </button>
+</div>
 
+<div className="mb-3 position-relative">
+  <label htmlFor="confirm_password" className="form-label">Confirmar contraseña</label>
+  <input
+    type={confirmPasswordVisible ? 'text' : 'password'}
+    id="confirm_password"
+    name="confirm_password"
+    value={confirm_password}
+    onChange={(e) => setConfirmPassword(e.target.value)}
+    className="form-control pe-5" // Añado la clase pe-5 para espacio a la derecha
+    placeholder="Confirme su contraseña aquí"
+  />
+  <button
+    type="button"
+    className="btn-password-toggle" // Clase personalizada para posicionar el botón
+    onClick={toggleConfirmPasswordVisibility}
+  >
+    {confirmPasswordVisible ? <FaEyeSlash /> : <FaEye />}
+  </button>
+</div>
 
-              <div className="mb-3 position-relative">
-                <label htmlFor="confirm_password" className="form-label">Confirmar contraseña</label>
-                <input
-                  type={confirmPasswordVisible ? 'text' : 'password'}
-                  id="confirm_password"
-                  name="confirm_password"
-                  value={confirm_password}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="form-control"
-                  placeholder="Confirme su contraseña aquí"
-                />
-                <button
-                  type="button"
-                  className="btn-password-toggle"
-                  onClick={toggleConfirmPasswordVisibility}
-                >
-                  {confirmPasswordVisible ? <FaEyeSlash /> : <FaEye />}
-                </button>
-              </div>
 
               <button type="submit" className="btn btn-primary w-100">
                 Registrarse

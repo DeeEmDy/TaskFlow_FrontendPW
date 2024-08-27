@@ -68,7 +68,7 @@
 }
 
 /* Estilos para el campo de contraseña con botón para mostrar/ocultar 
-y que este se acomode al final del campo de texto de la contraseña*/
+   y que este se acomode al final del campo de texto de la contraseña */
 .position-relative {
     position: relative;
 }
@@ -77,11 +77,11 @@ y que este se acomode al final del campo de texto de la contraseña*/
     padding-right: 3rem; /* Ajuste para dejar espacio al botón de visibilidad */
 }
 
-/* Estilos para el botón de alternancia de visibilidad de la contraseña */
-.btn-outline-secondary {
+/* Estilos para el botón de alternancia de visibilidad de la contraseña dentro del campo */
+.btn-password-toggle {
     position: absolute;
-    top: 50%;
-    right: 0.5rem;
+    top: 75%;
+    right: -2%;
     transform: translateY(-50%);
     background: none;
     border: none;
@@ -89,7 +89,7 @@ y que este se acomode al final del campo de texto de la contraseña*/
     color: #6c757d;
 }
 
-.btn-outline-secondary:hover {
+.btn-password-toggle:hover {
     color: #343a40;
 }
 
@@ -104,6 +104,7 @@ y que este se acomode al final del campo de texto de la contraseña*/
     width: 100%;
 }
 
+/* Estilos para el botón principal del formulario al pasar el cursor sobre él */
 .btn-primary:hover {
     background-color: #0b5ed7;
 }
