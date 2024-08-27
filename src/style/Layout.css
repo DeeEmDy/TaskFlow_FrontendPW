@@ -1,7 +1,6 @@
 /* Layout.css */
 .layout {
     display: flex;
-    position: relative; /* Necesario para la capa de superposición */
     min-height: 10vh;
   }
   

@@ -1,5 +1,14 @@
 import { useState, useEffect } from "react";
 import "../style/Sidebar.css";
+import eventoIcon from "../imagenes/Evento.png"; 
+import calendarIcon from "../imagenes/calendar.png";
+import dashboardIcon from "../imagenes/dashboard1.png";
+import configuracionesIcon from "../imagenes/configuraciones.png";
+import informacionIcon from "../imagenes/informacion.png";
+import sesionIcon from "../imagenes/cerrar-sesion.png";
+import perfilIcon from "../imagenes/perfil.png";
+import bar1Icon from "../imagenes/bar1.png";
+
 
 function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,7 +23,6 @@ function Sidebar() {
     }
   };
 
-
   useEffect(() => {
     document.addEventListener('click', closeSidebar);
     return () => {
@@ -26,12 +34,12 @@ function Sidebar() {
     <div className={`container ${isOpen ? "sidebar-open" : ""}`}>
       <div className={`sidebar ${isOpen ? "active" : ""}`}>
         <div className="menu-btn" onClick={toggleSidebar}>
-          <i className={`ph-bold ph-caret-${isOpen ? "right" : "left"}`}></i>
+        <img src={bar1Icon} alt="Bar" style={{ width: '25px', height: '25px' }} />
         </div>
         <div className="head">
         <a href="#">
           <div className="user-img">
-            <img src="user.jpg" />
+          <img src={perfilIcon} alt="Perfil" style={{ width: '45px', height: '45px' }} />
           </div>
           </a>
           <div className="user-details">
@@ -41,36 +49,28 @@ function Sidebar() {
         </div>
         <div className="nav">
           <div className="menu">
-            <p className="title">Main</p>
+            <p className="title">Home</p>
             <ul>
               <li>
                 <a href="#">
-                  <i className="icon ph-bold ph-house-simple"></i>
+                <img src={dashboardIcon} alt="Dashboard" style={{ width: '28px', height: '28px' }} />
                   <span className="text">Dashboard</span>
                 </a>
               </li>
               <li>
                 <a href="/calendar">
-                  <i className="icon ph-bold ph-user"></i>
+                <img src={calendarIcon} alt="Calendar" style={{ width: '25px', height: '25px' }} />
                   <span className="text">Calendario</span>
-                  <i className="arrow ph-bold ph-caret-down"></i>
                 </a>
-               
               </li>
               <li>
                 <a href="#">
-                  <i className="icon ph-bold ph-calendar-blank"></i>
+                  <img src={eventoIcon} alt="Evento" style={{ width: '25px', height: '25px' }} />
                   <span className="text">Eventos</span>
                 </a>
               </li>
-              <li>
-                <a href="#">
-                  <i className="icon ph-bold ph-chart-bar"></i>
-                  <span className="text">Income</span>
-                  <i className="arrow ph-bold ph-caret-down"></i>
-                </a>
 
-              </li>
+
             </ul>
           </div>
           <div className="menu">
@@ -78,7 +78,7 @@ function Sidebar() {
             <ul>
               <li>
                 <a href="#">
-                  <i className="icon ph-bold ph-gear"></i>
+                <img src={configuracionesIcon} alt="Configuraciones" style={{ width: '25px', height: '25px' }} />
                   <span className="text">Settings</span>
                 </a>
               </li>
@@ -90,13 +90,13 @@ function Sidebar() {
           <ul>
             <li>
               <a href="#">
-                <i className="icon ph-bold ph-info"></i>
+              <img src={informacionIcon} alt="Informacion" style={{ width: '28px', height: '28px' }} />
                 <span className="text">Help</span>
               </a>
             </li>
             <li>
               <a href="/">
-                <i className="icon ph-bold ph-sign-out"></i>
+              <img src={sesionIcon} alt="Cerrar-sesion" style={{ width: '25px', height: '25px' }} />
                 <span className="text">Logout</span>
               </a>
             </li>
