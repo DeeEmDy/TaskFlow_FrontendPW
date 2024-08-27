@@ -30,6 +30,7 @@
     margin-bottom: 1rem;
 }
 
+/* Estilos para los enlaces de las pestañas de navegación */
 .nav-link {
     cursor: pointer;
     padding: 0.5rem 1rem;
@@ -38,6 +39,7 @@
     text-align: center;
 }
 
+/* Estilos para la pestaña activa */
 .nav-link.active {
     background-color: #0d6efd;
     color: #fff;
@@ -65,7 +67,8 @@
     box-sizing: border-box;
 }
 
-/* Estilos para el campo de contraseña con botón para mostrar/ocultar */
+/* Estilos para el campo de contraseña con botón para mostrar/ocultar 
+y que este se acomode al final del campo de texto de la contraseña*/
 .position-relative {
     position: relative;
 }

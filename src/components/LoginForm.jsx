@@ -5,24 +5,33 @@ import '../style/LoginForm.css';
 
 const LoginForm = ({ onLogin, onRegister }) => {
   const [active, setActive] = useState('login');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [login, setLogin] = useState('');
+  const [name, setName] = useState('');
+  const [first_surname, setFirstSurname] = useState('');
+  const [second_surname, setSecondSurname] = useState('');
+  const [id_card, setIdCard] = useState('');
+  const [phone_number, setPhoneNumber] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirm_password, setConfirmPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
 
+  const toggleConfirmPasswordVisibility = () => {
+    setConfirmPasswordVisible(!confirmPasswordVisible);
+  };
+
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    onLogin(e, login, password);
+    onLogin(e, email, password);
   };
 
   const onSubmitRegister = (e) => {
     e.preventDefault();
-    onRegister(e, firstName, lastName, login, password);
+    onRegister(e, name, first_surname, second_surname, id_card, phone_number, email, password);
   };
 
   return (
@@ -34,33 +43,33 @@ const LoginForm = ({ onLogin, onRegister }) => {
               className={`nav-link ${active === 'login' ? 'active' : ''}`}
               onClick={() => setActive('login')}
             >
-              Login
+              Inicio de Sesión
             </button>
             <button
               className={`nav-link ${active === 'register' ? 'active' : ''}`}
               onClick={() => setActive('register')}
             >
-              Register
+              Registrarse
             </button>
           </ul>
 
           {active === 'login' ? (
             <form onSubmit={onSubmitHandler}>
               <div className="mb-3">
-                <label htmlFor="login" className="form-label">Username</label>
+                <label htmlFor="email" className="form-label">Correo electrónico</label>
                 <input
                   type="text"
-                  id="login"
-                  name="login"
-                  value={login}
-                  onChange={(e) => setLogin(e.target.value)}
+                  id="email"
+                  name="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="form-control"
-                  placeholder="Username"
+                  placeholder="Ingrese su correo electrónico aquí"
                 />
               </div>
 
               <div className="mb-3 position-relative">
-                <label htmlFor="password" className="form-label">Password</label>
+                <label htmlFor="password" className="form-label">Contraseña</label>
                 <input
                   type={passwordVisible ? 'text' : 'password'}
                   id="password"
@@ -68,7 +77,7 @@ const LoginForm = ({ onLogin, onRegister }) => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="form-control"
-                  placeholder="Password"
+                  placeholder="Ingrese su contraseña aquí"
                 />
                 <button
                   type="button"
@@ -80,52 +89,91 @@ const LoginForm = ({ onLogin, onRegister }) => {
               </div>
 
               <button type="submit" className="btn btn-primary w-100">
-                Sign In
+                Iniciar Sesión
               </button>
             </form>
           ) : (
             <form onSubmit={onSubmitRegister}>
               <div className="mb-3">
-                <label htmlFor="firstName" className="form-label">First Name</label>
+                <label htmlFor="name" className="form-label">Nombre</label>
                 <input
                   type="text"
-                  id="firstName"
-                  name="firstName"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
+                  id="name"
+                  name="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   className="form-control"
-                  placeholder="First Name"
+                  placeholder="Ingrese su nombre aquí"
                 />
               </div>
 
               <div className="mb-3">
-                <label htmlFor="lastName" className="form-label">Last Name</label>
+                <label htmlFor="first_surname" className="form-label">Primer Apellido</label>
                 <input
                   type="text"
-                  id="lastName"
-                  name="lastName"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
+                  id="first_surname"
+                  name="first_surname"
+                  value={first_surname}
+                  onChange={(e) => setFirstSurname(e.target.value)}
                   className="form-control"
-                  placeholder="Last Name"
+                  placeholder="Ingrese su primer apellido aquí"
                 />
               </div>
 
               <div className="mb-3">
-                <label htmlFor="login" className="form-label">Username</label>
+                <label htmlFor="second_surname" className="form-label">Segundo Apellido</label>
                 <input
                   type="text"
-                  id="login"
-                  name="login"
-                  value={login}
-                  onChange={(e) => setLogin(e.target.value)}
+                  id="second_surname"
+                  name="second_surname"
+                  value={second_surname}
+                  onChange={(e) => setSecondSurname(e.target.value)}
                   className="form-control"
-                  placeholder="Username"
+                  placeholder="Ingrese su segundo apellido aquí"
+                />
+              </div>
+
+              <div className="mb-3">
+                <label htmlFor="id_card" className="form-label">Número de cédula</label>
+                <input
+                  type="text"
+                  id="id_card"
+                  name="id_card"
+                  value={id_card}
+                  onChange={(e) => setIdCard(e.target.value)}
+                  className="form-control"
+                  placeholder="Ingrese su número de cédula aquí"
+                />
+              </div>
+
+              <div className="mb-3">
+                <label htmlFor="phone_number" className="form-label">Número de teléfono</label>
+                <input
+                  type="text"
+                  id="phone_number"
+                  name="phone_number"
+                  value={phone_number}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  className="form-control"
+                  placeholder="Ingrese su número de teléfono aquí"
+                />
+              </div>
+
+              <div className="mb-3">
+                <label htmlFor="email" className="form-label">Correo electrónico</label>
+                <input
+                  type="text"
+                  id="email"
+                  name="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="form-control"
+                  placeholder="Ingrese su correo electrónico aquí"
                 />
               </div>
 
               <div className="mb-3 position-relative">
-                <label htmlFor="password" className="form-label">Password</label>
+                <label htmlFor="password" className="form-label">Contraseña</label>
                 <input
                   type={passwordVisible ? 'text' : 'password'}
                   id="password"
@@ -133,7 +181,7 @@ const LoginForm = ({ onLogin, onRegister }) => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="form-control"
-                  placeholder="Password"
+                  placeholder="Ingrese su contraseña aquí"
                 />
                 <button
                   type="button"
@@ -144,8 +192,29 @@ const LoginForm = ({ onLogin, onRegister }) => {
                 </button>
               </div>
 
+
+              <div className="mb-3 position-relative">
+                <label htmlFor="confirm_password" className="form-label">Confirmar contraseña</label>
+                <input
+                  type={confirmPasswordVisible ? 'text' : 'password'}
+                  id="confirm_password"
+                  name="confirm_password"
+                  value={confirm_password}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className="form-control"
+                  placeholder="Confirme su contraseña aquí"
+                />
+                <button
+                  type="button"
+                  className="btn-password-toggle"
+                  onClick={toggleConfirmPasswordVisibility}
+                >
+                  {confirmPasswordVisible ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
+
               <button type="submit" className="btn btn-primary w-100">
-                Register
+                Registrarse
               </button>
             </form>
           )}
