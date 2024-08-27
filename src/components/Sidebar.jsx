@@ -8,7 +8,7 @@ import informacionIcon from "../imagenes/informacion.png";
 import sesionIcon from "../imagenes/cerrar-sesion.png";
 import perfilIcon from "../imagenes/perfil.png";
 import bar1Icon from "../imagenes/bar1.png";
-
+import inicioIcon from "../imagenes/casa.png";
 
 function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -34,13 +34,13 @@ function Sidebar() {
     <div className={`containerside ${isOpen ? "sidebar-open" : ""}`}>
       <div className={`sidebar ${isOpen ? "active" : ""}`}>
         <div className="menu-btn" onClick={toggleSidebar}>
-        <img src={bar1Icon} alt="Bar" style={{ width: '25px', height: '25px' }} />
+          <img src={bar1Icon} alt="Bar" style={{ width: '25px', height: '25px' }} />
         </div>
         <div className="head">
-        <a href="#">
-          <div className="user-img">
-          <img src={perfilIcon} alt="Perfil" style={{ width: '45px', height: '45px' }} />
-          </div>
+          <a href="#">
+            <div className="user-img" title="Perfil">
+              <img src={perfilIcon} alt="Perfil" style={{ width: '45px', height: '45px' }} />
+            </div>
           </a>
           <div className="user-details">
             <p className="title">Task Flow</p>
@@ -51,35 +51,39 @@ function Sidebar() {
           <div className="menu">
             <p className="title">Home</p>
             <ul>
+            <li>
+                <a href="/homePage" title="Inicio">
+                  <img src={inicioIcon} alt="Inicio" style={{ width: '25px', height: '25px' }} />
+                  <span className="text">Inicio</span>
+                </a>
+              </li>
               <li>
-                <a href="#">
-                <img src={dashboardIcon} alt="Dashboard" style={{ width: '28px', height: '28px' }} />
+                <a href="#" title="Dashboard">
+                  <img src={dashboardIcon} alt="Dashboard" style={{ width: '28px', height: '28px' }} />
                   <span className="text">Dashboard</span>
                 </a>
               </li>
               <li>
-                <a href="/calendar">
-                <img src={calendarIcon} alt="Calendar" style={{ width: '25px', height: '25px' }} />
+                <a href="/calendar" title="Calendario">
+                  <img src={calendarIcon} alt="Calendar" style={{ width: '25px', height: '25px' }} />
                   <span className="text">Calendario</span>
                 </a>
               </li>
               <li>
-                <a href="#">
+                <a href="#" title="Eventos">
                   <img src={eventoIcon} alt="Evento" style={{ width: '25px', height: '25px' }} />
                   <span className="text">Eventos</span>
                 </a>
               </li>
-
-
             </ul>
           </div>
           <div className="menu">
             <p className="title">Settings</p>
             <ul>
               <li>
-                <a href="#">
-                <img src={configuracionesIcon} alt="Configuraciones" style={{ width: '25px', height: '25px' }} />
-                  <span className="text">Settings</span>
+                <a href="#" title="Configuraciones">
+                  <img src={configuracionesIcon} alt="Configuraciones" style={{ width: '25px', height: '25px' }} />
+                  <span className="text">Configuración</span>
                 </a>
               </li>
             </ul>
@@ -89,15 +93,15 @@ function Sidebar() {
           <p className="title">Account</p>
           <ul>
             <li>
-              <a href="#">
-              <img src={informacionIcon} alt="Informacion" style={{ width: '28px', height: '28px' }} />
-                <span className="text">Help</span>
+              <a href="#" title="Ayuda">
+                <img src={informacionIcon} alt="Informacion" style={{ width: '28px', height: '28px' }} />
+                <span className="text">Ayuda</span>
               </a>
             </li>
             <li>
-              <a href="/">
-              <img src={sesionIcon} alt="Cerrar-sesion" style={{ width: '25px', height: '25px' }} />
-                <span className="text">Logout</span>
+              <a href="/" title="Cerrar Sesión">
+                <img src={sesionIcon} alt="Cerrar-sesion" style={{ width: '25px', height: '25px' }} />
+                <span className="text">Cerrar Sesión</span>
               </a>
             </li>
           </ul>

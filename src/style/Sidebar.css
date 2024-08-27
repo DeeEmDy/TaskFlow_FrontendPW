@@ -77,11 +77,11 @@
     gap: 10px;
     font-size: 14px;
     font-weight: 500;
-    color: #757575;
+    color: black;
     text-decoration: none;
     padding: 12px 8px;
-    border-radius: 1px;
-    transition: all 0.3s;
+    border-radius: 3px;
+    transition: all 0.4s;
   }
   .sidebar.active .menu ul li a .text {
     display: inline;
@@ -103,7 +103,7 @@
   
   .menu-btn {
     position: absolute;
-    right: -14px;
+    right: -15px;
     top: 3.5%;
     width: 28px;
     height: 28px;
@@ -130,4 +130,25 @@
   .sidebar.active .menu-btn i {
     transform: rotate(180deg);
   }
+
+
+  /* Estilo para resaltar el texto e iconos al hacer hover */
+.menu ul li > a:hover .text,
+.menu ul li > a:hover img {
+  color: white; /* Cambia el color del texto */
+  transform: scale(1.12); /* Agranda un poco el icono */
+}
+
+.menu ul li > a:hover::after {
+  /* content: attr(title); Muestra el título del atributo `title` revisar la barra lateral de navegacion, a ver si con esto o sin esto se ve mejor.*/
+  position: absolute;
+  left: 100%;
+  margin-left: 10px;
+  background-color: #333;
+  color: white;
+  padding: 5px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
   

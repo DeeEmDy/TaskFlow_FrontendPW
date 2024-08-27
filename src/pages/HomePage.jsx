@@ -8,7 +8,7 @@ function HomePage() {
       {/* Contenido principal */}
       <main className="main-content">
         <h1 className="main-title">Bienvenido a Task Flow</h1>
-        <p className="main-description">Explora nuestro contenido y descubre lo que ofrecemos.</p>
+        <p className="main-description">Pagina principal</p>
       </main>
     </div>
   );
