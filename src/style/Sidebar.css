@@ -19,7 +19,7 @@
     flex-direction: column;
     gap: 20px;
     background-color: #dbe2f4;
-    padding: 24px 6px; /* Ajusta el padding para el estado cerrado  color del siderbar: #dbe2f4;*/
+    padding: 24px 6px; /* Ajusta el padding para el estado cerrado */
     border-radius: 30px;
     transition: all 0.3s;
   }

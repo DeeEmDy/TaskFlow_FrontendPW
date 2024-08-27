@@ -1,125 +1,199 @@
 .calendar-container {
-    width: 90%; 
-    max-width: 990px; 
-    margin: 39px auto; 
+  width: 90%;
+  max-width: 990px;
+  margin: 39px auto;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 14px;
+  box-shadow: 0 0 19px rgba(0, 0, 0, 0.4);
+  overflow-x: auto; /* Permite desplazamiento horizontal */
+  box-sizing: border-box; /* Asegura que el padding se incluya en el ancho total */
+}
+
+.rbc-calendar {
+  font-size: 14px;
+  width: 100%;
+  height: 60vh;
+  box-sizing: border-box; /* Asegura que el padding se incluya en el ancho total */
+}
+
+.rbc-header,
+.rbc-toolbar button {
+  font-size: 15px;
+}
+
+.rbc-day-bg,
+.rbc-time-slot,
+.rbc-event {
+  height: 2.8rem;
+}
+
+.rbc-timeslot-group .rbc-time-slot {
+  font-size: 15px;
+}
+
+/* Estilo responsivo para el calendario */
+@media (max-width: 768px) {
+  .calendar-container {
+    width: 95%;
+    max-width: 100%;
     padding: 10px;
-    background-color: #f9f9f9;
-    border-radius: 14px;
-    box-shadow: 0 0 19px rgba(0, 0, 0, 0.4);
-  }
-  
-  
-  .rbc-calendar {
-    font-size: 14px;
-    width: 100%; 
-    height: 60vh; 
-  }
-  
-  .rbc-header, .rbc-toolbar button {
-    font-size: 15px; 
-  }
-  
-  .rbc-day-bg, .rbc-time-slot, .rbc-event {
-    height: 2.8rem; 
-  }
-  
-  .rbc-timeslot-group .rbc-time-slot {
-    font-size: 15px; 
-  }
-  
-  @media (max-width: 768px) {
-    .calendar-container {
-      width: 90%;
-      max-width: 90%; 
-      padding: 10px;
-    }
+    overflow-x: auto; 
+    /* Mantén un ancho mínimo para el calendario */
+    min-width: 400px; 
   }
 
-  .event-modal {
-    position: fixed; /* Usa fixed en lugar de absolute para asegurar que el modal permanezca en su lugar al hacer scroll */
-    top: 50%;
-    left: 50%;
-    right: auto;
-    bottom: auto;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 20px;
-    width: 80%;
-    max-width: 500px;
-    max-height: 90vh; 
-    overflow-y: auto; 
-    border-radius: 10px;
-    box-shadow: 0 0 1px rgba(0, 0, 0, 0.9);
-    z-index: 1000; /* Asegura que el modal esté por encima de otros elementos */
-    opacity: 1;
+  .rbc-calendar {
+    font-size: 12px; /* Reducir el tamaño de la fuente */
+    height: 50vh; /* Ajustar la altura */
   }
-  
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
-    z-index: 999; /* Debe ser menor que el z-index del modal */
+
+  .rbc-header,
+  .rbc-toolbar button {
+    font-size: 13px; /* Reducir el tamaño de la fuente */
+  }
+
+  .rbc-day-bg,
+  .rbc-time-slot,
+  .rbc-event {
+    height: 2.5rem; /* Reducir la altura de los elementos */
+  }
+
+  .rbc-timeslot-group .rbc-time-slot {
+    font-size: 13px; /* Reducir el tamaño de la fuente */
+  }
+
+  .rbc-toolbar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .rbc-toolbar .rbc-toolbar-label {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  .rbc-toolbar button {
+    font-size: 14px;
+    padding: 5px 10px;
+    margin: 5px 0;
+  }
+
+  .rbc-header .rbc-header-label {
+    font-size: 14px;
+  }
+
+  .rbc-calendar .rbc-month-view .rbc-day-bg {
+    height: auto; /* Ajusta la altura de los días en vista mensual */
+  }
+}
+
+/* Ajustes para el modal */
+.event-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  width: 80%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 10px;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.9);
+  z-index: 1000;
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .event-modal {
+    width: 95%;
+    max-width: 90%;
+    padding: 15px;
   }
 
   .modal-title {
-    text-align: center;
-    font-size: 20px;
-    margin-bottom: 20px;
-    color: #333;
+    font-size: 18px;
   }
-  
-  .event-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .form-group {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  label {
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
+
   .form-input {
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    background-color: #f5f5f5;
+    font-size: 14px;
   }
-  
-  textarea.form-input {
-    resize: vertical;
-    height: 100px;
-  }
-  
-  .form-buttons {
-    display: flex;
-    justify-content: space-between;
-  }
-  
+
   button {
-    padding: 10px 15px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    font-size: 14px;
   }
-  
-  .submit-button {
-    background-color: #28a745;
-    color: white;
-  }
-  
-  .cancel-button {
-    background-color: #dc3545;
-    color: white;
-  }
-  
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.modal-title {
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.event-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-input {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #f5f5f5;
+}
+
+textarea.form-input {
+  resize: vertical;
+  height: 100px;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+button {
+  padding: 10px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submit-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.cancel-button {
+  background-color: #dc3545;
+  color: white;
+}

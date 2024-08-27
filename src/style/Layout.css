@@ -9,7 +9,7 @@
     width: 65px; /* Ancho cuando está cerrado */
     height: 100vh;
     display: flex;
-    background-color: #e0e0e0;  /*otro color #dbe2f4*/
+    background-color: #dbe2f4;  /*otro color #e0e0e0*/
     gap: 20px;
     border-radius: 7px;
     transition: all 0.5s;
@@ -24,7 +24,7 @@
 
   
   .contentLayout {
-    margin-left:155px; /* Igual al ancho del sidebar para que el contenido no se superponga */
+    margin-left:110px; /* Igual al ancho del sidebar para que el contenido no se superponga */
     padding: 20px; /* Espaciado alrededor del contenido */
     width: calc(100% - 256px); /* Ocupa el resto del ancho disponible */
     margin-top: 2rem; 
