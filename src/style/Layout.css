@@ -1,0 +1,32 @@
+/* Layout.css */
+.layout {
+    display: flex;
+    position: relative; /* Necesario para la capa de superposición */
+    min-height: 10vh;
+  }
+  
+  .sidebar {
+    position: fixed; /* Fijo para que esté en la misma posición cuando se haga scroll */
+    width: 65px; /* Ancho cuando está cerrado */
+    height: 100vh;
+    display: flex;
+    background-color: #e0e0e0;  /*otro color #dbe2f4*/
+    gap: 20px;
+    border-radius: 7px;
+    transition: all 0.5s;
+    z-index: 100; /* Asegúrate de que esté por encima del contenido */
+  }
+
+  .sidebar.active {
+    width: 250px; /* Ancho cuando está abierto */
+    padding: 21px;
+    
+  }
+
+  
+  .content {
+    margin-left: 75px; /* Igual al ancho del sidebar para que el contenido no se superponga */
+    padding: 20px; /* Espaciado alrededor del contenido */
+    width: calc(100% - 256px); /* Ocupa el resto del ancho disponible */
+  }
+  

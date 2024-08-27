@@ -47,3 +47,7 @@ npm install classnames
 
 #Instalar bootstrap
 npm install bootstrap
+
+
+npm install jquery
+

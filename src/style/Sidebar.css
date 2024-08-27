@@ -1,0 +1,130 @@
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+  }
+
+  .container {
+    display: flex;
+    width: 10%;
+    min-height: 100vh;
+  }
+  .sidebar {
+    position: absolute;
+    width: 60px; /* Ancho cuando está cerrado */
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: #dbe2f4;
+    padding: 24px 6px; /* Ajusta el padding para el estado cerrado  color del siderbar: #dbe2f4;*/
+    border-radius: 30px;
+    transition: all 0.3s;
+  }
+  .sidebar.active {
+    width: 256px; /* Ancho cuando está abierto */
+    padding: 24px;
+  }
+  
+  .sidebar .head {
+    display: flex;
+    gap: 20px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #f6f6f6;   /* Raya blanca*/
+  }
+  .user-img {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  .user-img img {
+    width: 100%;
+    object-fit: cover;
+  }
+  .user-details {
+    display: none;
+  }
+  .sidebar.active .user-details {
+    display: block;
+  }
+  .user-details .title,
+  .menu .title {
+    font-size: 10px;
+    font-weight: 500;
+    color: black;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .user-details .name {
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .nav {
+    flex: 1;
+  }
+  .menu ul li {
+    position: relative;
+    list-style: none;
+    margin-bottom: 6px;
+  }
+  .menu ul li a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #757575;
+    text-decoration: none;
+    padding: 12px 8px;
+    border-radius: 1px;
+    transition: all 0.3s;
+  }
+  .sidebar.active .menu ul li a .text {
+    display: inline;
+  }
+  .menu ul li .icon {
+    font-size: 20px;
+  }
+  .menu ul li .text {
+    display: none;
+  }
+  .sidebar.active .menu ul li .text {
+    display: inline;
+  }
+  .menu ul li > a:hover,
+  .menu ul li.active > a {
+    color: #000;
+    background-color: #f6f6f6;
+  }
+  
+  .menu-btn {
+    position: absolute;
+    right: -14px;
+    top: 3.5%;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #757575;
+    border: 2px solid #f6f6f6;
+    background-color: #fff;
+    transition: all 0.3s;
+  }
+  .menu-btn:hover i {
+    color: #000;
+  }
+  .menu-btn i {
+    transition: all 0.3s;
+  }
+  
+  .sidebar.active .menu-btn i {
+    transform: rotate(180deg);
+  }
+  
