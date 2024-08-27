@@ -1,0 +1,20 @@
+
+  
+  .main-content {
+    max-width: 1200px;
+    margin: 2rem auto; /* p-8 */
+    text-align: center;
+  }
+  
+  .main-title {
+    font-size: 2.25rem; /* text-4xl */
+    font-weight: bold;
+    color: #1a202c; /* text-gray-800 */
+    margin-bottom: 1rem;
+  }
+  
+  .main-description {
+    font-size: 1.125rem; /* text-lg */
+    color: #718096; /* text-gray-600 */
+  }
+  

@@ -13,7 +13,7 @@
     gap: 20px;
     border-radius: 7px;
     transition: all 0.5s;
-    z-index: 100; /* Asegúrate de que esté por encima del contenido */
+    z-index: 100; /* Asegurar de que esté por encima del contenido */
   }
 
   .sidebar.active {
@@ -27,5 +27,6 @@
     margin-left:155px; /* Igual al ancho del sidebar para que el contenido no se superponga */
     padding: 20px; /* Espaciado alrededor del contenido */
     width: calc(100% - 256px); /* Ocupa el resto del ancho disponible */
+    margin-top: 2rem; 
   }
   
