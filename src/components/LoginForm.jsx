@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import '../style/LoginForm.css';
 
 const LoginForm = ({ onLogin, onRegister }) => {
   const [active, setActive] = useState('login');
@@ -25,22 +26,22 @@ const LoginForm = ({ onLogin, onRegister }) => {
   };
 
   return (
-    <div className="container d-flex justify-content-center align-items-center min-vh-100">
-      <div className="card shadow-lg p-4" style={{ width: '100%', maxWidth: '500px' }}>
+    <div className="container">
+      <div className="card">
         <div className="card-body">
-          <ul className="nav nav-pills mb-4">
-              <button
-                className={`nav-link ${active === 'login' ? 'active' : ''}`}
-                onClick={() => setActive('login')}
-              >
-                Login
-              </button>
-              <button
-                className={`nav-link ${active === 'register' ? 'active' : ''}`}
-                onClick={() => setActive('register')}
-              >
-                Register
-              </button>
+          <ul className="nav nav-pills">
+            <button
+              className={`nav-link ${active === 'login' ? 'active' : ''}`}
+              onClick={() => setActive('login')}
+            >
+              Login
+            </button>
+            <button
+              className={`nav-link ${active === 'register' ? 'active' : ''}`}
+              onClick={() => setActive('register')}
+            >
+              Register
+            </button>
           </ul>
 
           {active === 'login' ? (
@@ -66,12 +67,12 @@ const LoginForm = ({ onLogin, onRegister }) => {
                   name="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="form-control pe-5"
+                  className="form-control"
                   placeholder="Password"
                 />
                 <button
                   type="button"
-                  className="btn btn-outline-secondary position-absolute top-50 end-0 translate-middle-y"
+                  className="btn-password-toggle"
                   onClick={togglePasswordVisibility}
                 >
                   {passwordVisible ? <FaEyeSlash /> : <FaEye />}
@@ -131,12 +132,12 @@ const LoginForm = ({ onLogin, onRegister }) => {
                   name="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="form-control pe-5"
+                  className="form-control"
                   placeholder="Password"
                 />
                 <button
                   type="button"
-                  className="btn btn-outline-secondary position-absolute top-50 end-0 translate-middle-y"
+                  className="btn-password-toggle"
                   onClick={togglePasswordVisibility}
                 >
                   {passwordVisible ? <FaEyeSlash /> : <FaEye />}

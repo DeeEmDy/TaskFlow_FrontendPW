@@ -23,8 +23,8 @@
   }
 
   
-  .content {
-    margin-left: 75px; /* Igual al ancho del sidebar para que el contenido no se superponga */
+  .contentLayout {
+    margin-left:155px; /* Igual al ancho del sidebar para que el contenido no se superponga */
     padding: 20px; /* Espaciado alrededor del contenido */
     width: calc(100% - 256px); /* Ocupa el resto del ancho disponible */
   }

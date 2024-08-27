@@ -31,7 +31,7 @@ function Sidebar() {
   }, [isOpen]);
 
   return (
-    <div className={`container ${isOpen ? "sidebar-open" : ""}`}>
+    <div className={`containerside ${isOpen ? "sidebar-open" : ""}`}>
       <div className={`sidebar ${isOpen ? "active" : ""}`}>
         <div className="menu-btn" onClick={toggleSidebar}>
         <img src={bar1Icon} alt="Bar" style={{ width: '25px', height: '25px' }} />
