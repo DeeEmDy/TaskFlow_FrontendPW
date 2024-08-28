@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import Modal from 'react-modal';
 import '../assets/SweetAlert/SweetAlert.js'
 import '../style/Calendar.css';
-import { showAlert } from '../components/Alert.jsx';
+import { showAlert } from '../assets/SweetAlert/SweetAlert.js';
 import {
   textRegex,
   textRegexDescri,
@@ -111,7 +111,7 @@ function App() {
 
     const hasErrors = Object.values(errors).some(error => error !== '');
     if (hasErrors) {
-      showAlert('Por favor corrige los errores antes de enviar.');
+      showAlert('Por favor corrige los errores antes de enviar el formulario.');
       return;
     }
 
@@ -122,11 +122,11 @@ function App() {
 
   const getInputClassName = (fieldName) => {
     if (errors[fieldName]) {
-      return 'form-input input-error';  // Agregar clase de error
+      return 'form-input input-error';  
     } else if (newEvent[fieldName] && !errors[fieldName]) {
-      return 'form-input input-valid';  // Agregar clase de validez
+      return 'form-input input-valid';  
     } else {
-      return 'form-input';  // Clase por defecto
+      return 'form-input';  
     }
   };
 
