@@ -53,10 +53,12 @@ export default class AppContent extends React.Component {
     render() {
         return (
             <div>
-                <WelcomeContent />
-                <AuthContent />
+                {/* Componente de autenticación */}
+                {/* <AuthContent /> */}  {/* EL QUE CONTIENE EL MENSAJE RECIBIDO DEL BACKEND. */}
+                {/* Componente del formulario de inicio de sesión */}
                 <LoginForm />
             </div>
-        )
+        );
     }
+    
 }
