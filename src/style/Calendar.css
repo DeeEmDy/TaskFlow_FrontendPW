@@ -197,3 +197,18 @@ button {
   background-color: #dc3545;
   color: white;
 }
+.input-error {
+  border: 2px solid red;
+  background-color: #ffe6e6;
+}
+
+.input-valid {
+  border: 2px solid green;
+  background-color: #e6ffe6;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}

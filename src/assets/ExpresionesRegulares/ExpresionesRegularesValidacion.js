@@ -41,4 +41,6 @@ export const alphanumericCodeRegex = /^[A-Z0-9]{6}$/;
 export const alphanumericRegex = /^[a-zA-Z0-9ñÑ\s]+$/;
 
 // Validación de Texto con Letras, Números, Espacios y Algunos Caracteres Especiales
-export const textRegex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]+[^,.\-/()¿?¡!]*$/;
+export const textRegex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ,.\-/()¿?¡!\s]{0,40}$/;
+
+export const textRegexDescri = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ,.\-/()¿?¡!\s]{0,230}$/;

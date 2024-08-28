@@ -123,3 +123,12 @@ export const SweetAlertAccept = (title, text, funcionAceptar) => {
   })
 }
 
+
+export const showAlert = (message) => {
+  Swal.fire({
+    icon: 'error',
+    title: 'Error',
+    text: message,
+    confirmButtonText: 'OK'
+  });
+};

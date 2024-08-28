@@ -3,8 +3,13 @@ import { Calendar, dayjsLocalizer, Views } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import dayjs from 'dayjs';
 import Modal from 'react-modal';
+import '../assets/SweetAlert/SweetAlert.js'
 import '../style/Calendar.css';
 import { showAlert } from '../components/Alert.jsx';
+import {
+  textRegex,
+  textRegexDescri,
+} from '../assets/ExpresionesRegulares/ExpresionesRegularesValidacion.js'; // Importar las regex desde el archivo de validaciones
 
 Modal.setAppElement('#root');
 
@@ -30,6 +35,7 @@ function App() {
     finalization_task_date: '',
     score: ''
   });
+  const [errors, setErrors] = useState({});
 
   const users = [
     { id: '1', name: 'Usuario 1' },
@@ -47,20 +53,81 @@ function App() {
       expiration_task_date: slotInfo.start
     });
   };
-
+  const validateField = (name, value) => {
+    let errorMsg = '';
+    switch (name) {
+      case 'title':
+        if (value.length === 0) {
+          errorMsg = 'Este campo no puede estar vacío.';
+        } else if (!textRegex.test(value)) {
+          errorMsg = 'Contiene caracteres especiales no permitidos.';
+        } else if (value.length < 6) {
+          errorMsg = 'Debe tener al menos 6 caracteres.';
+        } else if (value.length > 40) {
+          errorMsg = 'No puede tener más de 40 caracteres.';
+        }
+        break;
+        case 'description_task':
+          if (value.length === 0) {
+            errorMsg = 'Este campo no puede estar vacío.';
+          } else if (!textRegexDescri.test(value)) {
+            errorMsg = 'Contiene caracteres especiales no permitidos.';
+          } else if (value.length < 6) {
+            errorMsg = 'Debe tener al menos 6 caracteres.';
+          } else if (value.length > 230) {
+            errorMsg = 'No puede tener más de 230 caracteres.';
+          }
+          break;
+      case 'created_task_date':
+      case 'expiration_task_date':
+      case 'finalization_task_date':
+        if (dayjs(value).isBefore(dayjs(), 'day')) {
+          errorMsg = 'No se permiten fechas anteriores a la fecha actual.';
+        }
+        break;
+      default:
+        break;
+    }
+    setErrors(prevErrors => ({
+      ...prevErrors,
+      [name]: errorMsg
+    }));
+  };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewEvent(prevState => ({
       ...prevState,
       [name]: value
     }));
+    validateField(name, value);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // Validar todo el formulario antes de enviarlo
+    Object.keys(newEvent).forEach(field => {
+      validateField(field, newEvent[field]);
+    });
+
+    const hasErrors = Object.values(errors).some(error => error !== '');
+    if (hasErrors) {
+      showAlert('Por favor corrige los errores antes de enviar.');
+      return;
+    }
+
     setEvents([...events, newEvent]);
     setModalIsOpen(false);
     showAlert('Evento agregado con éxito!');
+  };
+
+  const getInputClassName = (fieldName) => {
+    if (errors[fieldName]) {
+      return 'form-input input-error';  // Agregar clase de error
+    } else if (newEvent[fieldName] && !errors[fieldName]) {
+      return 'form-input input-valid';  // Agregar clase de validez
+    } else {
+      return 'form-input';  // Clase por defecto
+    }
   };
 
   return (
@@ -74,7 +141,7 @@ function App() {
         style={{ height: '81vh', width: '100%', margin: '0 auto', borderRadius: '10px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}
       />
 
-      <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} className="event-modal"  overlayClassName="modal-overlay">
+      <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} className="event-modal" overlayClassName="modal-overlay">
         <h2 className="modal-title">Agregar Nuevo Evento</h2>
         <form onSubmit={handleSubmit} className="event-form">
           <div className="form-group">
@@ -85,8 +152,9 @@ function App() {
               value={newEvent.title}
               onChange={handleInputChange}
               required
-              className="form-input"
+              className={getInputClassName('title')}
             />
+            {errors.title && <span className="error-message">{errors.title}</span>}
           </div>
           <div className="form-group">
             <label>Fecha Tarea Creada:</label>
@@ -96,8 +164,9 @@ function App() {
               value={dayjs(newEvent.created_task_date).format('YYYY-MM-DDTHH:mm')}
               onChange={handleInputChange}
               required
-              className="form-input"
+              className={getInputClassName('created_task_date')}
             />
+            {errors.created_task_date && <span className="error-message">{errors.created_task_date}</span>}
           </div>
           <div className="form-group">
             <label>Fecha de Tarea Expirada:</label>
@@ -107,8 +176,9 @@ function App() {
               value={dayjs(newEvent.expiration_task_date).format('YYYY-MM-DDTHH:mm')}
               onChange={handleInputChange}
               required
-              className="form-input"
+              className={getInputClassName('expiration_task_date')}
             />
+            {errors.expiration_task_date && <span className="error-message">{errors.expiration_task_date}</span>}
           </div>
           <div className="form-group">
             <label>Descripción:</label>
@@ -116,8 +186,9 @@ function App() {
               name="description_task"
               value={newEvent.description_task}
               onChange={handleInputChange}
-              className="form-input"
+              className={getInputClassName('description_task')}
             />
+            {errors.description_task && <span className="error-message">{errors.description_task}</span>}
           </div>
 
           <div className="form-group">
@@ -153,17 +224,18 @@ function App() {
             />
             <div>{newEvent.progress_task || 0}%</div>
           </div>
-        
+
           <div className="form-group">
-            <label>Fecha Finalización de Tarea:</label>
+            <label>Fecha de Tarea Expirada:</label>
             <input
-              type="date"
+              type="datetime-local"
               name="finalization_task_date"
-              value={newEvent.finalization_task_date}
+              value={dayjs(newEvent.finalization_task_date).format('YYYY-MM-DDTHH:mm')}
               onChange={handleInputChange}
               required
-              className="form-input"
+              className={getInputClassName('finalization_task_date')}
             />
+            {errors.finalization_task_date && <span className="error-message">{errors.finalization_task_date}</span>}
           </div>
           <div className="form-group">
             <label>Puntaje:</label>
