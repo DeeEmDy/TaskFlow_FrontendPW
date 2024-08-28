@@ -3,12 +3,12 @@ import "../style/Sidebar.css";
 import eventoIcon from "../imagenes/Evento.png"; 
 import calendarIcon from "../imagenes/calendar.png";
 import dashboardIcon from "../imagenes/dashboard1.png";
-import configuracionesIcon from "../imagenes/configuraciones.png";
 import informacionIcon from "../imagenes/informacion.png";
 import sesionIcon from "../imagenes/cerrar-sesion.png";
 import perfilIcon from "../imagenes/perfil.png";
 import bar1Icon from "../imagenes/bar1.png";
 import inicioIcon from "../imagenes/casa.png";
+import logrosIcon from "../imagenes/logros.png";
 
 function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -75,19 +75,15 @@ function Sidebar() {
                   <span className="text">Eventos</span>
                 </a>
               </li>
-            </ul>
-          </div>
-          <div className="menu">
-            <p className="title">Settings</p>
-            <ul>
               <li>
-                <a href="#" title="Configuraciones">
-                  <img src={configuracionesIcon} alt="Configuraciones" style={{ width: '25px', height: '25px' }} />
-                  <span className="text">Configuración</span>
+                <a href="#" title="Tus Logros">
+                  <img src={logrosIcon} alt="Logros" style={{ width: '28px', height: '28px' }} />
+                  <span className="text">Tus Logros</span>
                 </a>
               </li>
             </ul>
           </div>
+          
         </div>
         <div className="menu">
           <p className="title">Account</p>

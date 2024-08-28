@@ -51,3 +51,6 @@ npm install bootstrap
 
 npm install jquery
 
+
+#Instalar para las alertas.
+npm install sweetalert2
