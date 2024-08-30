@@ -15,6 +15,7 @@ const LoginForm = ({ onLogin, onRegister }) => {
   const [confirm_password, setConfirmPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -31,6 +32,15 @@ const LoginForm = ({ onLogin, onRegister }) => {
 
   const onSubmitRegister = (e) => {
     e.preventDefault();
+
+    // Validación de contraseñas
+    if (password !== confirm_password) {
+      setErrorMessage('Las contraseñas NO coinciden, inténtelo de nuevo.');
+      return;
+    }
+
+    // Si las contraseñas coinciden, continuar con el registro
+    setErrorMessage(''); // Limpiar el mensaje de error si todo está bien
     onRegister(e, name, first_surname, second_surname, id_card, phone_number, email, password);
   };
 
@@ -180,12 +190,12 @@ const LoginForm = ({ onLogin, onRegister }) => {
                   name="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="form-control pe-5" // Añado la clase pe-5 para espacio a la derecha
+                  className="form-control pe-5"
                   placeholder="Ingrese su contraseña aquí"
                 />
                 <button
                   type="button"
-                  className="btn-password-toggle" // Clase personalizada para posicionar el botón
+                  className="btn-password-toggle"
                   onClick={togglePasswordVisibility}
                 >
                   {passwordVisible ? <FaEyeSlash /> : <FaEye />}
@@ -200,17 +210,24 @@ const LoginForm = ({ onLogin, onRegister }) => {
                   name="confirm_password"
                   value={confirm_password}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="form-control pe-5" // Añado la clase pe-5 para espacio a la derecha
+                  className="form-control pe-5"
                   placeholder="Confirme su contraseña aquí"
                 />
                 <button
                   type="button"
-                  className="btn-password-toggle" // Clase personalizada para posicionar el botón
+                  className="btn-password-toggle"
                   onClick={toggleConfirmPasswordVisibility}
                 >
                   {confirmPasswordVisible ? <FaEyeSlash /> : <FaEye />}
                 </button>
               </div>
+
+              {/* Mostrar mensaje de error si las contraseñas no coinciden */}
+              {errorMessage && (
+                <div className="alert alert-danger" role="alert">
+                  {errorMessage}
+                </div>
+              )}
 
               <button type="submit" className="btn btn-primary w-100">
                 Registrarse
