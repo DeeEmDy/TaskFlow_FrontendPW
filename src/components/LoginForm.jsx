@@ -6,42 +6,33 @@ import '../style/LoginForm.css';
 const LoginForm = ({ onLogin, onRegister }) => {
   const [active, setActive] = useState('login');
   const [name, setName] = useState('');
-  const [first_surname, setFirstSurname] = useState('');
-  const [second_surname, setSecondSurname] = useState('');
-  const [id_card, setIdCard] = useState('');
-  const [phone_number, setPhoneNumber] = useState('');
+  const [firstSurname, setFirstSurname] = useState('');
+  const [secondSurname, setSecondSurname] = useState('');
+  const [idCard, setIdCard] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirm_password, setConfirmPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const togglePasswordVisibility = () => {
-    setPasswordVisible(!passwordVisible);
-  };
+  const togglePasswordVisibility = () => setPasswordVisible(!passwordVisible);
+  const toggleConfirmPasswordVisibility = () => setConfirmPasswordVisible(!confirmPasswordVisible);
 
-  const toggleConfirmPasswordVisibility = () => {
-    setConfirmPasswordVisible(!confirmPasswordVisible);
-  };
-
-  const onSubmitHandler = (e) => {
+  const handleLoginSubmit = (e) => {
     e.preventDefault();
     onLogin(e, email, password);
   };
 
-  const onSubmitRegister = (e) => {
+  const handleRegisterSubmit = (e) => {
     e.preventDefault();
-
-    // Validación de contraseñas
-    if (password !== confirm_password) {
-      setErrorMessage('Las contraseñas NO coinciden, inténtelo de nuevo.');
+    if (password !== confirmPassword) {
+      setErrorMessage('Las contraseñas no coinciden.');
       return;
     }
-
-    // Si las contraseñas coinciden, continuar con el registro
-    setErrorMessage(''); // Limpiar el mensaje de error si todo está bien
-    onRegister(e, name, first_surname, second_surname, id_card, phone_number, email, password);
+    setErrorMessage('');
+    onRegister(e, name, firstSurname, secondSurname, idCard, phoneNumber, '', '', email, password, 0);
   };
 
   return (
@@ -64,17 +55,18 @@ const LoginForm = ({ onLogin, onRegister }) => {
           </ul>
 
           {active === 'login' ? (
-            <form onSubmit={onSubmitHandler}>
+            <form onSubmit={handleLoginSubmit}>
               <div className="mb-3">
                 <label htmlFor="email" className="form-label">Correo electrónico</label>
                 <input
-                  type="text"
+                  type="email"
                   id="email"
                   name="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="form-control"
                   placeholder="Ingrese su correo electrónico aquí"
+                  required
                 />
               </div>
 
@@ -88,11 +80,13 @@ const LoginForm = ({ onLogin, onRegister }) => {
                   onChange={(e) => setPassword(e.target.value)}
                   className="form-control"
                   placeholder="Ingrese su contraseña aquí"
+                  required
                 />
                 <button
                   type="button"
                   className="btn-password-toggle"
                   onClick={togglePasswordVisibility}
+                  aria-label={passwordVisible ? 'Ocultar contraseña' : 'Mostrar contraseña'}
                 >
                   {passwordVisible ? <FaEyeSlash /> : <FaEye />}
                 </button>
@@ -103,7 +97,7 @@ const LoginForm = ({ onLogin, onRegister }) => {
               </button>
             </form>
           ) : (
-            <form onSubmit={onSubmitRegister}>
+            <form onSubmit={handleRegisterSubmit}>
               <div className="mb-3">
                 <label htmlFor="name" className="form-label">Nombre</label>
                 <input
@@ -114,29 +108,31 @@ const LoginForm = ({ onLogin, onRegister }) => {
                   onChange={(e) => setName(e.target.value)}
                   className="form-control"
                   placeholder="Ingrese su nombre aquí"
+                  required
                 />
               </div>
 
               <div className="mb-3">
-                <label htmlFor="first_surname" className="form-label">Primer Apellido</label>
+                <label htmlFor="firstSurname" className="form-label">Primer Apellido</label>
                 <input
                   type="text"
-                  id="first_surname"
-                  name="first_surname"
-                  value={first_surname}
+                  id="firstSurname"
+                  name="firstSurname"
+                  value={firstSurname}
                   onChange={(e) => setFirstSurname(e.target.value)}
                   className="form-control"
                   placeholder="Ingrese su primer apellido aquí"
+                  required
                 />
               </div>
 
               <div className="mb-3">
-                <label htmlFor="second_surname" className="form-label">Segundo Apellido</label>
+                <label htmlFor="secondSurname" className="form-label">Segundo Apellido</label>
                 <input
                   type="text"
-                  id="second_surname"
-                  name="second_surname"
-                  value={second_surname}
+                  id="secondSurname"
+                  name="secondSurname"
+                  value={secondSurname}
                   onChange={(e) => setSecondSurname(e.target.value)}
                   className="form-control"
                   placeholder="Ingrese su segundo apellido aquí"
@@ -144,41 +140,44 @@ const LoginForm = ({ onLogin, onRegister }) => {
               </div>
 
               <div className="mb-3">
-                <label htmlFor="id_card" className="form-label">Número de cédula</label>
+                <label htmlFor="idCard" className="form-label">Número de cédula</label>
                 <input
                   type="text"
-                  id="id_card"
-                  name="id_card"
-                  value={id_card}
+                  id="idCard"
+                  name="idCard"
+                  value={idCard}
                   onChange={(e) => setIdCard(e.target.value)}
                   className="form-control"
                   placeholder="Ingrese su número de cédula aquí"
+                  required
                 />
               </div>
 
               <div className="mb-3">
-                <label htmlFor="phone_number" className="form-label">Número de teléfono</label>
+                <label htmlFor="phoneNumber" className="form-label">Número de teléfono</label>
                 <input
-                  type="text"
-                  id="phone_number"
-                  name="phone_number"
-                  value={phone_number}
+                  type="tel"
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
                   className="form-control"
                   placeholder="Ingrese su número de teléfono aquí"
+                  required
                 />
               </div>
 
               <div className="mb-3">
                 <label htmlFor="email" className="form-label">Correo electrónico</label>
                 <input
-                  type="text"
+                  type="email"
                   id="email"
                   name="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="form-control"
                   placeholder="Ingrese su correo electrónico aquí"
+                  required
                 />
               </div>
 
@@ -192,11 +191,13 @@ const LoginForm = ({ onLogin, onRegister }) => {
                   onChange={(e) => setPassword(e.target.value)}
                   className="form-control pe-5"
                   placeholder="Ingrese su contraseña aquí"
+                  required
                 />
                 <button
                   type="button"
                   className="btn-password-toggle"
                   onClick={togglePasswordVisibility}
+                  aria-label={passwordVisible ? 'Ocultar contraseña' : 'Mostrar contraseña'}
                 >
                   {passwordVisible ? <FaEyeSlash /> : <FaEye />}
                 </button>
@@ -208,21 +209,22 @@ const LoginForm = ({ onLogin, onRegister }) => {
                   type={confirmPasswordVisible ? 'text' : 'password'}
                   id="confirm_password"
                   name="confirm_password"
-                  value={confirm_password}
+                  value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   className="form-control pe-5"
                   placeholder="Confirme su contraseña aquí"
+                  required
                 />
                 <button
                   type="button"
                   className="btn-password-toggle"
                   onClick={toggleConfirmPasswordVisibility}
+                  aria-label={confirmPasswordVisible ? 'Ocultar contraseña' : 'Mostrar contraseña'}
                 >
                   {confirmPasswordVisible ? <FaEyeSlash /> : <FaEye />}
                 </button>
               </div>
 
-              {/* Mostrar mensaje de error si las contraseñas no coinciden */}
               {errorMessage && (
                 <div className="alert alert-danger" role="alert">
                   {errorMessage}

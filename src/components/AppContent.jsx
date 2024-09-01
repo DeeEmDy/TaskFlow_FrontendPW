@@ -1,77 +1,80 @@
 import React from 'react';
-import WelcomeContent from './WelcomeContent';
-import AuthContent from './AuthContent';
 import LoginForm from './LoginForm';
-
 import { request, setAuthToken } from '../axios_helper';
 
 export default class AppContent extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            componentToShow: "welcome",
-        };
+  constructor(props) {
+    super(props);
+    this.state = {
+      componentToShow: 'login', // Cambiar el estado inicial para probar el formulario de login
     };
+  }
 
-    
-    login = () => {
-        this.setState({ componentToShow: "login" });
-    };
+  login = () => {
+    this.setState({ componentToShow: 'login' });
+  };
 
-    logout = () => {
-        this.setState({ componentToShow: "welcome" });
-    };
+  logout = () => {
+    this.setState({ componentToShow: 'welcome' });
+  };
 
-    onLogin = (e, email, password) => {
-        e.preventDefault();
-        request(
-            "POST",
-            "/login",
-            { email: email, password: password }
-        ).then((response) => {
-            this.setState({ componentToShow: "messages" });
-            setAuthToken(response.data.token); // Guardar el token en el local storage
-        }).catch((error) => {
-            this.setState({ componentToShow: "welcome" });
-        });
-    };
+  onLogin = (e, email, password) => {
+    e.preventDefault();
+    request('POST', '/login', { email, password })
+      .then((response) => {
+        setAuthToken(response.data.token); // Guardar el token en el local storage
+        this.setState({ componentToShow: 'messages' });
+      })
+      .catch(() => {
+        this.setState({ componentToShow: 'welcome' });
+      });
+  };
 
-    onRegister = (e, name, first_surname, second_surname, id_card, phone_number, id_image, id_rol, email, password, user_verified) => {
-        e.preventDefault();
-        request(
+  onRegister = async (e, name, firstSurname, secondSurname, idCard, phoneNumber, idImage, idRrol, email, password, userVerified) => {
+    e.preventDefault();
+    try {
+        const response = await request(
             "POST",
             "/register",
             { 
-                name: name,  
-                first_surname: first_surname,
-                second_surname: second_surname,
-                id_card: id_card,
-                phone_number: phone_number,
-                id_image: null,
-                id_rol: 2, // 2 es el id del rol de usuario normal.
-                email: email,
-                password: password,
-                user_verified: 0 // 0 es el valor por defecto de la verificación del usuario se encuentra inactivo o en 0, hasta que el usuario presione el link del correo electronico de activación de su cuenta.
+                name,  
+                firstSurname,
+                secondSurname,
+                idCard,
+                phoneNumber,
+                idImage: null,
+                idRrol: 2,
+                email,
+                password,
+                userVerified: 0
             }
-        ).then((response) => {
-            this.setState({ componentToShow: "messages" });
-            setAuthToken(response.data.token); // Guardar el token en el local storage
-        }).catch((error) => {
-            this.setState({ componentToShow: "welcome" });
-        });
-    };
-    
-
-    render() {
-        return (
-            <div>
-                {/* Componente de autenticación */}
-                {/* <AuthContent /> /}  {/ EL QUE CONTIENE EL MENSAJE RECIBIDO DEL BACKEND. */}
-                {/* Componente del formulario de inicio de sesión */}
-                <LoginForm />
-            </div>
         );
+        setAuthToken(response.data.token); // Guardar el token en el local storage
+        this.setState({ componentToShow: "messages" });
+    } catch (error) {
+        console.error("Error during registration:", error);
+        this.setState({ componentToShow: "welcome" });
     }
-    
+  };
+
+  render() {
+    const { componentToShow } = this.state;
+
+    return (
+      <div>
+        {/* Botón para cambiar el estado a 'login' para probar el formulario */}
+        <button onClick={this.login}>Mostrar Login</button>
+
+        {componentToShow === 'login' && (
+          <LoginForm
+            onLogin={this.onLogin}
+            onRegister={this.onRegister}
+          />
+        )}
+        {/* Puedes agregar otros componentes aquí según el estado */}
+        {componentToShow === 'welcome' && <div>Welcome Content</div>}
+        {componentToShow === 'messages' && <div>Messages Content</div>}
+      </div>
+    );
+  }
 }
