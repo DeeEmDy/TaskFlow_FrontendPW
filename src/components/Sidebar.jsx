@@ -58,7 +58,7 @@ function Sidebar() {
                 </a>
               </li>
               <li>
-                <a href="#" title="Dashboard">
+                <a href="/dashBoard" title="Dashboard">
                   <img src={dashboardIcon} alt="Dashboard" style={{ width: '28px', height: '28px' }} />
                   <span className="text">Dashboard</span>
                 </a>

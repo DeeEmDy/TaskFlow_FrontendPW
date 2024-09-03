@@ -4,7 +4,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import App from './components/App'; 
 import Calendar from './pages/Calendar'; 
 import HomePage from './pages/HomePage'; 
-import Layout from './components/Layout'; 
+import Layout from './components/Layout';
+import DashBoard from "./components/DashBoard";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -30,6 +31,16 @@ root.render(
           element={
             <Layout>
               <Calendar />
+            </Layout>
+          } 
+        />
+
+        {/* Ruta de Calendar con Sidebar envuelta en Layout */}
+        <Route 
+          path="/dashBoard" 
+          element={
+            <Layout>
+              <DashBoard />
             </Layout>
           } 
         />

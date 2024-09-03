@@ -7,7 +7,7 @@
   background-color: #2563eb; 
   padding: 1.5rem; 
   color: white;
-  position: fixed; 
+  position: absolute; 
   top: 0;
   left: 0;
   width: calc(100% - 2rem); 

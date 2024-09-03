@@ -1,0 +1,156 @@
+.dashBoard{
+    flex: 4;
+    background-color: rgba(224, 216, 216, 0.226);  /*color de fondo pantalla*/
+    height: 100vh;
+    margin-top: 59px;
+
+}
+
+.ItemContaienr{
+    display: flex;
+    margin: auto;
+    justify-content: center;
+}      
+
+.ItemContainer1{
+    background-color: rgb(163, 157, 157);
+    width: 390px;
+    height: 20vh;
+    margin-left: 12px;
+    margin-top: 10px;
+    border-radius: 10px;
+    display: flex;
+    box-shadow:rgb(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.taskProgress{
+    text-align: start;
+    margin-left: 10px;
+    margin-top: 25px;
+    color: black;
+}
+
+
+.taskCounter{
+    text-align: start;
+    font-size: 18px;
+    font-weight: 600;
+    margin-left: 10px;
+    margin-top: 8px;
+    color: #ff0000;
+}
+
+
+
+.taskCounter1{
+    text-align: start;
+    font-size: 18px;
+    font-weight: 600;
+    margin-left: 10px;
+    margin-top: 8px;
+    color: #00aa41;
+}
+
+
+
+.taskCounter2{
+    text-align: start;
+    font-size: 18px;
+    font-weight: 600;
+    margin-left: 10px;
+    margin-top: 8px;
+    color: #ffa500;
+}
+
+.currentmonth1{
+    text-align: start;
+    margin-left: 10px;
+    margin-top: 7px;
+    color: black;
+
+}
+
+.barchartContainer{
+    margin-top: 2px;
+}
+
+.subitemContainer{
+    margin-top: -9px;
+
+}
+
+.MiddleTask{
+    width: 100%;
+    background-color: rgb(163, 157, 157);
+    margin: auto;
+    justify-content: center;
+    box-shadow:rgb(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 10px;
+}
+
+.TaskVS{
+    text-align: center;
+    color: black;
+    font-weight: bold;
+    font-size: 17px;
+    padding: 15px;
+    margin-top: 25px;
+}
+
+
+.TaskContainer{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin: auto;
+    margin-top: 10px;
+    height: 50vh;
+}
+
+
+.TaskChart{
+    flex: 1.8;
+    background-color:  rgb(163, 157, 157);
+    box-shadow:rgb(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    display: flex; /* Hacer que el contenedor sea un flexbox */
+    flex-direction: column; /* Alinear los elementos en columna */
+    align-items: center; /* Centrar los elementos horizontalmente */
+    padding: 10px; /* Añadir padding alrededor */
+    position: relative; /* Para posicionamiento absoluto si es necesario */
+    padding-left: 10px; 
+    margin: 10px;
+    border-radius: 10px;
+}
+
+.MonthlyEarning{
+    flex: 4;
+    background-color: rgb(163, 157, 157);
+    box-shadow:rgb(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    align-items: center; 
+    margin: 6px;
+    border-radius: 10px;
+}
+
+.taskContainerText{
+    text-align: start;
+    margin-left: 6px;
+    margin-top: 12px;
+    color: black;
+    font-weight: bold;
+    justify-content: center; 
+    align-items: center; 
+    display: flex; 
+}
+
+.ViewDetails{
+    padding: 10px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border: none;
+    border-radius: 5px;
+    background-color: #09943f;
+    color: white;
+    font-weight: bold;
+    margin-top: -100px; 
+    cursor: pointer; 
+}

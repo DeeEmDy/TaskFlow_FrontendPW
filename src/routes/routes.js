@@ -1,5 +1,6 @@
 import CalendarApp from "../pages/Calendar";
 import HomePageApp from "../pages/HomePage";
+import DashBoardApp from "../components/DashBoard";
 
 export const Router = [
   {
@@ -9,6 +10,10 @@ export const Router = [
   {
     path: "/homePage",
     component: HomePageApp,
+  },
+  {
+    path: "/dashBoard",
+    component: DashBoardApp,
   },
 ];
 

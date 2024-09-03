@@ -54,3 +54,7 @@ npm install jquery
 
 #Instalar para las alertas.
 npm install sweetalert2
+
+
+#Instalar para dashboard
+npm install recharts
