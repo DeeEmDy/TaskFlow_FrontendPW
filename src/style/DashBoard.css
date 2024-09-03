@@ -112,11 +112,11 @@
     flex: 1.8;
     background-color:  rgb(163, 157, 157);
     box-shadow:rgb(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    display: flex; /* Hacer que el contenedor sea un flexbox */
-    flex-direction: column; /* Alinear los elementos en columna */
-    align-items: center; /* Centrar los elementos horizontalmente */
-    padding: 10px; /* Añadir padding alrededor */
-    position: relative; /* Para posicionamiento absoluto si es necesario */
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    padding: 10px; 
+    position: relative; 
     padding-left: 10px; 
     margin: 10px;
     border-radius: 10px;
