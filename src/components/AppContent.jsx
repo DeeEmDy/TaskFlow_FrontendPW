@@ -46,8 +46,6 @@ const AppContent = () => {
 
   return (
     <div>
-      <button onClick={login}>Mostrar Login</button>
-
       {componentToShow === 'login' && (
         <LoginForm
           onLogin={onLogin}
