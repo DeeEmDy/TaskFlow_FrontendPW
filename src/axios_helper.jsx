@@ -1,35 +1,34 @@
+// axios_helper.jsx
 import axios from 'axios';
 
 // Configuración global de Axios
 axios.defaults.baseURL = 'http://localhost:8080';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-//Configuración para que pueda recibir el JWT Token mediante el header.
+// Función para obtener el token
 export const getAuthToken = () => {
-
     return window.localStorage.getItem('auth_token');
 };
 
-
-// Función para guardar el token en el local storage en la variable token
+// Función para guardar el token
 export const setAuthToken = (token) => {
     window.localStorage.setItem('auth_token', token);
-}
+};
 
+// Función para hacer solicitudes con Axios
 export const request = (method, url, data) => {
-
+    // Establecer headers iniciales
     let headers = {};
 
-    if (getAuthToken() !== null && getAuthToken() !== "null") {
-
-        // Si hay un token, se agrega el header de Authorization
-        headers = {Authorization: `Bearer ${getAuthToken()}`};
+    // Incluir el token solo si no es una solicitud a la ruta de registro o login
+    if (getAuthToken() && !url.includes('/register') && !url.includes('/login')) {
+        headers.Authorization = `Bearer ${getAuthToken()}`;
     }
 
     return axios({
-        method: method,
-        headers: headers,
-        url: url,
-        data: data
+        method,
+        url,
+        headers,
+        data
     });
-}
+};

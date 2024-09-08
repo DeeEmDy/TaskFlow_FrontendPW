@@ -1,80 +1,63 @@
-import React from 'react';
+import React, { useState } from 'react';
 import LoginForm from './LoginForm';
 import { request, setAuthToken } from '../axios_helper';
 
-export default class AppContent extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      componentToShow: 'login', // Cambiar el estado inicial para probar el formulario de login
-    };
-  }
+const AppContent = () => {
+  const [componentToShow, setComponentToShow] = useState('login');
 
-  login = () => {
-    this.setState({ componentToShow: 'login' });
-  };
+  const login = () => setComponentToShow('login');
+  const logout = () => setComponentToShow('welcome');
 
-  logout = () => {
-    this.setState({ componentToShow: 'welcome' });
-  };
-
-  onLogin = (e, email, password) => {
+  const onLogin = (e, email, password) => {
     e.preventDefault();
     request('POST', '/login', { email, password })
       .then((response) => {
         setAuthToken(response.data.token); // Guardar el token en el local storage
-        this.setState({ componentToShow: 'messages' });
+        setComponentToShow('messages');
       })
       .catch(() => {
-        this.setState({ componentToShow: 'welcome' });
+        setComponentToShow('welcome');
       });
   };
 
-  onRegister = async (e, name, firstSurname, secondSurname, idCard, phoneNumber, idImage, idRrol, email, password, userVerified) => {
+  const onRegister = async (e, name, firstSurname, secondSurname, idCard, phoneNumber, email, password, userVerified, status) => {
     e.preventDefault();
     try {
-        const response = await request(
-            "POST",
-            "/register",
-            { 
-                name,  
-                firstSurname,
-                secondSurname,
-                idCard,
-                phoneNumber,
-                idImage: null,
-                idRrol: 2,
-                email,
-                password,
-                userVerified: 0
-            }
-        );
-        setAuthToken(response.data.token); // Guardar el token en el local storage
-        this.setState({ componentToShow: "messages" });
+      const response = await request('POST', '/register', { 
+        name,  
+        firstSurname,
+        secondSurname,
+        idCard,
+        phoneNumber,
+        id_image: null,
+        id_rol: null, // Temporalmente se envía null, ya que no se ha implementado la funcionalidad de roles.
+        email,
+        password,
+        userVerified: false,
+        status: true // Indicando que el usuario está activo por defecto al registrarse.
+      });
+      setAuthToken(response.data.token); // Guardar el token en el local storage
+      setComponentToShow('messages');
     } catch (error) {
-        console.error("Error during registration:", error);
-        this.setState({ componentToShow: "welcome" });
+      console.error("Error during registration:", error);
+      setComponentToShow('welcome');
     }
   };
 
-  render() {
-    const { componentToShow } = this.state;
+  return (
+    <div>
+      <button onClick={login}>Mostrar Login</button>
 
-    return (
-      <div>
-        {/* Botón para cambiar el estado a 'login' para probar el formulario */}
-        <button onClick={this.login}>Mostrar Login</button>
+      {componentToShow === 'login' && (
+        <LoginForm
+          onLogin={onLogin}
+          onRegister={onRegister}
+        />
+      )}
+      {componentToShow === 'welcome' && <div>Welcome Content</div>}
+      {componentToShow === 'messages' && <div>Messages Content</div>}
+    </div>
+  );
+};
 
-        {componentToShow === 'login' && (
-          <LoginForm
-            onLogin={this.onLogin}
-            onRegister={this.onRegister}
-          />
-        )}
-        {/* Puedes agregar otros componentes aquí según el estado */}
-        {componentToShow === 'welcome' && <div>Welcome Content</div>}
-        {componentToShow === 'messages' && <div>Messages Content</div>}
-      </div>
-    );
-  }
-}
+export default AppContent;

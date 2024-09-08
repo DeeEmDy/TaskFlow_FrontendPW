@@ -32,7 +32,7 @@ const LoginForm = ({ onLogin, onRegister }) => {
       return;
     }
     setErrorMessage('');
-    onRegister(e, name, firstSurname, secondSurname, idCard, phoneNumber, '', '', email, password, 0);
+    onRegister(e, name, firstSurname, secondSurname, idCard, phoneNumber, email, password, false, true);
   };
 
   return (
@@ -204,7 +204,7 @@ const LoginForm = ({ onLogin, onRegister }) => {
               </div>
 
               <div className="mb-3 position-relative">
-                <label htmlFor="confirm_password" className="form-label">Confirmar contraseña</label>
+                <label htmlFor="confirm_password" className="form-label">Confirmar Contraseña</label>
                 <input
                   type={confirmPasswordVisible ? 'text' : 'password'}
                   id="confirm_password"
@@ -225,11 +225,7 @@ const LoginForm = ({ onLogin, onRegister }) => {
                 </button>
               </div>
 
-              {errorMessage && (
-                <div className="alert alert-danger" role="alert">
-                  {errorMessage}
-                </div>
-              )}
+              {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
 
               <button type="submit" className="btn btn-primary w-100">
                 Registrarse

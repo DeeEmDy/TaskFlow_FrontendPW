@@ -54,3 +54,6 @@ npm install jquery
 
 #Instalar para las alertas.
 npm install sweetalert2
+
+#Instalar redux como manejador de estados para los endpoints y solicitudes HTTP.
+npm install @reduxjs/toolkit axios redux
