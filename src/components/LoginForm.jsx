@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; //eslint-disable-line
 import PropTypes from 'prop-types';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import '../style/LoginForm.css';
@@ -175,9 +175,10 @@ const LoginForm = ({ onLogin, onRegister }) => {
                   name="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  required
+                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" //Validación de correo electrónico
                   className="form-control"
                   placeholder="Ingrese su correo electrónico aquí"
-                  required
                 />
               </div>
 

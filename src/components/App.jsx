@@ -1,6 +1,6 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import Header from './Header';
+import React from 'react'; //eslint-disable-line
+import { useNavigate } from 'react-router-dom'; //eslint-disable-line
+import Header from './Header'; //eslint-disable-line
 import AppContent from './AppContent';
 
 function App() {

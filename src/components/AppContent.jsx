@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; //eslint-disable-line
 import LoginForm from './LoginForm';
 import { request, setAuthToken } from '../axios_helper';
 

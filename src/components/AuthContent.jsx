@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'; //eslint-disable-line
 import { request } from '../axios_helper';
 
 export default function AuthContent() {
