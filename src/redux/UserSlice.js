@@ -27,6 +27,10 @@ export const register = createAsyncThunk(
     try {
       const response = await request('POST', '/register', data);
       // No esperamos ni manejamos un token en el registro, solo verificamos el estado de éxito
+
+      console.log("Data del registro:", data);
+      console.log("Respuesta del registro:", response);
+
       return response;
     } catch (error) {
       console.error("Error en el registro:", error); // Agrega esta línea para más detalles del error
