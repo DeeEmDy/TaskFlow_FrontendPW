@@ -2,104 +2,133 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { request } from '../axios_helper';
 
 // Acción asíncrona para el login del usuario
-export const loginUser = createAsyncThunk(
-  'user/loginUser',
+export const login = createAsyncThunk(
+  'user/login',
   async (data, { rejectWithValue }) => {
     try {
       const response = await request('POST', '/login', data);
-
-      if (response.status !== 200) {
-        const errorData = await response.data;
-        return rejectWithValue(errorData);
+      if (!response.token) { // Asegúrate de que `token` está presente en la respuesta
+        return rejectWithValue(response); // Error del backend
       }
-
-      const result = await response.data;
-      localStorage.setItem('auth_token', result.token); // Almacena el token en localStorage
-      return result; // Retorna el usuario
+      sessionStorage.setItem('auth_token', response.token); // Guarda el token en sessionStorage
+      sessionStorage.setItem('refresh_token', response.refreshToken || ''); // Si hay un refreshToken, guárdalo
+      return response;
     } catch (error) {
-      return rejectWithValue(error.response?.data || { message: "Error en la red." }); // Manejo de errores de red
+      console.error("Error en el login:", error); // Agrega esta línea para más detalles del error
+      return rejectWithValue(error.response?.data || { message: 'Error en la red.' });
     }
   }
 );
 
 // Acción asíncrona para el registro del usuario
-export const registerUser = createAsyncThunk(
-  'user/registerUser',
+export const register = createAsyncThunk(
+  'user/register',
   async (data, { rejectWithValue }) => {
     try {
       const response = await request('POST', '/register', data);
-
-      if (response.status !== 200) {
-        const errorData = await response.data;
-        return rejectWithValue(errorData);
-      }
-
-      const result = await response.data;
-      localStorage.setItem('auth_token', result.token); // Almacena el token en localStorage
-      return result; // Retorna el usuario
+      // No esperamos ni manejamos un token en el registro, solo verificamos el estado de éxito
+      return response;
     } catch (error) {
-      return rejectWithValue(error.response?.data || { message: "Error en la red." }); // Manejo de errores de red
+      console.error("Error en el registro:", error); // Agrega esta línea para más detalles del error
+      return rejectWithValue(error.response?.data || { message: 'Error en la red.' });
     }
   }
 );
 
-// Slice para manejar el estado del usuario
+// Acción asíncrona para refrescar el token
+export const refreshToken = createAsyncThunk(
+  'user/refreshToken',
+  async (_, { rejectWithValue }) => {
+    const refreshToken = sessionStorage.getItem('refresh_token');
+    if (!refreshToken) {
+      return rejectWithValue({ message: "No refresh token found" });
+    }
+
+    try {
+      const response = await request('POST', '/refresh-token', { refreshToken });
+
+      if (response.status !== 200) {
+        return rejectWithValue(response);
+      }
+
+      const result = response.data;
+      sessionStorage.setItem('auth_token', result.token); // Guarda el nuevo token en sessionStorage
+      return result;
+    } catch (error) {
+      console.error("Error al refrescar el token:", error); // Agrega esta línea para más detalles del error
+      return rejectWithValue(error.response?.data || { message: "Error en la red." });
+    }
+  }
+);
+
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
-    user: null, // Almacena los datos del usuario
-    userCurrent: null, // Almacena el usuario actual para get by id
-    message: '', // Almacena el mensaje de la petición
+    user: null,
+    userCurrent: null,
+    message: '',
     loading: false,
     errorRedux: null,
   },
   reducers: {
     logout: (state) => {
-      localStorage.removeItem('auth_token');
+      sessionStorage.removeItem('auth_token');
+      sessionStorage.removeItem('refresh_token');
       state.user = null;
     },
     resetError: (state) => {
-      state.errorRedux = null; // Resetea los errores
+      state.errorRedux = null;
     },
     resetMessage: (state) => {
-      state.message = ''; // Resetea los mensajes
+      state.message = '';
     },
   },
   extraReducers: (builder) => {
-    // Reducers para el login
-    builder.addCase(loginUser.pending, (state) => {
+    builder.addCase(login.pending, (state) => {
       state.loading = true;
       state.errorRedux = null;
       state.message = '';
     });
-    builder.addCase(loginUser.fulfilled, (state, action) => {
+    builder.addCase(login.fulfilled, (state, action) => {
       state.loading = false;
-      state.user = action.payload;
+      state.user = action.payload.user; // Guarda la información del usuario
       state.message = 'Login exitoso.';
     });
-    builder.addCase(loginUser.rejected, (state, action) => {
+    builder.addCase(login.rejected, (state, action) => {
       state.loading = false;
       state.errorRedux = action.payload || { message: 'Error desconocido durante el login' };
     });
 
-    // Reducers para el registro
-    builder.addCase(registerUser.pending, (state) => {
+    builder.addCase(register.pending, (state) => {
       state.loading = true;
       state.errorRedux = null;
       state.message = '';
     });
-    builder.addCase(registerUser.fulfilled, (state, action) => {
+    builder.addCase(register.fulfilled, (state, action) => { 
       state.loading = false;
-      state.user = action.payload;
       state.message = 'Registro exitoso.';
+      state.userCurrent = action.payload; // Almacena el usuario registrado
     });
-    builder.addCase(registerUser.rejected, (state, action) => {
+    builder.addCase(register.rejected, (state, action) => {
       state.loading = false;
       state.errorRedux = action.payload || { message: 'Error desconocido durante el registro' };
+    });
+
+    builder.addCase(refreshToken.pending, (state) => {
+      state.loading = true;
+      state.errorRedux = null;
+      state.message = '';
+    });
+    builder.addCase(refreshToken.fulfilled, (state, action) => { //eslint-disable-line 
+      state.loading = false;
+      state.message = 'Token refrescado exitosamente.';
+    });
+    builder.addCase(refreshToken.rejected, (state, action) => {
+      state.loading = false;
+      state.errorRedux = action.payload || { message: 'Error desconocido durante el refrescamiento del token' };
     });
   },
 });
 
-// Exporta las acciones y el reducer
 export const { logout, resetError, resetMessage } = userSlice.actions;
 export default userSlice.reducer;

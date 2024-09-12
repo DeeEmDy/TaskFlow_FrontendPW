@@ -8,8 +8,8 @@ export const integerRegex = /^\d+$/;
 // Validación de Número Decimal
 export const decimalRegex = /^\d+(\.\d+)?$/;
 
-// Validación de Número de Teléfono (Formato Internacional)
-export const phoneRegex = /^\+\d{1,3}-\d{6,14}$/;
+// Validación de Número de Teléfono (Formato Internacional) minimo 8 digitos
+export const phoneRegex = /^\d{8,12}$/;
 
 // Validación de URL
 export const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/;
@@ -27,7 +27,7 @@ export const creditCardRegex = /^\d{16}$/;
 export const nameRegex = /^[a-zA-ZÁáÉéÍíÓóÚúÑñ\s]+$/;
 
 // Validación de Contraseña (Al menos una Mayúscula, una Minúscula y un Número, Longitud entre 8 y 20)
-export const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,16}$/;
+export const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d.!@#$%^&*]{8,20}$/;
 
 // Validación de Texto Alfabético (Solo Letras, Puede Contener Espacios)
 export const alphabeticTextRegex = /^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/;

@@ -1,34 +1,36 @@
-// axios_helper.jsx
 import axios from 'axios';
 
-// Configuración global de Axios
-axios.defaults.baseURL = 'http://localhost:8080';
-axios.defaults.headers.post['Content-Type'] = 'application/json';
+// Configurar la instancia de axios
+const instance = axios.create({
+  baseURL: 'http://localhost:8080', // Cambia esta URL si es necesario
+});
+//
 
-// Función para obtener el token
-export const getAuthToken = () => {
-    return window.localStorage.getItem('auth_token');
-};
-
-// Función para guardar el token
-export const setAuthToken = (token) => {
-    window.localStorage.setItem('auth_token', token);
-};
-
-// Función para hacer solicitudes con Axios
-export const request = (method, url, data) => {
-    // Establecer headers iniciales
-    let headers = {};
-
-    // Incluir el token solo si no es una solicitud a la ruta de registro o login
-    if (getAuthToken() && !url.includes('/register') && !url.includes('/login')) {
-        headers.Authorization = `Bearer ${getAuthToken()}`;
+// Añadir un interceptor para agregar el token de autorización a cada solicitud
+instance.interceptors.request.use(
+  (config) => {
+    const token = sessionStorage.getItem('auth_token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
-    return axios({
-        method,
-        url,
-        headers,
-        data
+// Modifica la función para manejar la respuesta y errores adecuadamente
+export const request = async (method, url, data) => {
+  try {
+    const response = await instance.request({ 
+      method,
+      url, 
+      data
     });
+    return response.data;
+  } catch (error) {
+    console.error("Error en la solicitud:", error); // Agrega esta línea para más detalles del error
+    return Promise.reject(error.response?.data || { message: 'Error en la red.' });
+  }
 };
+
+export default instance;

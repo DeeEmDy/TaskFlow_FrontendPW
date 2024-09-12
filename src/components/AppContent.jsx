@@ -1,48 +1,56 @@
 import React, { useState } from 'react'; //eslint-disable-line
 import LoginForm from './LoginForm';
-import { request, setAuthToken } from '../axios_helper';
+import { useDispatch } from 'react-redux';
+import { login, register } from '../redux/UserSlice';
 
 const AppContent = () => {
   const [componentToShow, setComponentToShow] = useState('login');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const dispatch = useDispatch();
 
-  const login = () => setComponentToShow('login');
-  const logout = () => setComponentToShow('welcome');
-
-  const onLogin = (e, email, password) => {
-    e.preventDefault();
-    request('POST', '/login', { email, password })
-      .then((response) => {
-        setAuthToken(response.data.token); // Guardar el token en el local storage
-        setComponentToShow('messages');
-      })
-      .catch(() => {
-        setComponentToShow('welcome');
-      });
-  };
-
-  const onRegister = async (e, name, firstSurname, secondSurname, idCard, phoneNumber, email, password, userVerified, status) => {
+  const onLogin = async (e, email, password) => {
     e.preventDefault();
     try {
-      const response = await request('POST', '/register', { 
+      const result = await dispatch(login({ email, password })).unwrap();
+      console.log('Login exitoso:', result); // Agrega esta línea
+      setComponentToShow('messages');
+    } catch (error) {
+      console.error('Error durante el login:', error); // Agrega esta línea
+      setErrorMessage('Error durante el login: ' + error.message);
+      setComponentToShow('welcome');
+    }
+  };
+  
+  const onRegister = async (e, name, firstSurname, secondSurname, idCard, phoneNumber, email, password, confirmPassword, userVerified, status) => {
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      setErrorMessage('Las contraseñas no coinciden.');
+      return;
+    }
+    try {
+      const result = await dispatch(register({ 
         name,  
         firstSurname,
         secondSurname,
         idCard,
         phoneNumber,
         id_image: null,
-        id_rol: null, // Temporalmente se envía null, ya que no se ha implementado la funcionalidad de roles.
+        id_rol: null,
         email,
         password,
-        userVerified: false,
-        status: true // Indicando que el usuario está activo por defecto al registrarse.
-      });
-      setAuthToken(response.data.token); // Guardar el token en el local storage
+        userVerified,
+        status
+      })).unwrap();
+      console.log('Registro exitoso:', result); // Agrega esta línea
       setComponentToShow('messages');
     } catch (error) {
-      console.error("Error during registration:", error);
-      setComponentToShow('welcome');
+      console.error('Error durante el registro:', error); // Agrega esta línea
+      setErrorMessage('Error durante el registro: ' + error);
     }
   };
+  
+  
 
   return (
     <div>
@@ -50,6 +58,10 @@ const AppContent = () => {
         <LoginForm
           onLogin={onLogin}
           onRegister={onRegister}
+          errorMessage={errorMessage}
+          setErrorMessage={setErrorMessage} 
+          confirmPassword={confirmPassword}
+          setConfirmPassword={setConfirmPassword}
         />
       )}
       {componentToShow === 'welcome' && <div>Welcome Content</div>}

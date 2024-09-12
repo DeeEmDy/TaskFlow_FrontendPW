@@ -2,8 +2,9 @@ import React, { useState } from 'react'; //eslint-disable-line
 import PropTypes from 'prop-types';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import '../style/LoginForm.css';
+import { emailRegex, passwordRegex, phoneRegex } from '../assets/ExpresionesRegulares/ExpresionesRegularesValidacion';
 
-const LoginForm = ({ onLogin, onRegister }) => {
+const LoginForm = ({ onLogin, onRegister, errorMessage, confirmPassword, setConfirmPassword, setErrorMessage }) => {
   const [active, setActive] = useState('login');
   const [name, setName] = useState('');
   const [firstSurname, setFirstSurname] = useState('');
@@ -12,28 +13,47 @@ const LoginForm = ({ onLogin, onRegister }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
 
   const togglePasswordVisibility = () => setPasswordVisible(!passwordVisible);
   const toggleConfirmPasswordVisibility = () => setConfirmPasswordVisible(!confirmPasswordVisible);
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
+    if (!emailRegex.test(email)) {
+      setErrorMessage('Correo electrónico inválido.');
+      return;
+    }
+    if (!password) {
+      setErrorMessage('La contraseña es requerida.');
+      return;
+    }
+    setErrorMessage(''); // Limpiar el mensaje de error si todo es válido
     onLogin(e, email, password);
   };
 
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
+    if (!emailRegex.test(email)) {
+      setErrorMessage('Correo electrónico inválido.');
+      return;
+    }
+    if (!phoneRegex.test(phoneNumber)) {
+      setErrorMessage('Número de teléfono inválido.');
+      return;
+    }
+    if (!passwordRegex.test(password)) {
+      setErrorMessage('La contraseña debe tener entre 8 y 16 caracteres, al menos una mayúscula, una minúscula y un número.');
+      return;
+    }
     if (password !== confirmPassword) {
       setErrorMessage('Las contraseñas no coinciden.');
       return;
     }
-    setErrorMessage('');
-    onRegister(e, name, firstSurname, secondSurname, idCard, phoneNumber, email, password, false, true);
-  };
+    setErrorMessage(''); // Limpiar el mensaje de error si todo es válido
+    onRegister(e, name, firstSurname, secondSurname, idCard, phoneNumber, email, password, confirmPassword, false, true);
+  };  
 
   return (
     <div className="container">
@@ -175,10 +195,9 @@ const LoginForm = ({ onLogin, onRegister }) => {
                   name="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  required
-                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" //Validación de correo electrónico
                   className="form-control"
                   placeholder="Ingrese su correo electrónico aquí"
+                  required
                 />
               </div>
 
@@ -190,7 +209,7 @@ const LoginForm = ({ onLogin, onRegister }) => {
                   name="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="form-control pe-5"
+                  className="form-control"
                   placeholder="Ingrese su contraseña aquí"
                   required
                 />
@@ -205,15 +224,15 @@ const LoginForm = ({ onLogin, onRegister }) => {
               </div>
 
               <div className="mb-3 position-relative">
-                <label htmlFor="confirm_password" className="form-label">Confirmar Contraseña</label>
+                <label htmlFor="confirmPassword" className="form-label">Confirmar Contraseña</label>
                 <input
                   type={confirmPasswordVisible ? 'text' : 'password'}
-                  id="confirm_password"
-                  name="confirm_password"
+                  id="confirmPassword"
+                  name="confirmPassword"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="form-control pe-5"
-                  placeholder="Confirme su contraseña aquí"
+                  className="form-control"
+                  placeholder="Confirme su contraseña"
                   required
                 />
                 <button
@@ -226,13 +245,12 @@ const LoginForm = ({ onLogin, onRegister }) => {
                 </button>
               </div>
 
-              {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
-
               <button type="submit" className="btn btn-primary w-100">
                 Registrarse
               </button>
             </form>
           )}
+          {errorMessage && <div className="alert alert-danger mt-3">{errorMessage}</div>}
         </div>
       </div>
     </div>
@@ -242,6 +260,10 @@ const LoginForm = ({ onLogin, onRegister }) => {
 LoginForm.propTypes = {
   onLogin: PropTypes.func.isRequired,
   onRegister: PropTypes.func.isRequired,
+  errorMessage: PropTypes.string,
+  confirmPassword: PropTypes.string.isRequired,
+  setConfirmPassword: PropTypes.func.isRequired,
+  setErrorMessage: PropTypes.func.isRequired,
 };
 
 export default LoginForm;
