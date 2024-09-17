@@ -1,156 +1,94 @@
-.dashBoard{
-    flex: 4;
-    background-color: rgba(224, 216, 216, 0.226);  /*color de fondo pantalla*/
-    height: 100vh;
-    margin-top: 59px;
-
-}
-
-.ItemContaienr{
+.dashBoard {
     display: flex;
-    margin: auto;
-    justify-content: center;
-}      
-
-.ItemContainer1{
-    background-color: rgb(163, 157, 157);
-    width: 390px;
-    height: 20vh;
-    margin-left: 12px;
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
     margin-top: 10px;
-    border-radius: 10px;
+}
+
+.ItemContainer {
     display: flex;
-    box-shadow:rgb(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
-.taskProgress{
-    text-align: start;
-    margin-left: 10px;
-    margin-top: 25px;
-    color: black;
-}
-
-
-.taskCounter{
-    text-align: start;
-    font-size: 18px;
-    font-weight: 600;
-    margin-left: 10px;
-    margin-top: 8px;
-    color: #ff0000;
-}
-
-
-
-.taskCounter1{
-    text-align: start;
-    font-size: 18px;
-    font-weight: 600;
-    margin-left: 10px;
-    margin-top: 8px;
-    color: #00aa41;
-}
-
-
-
-.taskCounter2{
-    text-align: start;
-    font-size: 18px;
-    font-weight: 600;
-    margin-left: 10px;
-    margin-top: 8px;
-    color: #ffa500;
-}
-
-.currentmonth1{
-    text-align: start;
-    margin-left: 10px;
-    margin-top: 7px;
-    color: black;
-
-}
-
-.barchartContainer{
-    margin-top: 2px;
-}
-
-.subitemContainer{
-    margin-top: -9px;
-
-}
-
-.MiddleTask{
-    width: 100%;
-    background-color: rgb(163, 157, 157);
-    margin: auto;
-    justify-content: center;
-    box-shadow:rgb(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    border-radius: 10px;
-}
-
-.TaskVS{
-    text-align: center;
-    color: black;
-    font-weight: bold;
-    font-size: 17px;
-    padding: 15px;
-    margin-top: 25px;
-}
-
-
-.TaskContainer{
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    margin: auto;
-    margin-top: 10px;
-    height: 50vh;
-}
-
-
-.TaskChart{
-    flex: 1.8;
-    background-color:  rgb(163, 157, 157);
-    box-shadow:rgb(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    padding: 10px; 
-    position: relative; 
-    padding-left: 10px; 
-    margin: 10px;
-    border-radius: 10px;
-}
-
-.MonthlyEarning{
-    flex: 4;
-    background-color: rgb(163, 157, 157);
-    box-shadow:rgb(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    align-items: center; 
-    margin: 6px;
-    border-radius: 10px;
-}
-
-.taskContainerText{
-    text-align: start;
-    margin-left: 6px;
-    margin-top: 12px;
-    color: black;
-    font-weight: bold;
-    justify-content: center; 
-    align-items: center; 
-    display: flex; 
-}
-
-.ViewDetails{
-    padding: 10px;
-    padding-top: 6px;
-    padding-bottom: 6px;
-    border: none;
+.ItemBox {
+    flex: 1;
+    background-color: #fff;;
+    /*background-color: rgb(163, 157, 157);*/
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
-    background-color: #09943f;
-    color: white;
-    font-weight: bold;
-    margin-top: -100px; 
-    cursor: pointer; 
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.subitemContainer {
+    flex: 1;
+}
+
+.barchartContainer {
+    flex: 1;
+}
+
+.MiddleTask {
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+
+}
+
+.TaskContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.TaskChart, .MonthlyEarning {
+    flex: 1;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.taskProgress, .taskCounter, .taskCounter1, .taskCounter2, .currentmonth1, .taskContainerText {
+    margin: 0;
+    padding: 5px 0;
+}
+
+.TaskVS {
+    margin: 0;
+    padding: 5px 0;
+}
+
+.chartTitle {
+    width: 100%;
+    text-align: center; /* Centra el texto horizontalmente dentro del contenedor */
+    margin-bottom: 10px; /* Espacio entre el texto y el gráfico */
+}
+
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .ItemContainer, .TaskContainer {
+        flex-direction: column;
+    }
+
+    .ItemBox, .TaskChart, .MonthlyEarning {
+        width: 100%;
+    }
+
+    .MiddleTask {
+        overflow-x: auto;
+    }
 }
