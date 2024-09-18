@@ -3,18 +3,18 @@ import { request } from '../axios_helper';
 
 // Acción asíncrona para el login del usuario
 export const login = createAsyncThunk(
-  'user/login',
+  'auth/login',
   async (data, { rejectWithValue }) => {
     try {
       const response = await request('POST', '/login', data);
-      if (!response.token) { // Asegúrate de que `token` está presente en la respuesta
-        return rejectWithValue(response); // Error del backend
+      if (!response.token) {
+        return rejectWithValue({ message: 'Token no recibido' }); // Error del backend
       }
-      sessionStorage.setItem('auth_token', response.token); // Guarda el token en sessionStorage
-      sessionStorage.setItem('refresh_token', response.refreshToken || ''); // Si hay un refreshToken, guárdalo
+      sessionStorage.setItem('auth_token', response.token);
+      sessionStorage.setItem('refresh_token', response.refreshToken || '');
       return response;
     } catch (error) {
-      console.error("Error en el login:", error); // Agrega esta línea para más detalles del error
+      console.error("Error en el login:", error);
       return rejectWithValue(error.response?.data || { message: 'Error en la red.' });
     }
   }
@@ -22,18 +22,15 @@ export const login = createAsyncThunk(
 
 // Acción asíncrona para el registro del usuario
 export const register = createAsyncThunk(
-  'user/register',
+  'auth/register',
   async (data, { rejectWithValue }) => {
     try {
       const response = await request('POST', '/register', data);
-      // No esperamos ni manejamos un token en el registro, solo verificamos el estado de éxito
-
       console.log("Data del registro:", data);
       console.log("Respuesta del registro:", response);
-
       return response;
     } catch (error) {
-      console.error("Error en el registro:", error); // Agrega esta línea para más detalles del error
+      console.error("Error en el registro:", error);
       return rejectWithValue(error.response?.data || { message: 'Error en la red.' });
     }
   }
@@ -41,25 +38,25 @@ export const register = createAsyncThunk(
 
 // Acción asíncrona para refrescar el token
 export const refreshToken = createAsyncThunk(
-  'user/refreshToken',
+  'auth/refresh-token',
   async (_, { rejectWithValue }) => {
     const refreshToken = sessionStorage.getItem('refresh_token');
     if (!refreshToken) {
-      return rejectWithValue({ message: "No refresh token found" });
+      return rejectWithValue({ message: "No se encontró el refresh token" });
     }
 
     try {
       const response = await request('POST', '/refresh-token', { refreshToken });
 
       if (response.status !== 200) {
-        return rejectWithValue(response);
+        return rejectWithValue({ message: "Error al refrescar el token" });
       }
 
       const result = response.data;
       sessionStorage.setItem('auth_token', result.token); // Guarda el nuevo token en sessionStorage
       return result;
     } catch (error) {
-      console.error("Error al refrescar el token:", error); // Agrega esta línea para más detalles del error
+      console.error("Error al refrescar el token:", error);
       return rejectWithValue(error.response?.data || { message: "Error en la red." });
     }
   }
@@ -95,7 +92,7 @@ export const userSlice = createSlice({
     });
     builder.addCase(login.fulfilled, (state, action) => {
       state.loading = false;
-      state.user = action.payload.user; // Guarda la información del usuario
+      state.user = action.payload.user;
       state.message = 'Login exitoso.';
     });
     builder.addCase(login.rejected, (state, action) => {
@@ -108,10 +105,10 @@ export const userSlice = createSlice({
       state.errorRedux = null;
       state.message = '';
     });
-    builder.addCase(register.fulfilled, (state, action) => { 
+    builder.addCase(register.fulfilled, (state, action) => {
       state.loading = false;
       state.message = 'Registro exitoso.';
-      state.userCurrent = action.payload; // Almacena el usuario registrado
+      state.userCurrent = action.payload;
     });
     builder.addCase(register.rejected, (state, action) => {
       state.loading = false;
@@ -123,9 +120,10 @@ export const userSlice = createSlice({
       state.errorRedux = null;
       state.message = '';
     });
-    builder.addCase(refreshToken.fulfilled, (state, action) => { //eslint-disable-line 
+    builder.addCase(refreshToken.fulfilled, (state, action) => {
       state.loading = false;
       state.message = 'Token refrescado exitosamente.';
+      state.user = action.payload.user; // Actualiza el usuario en el estado
     });
     builder.addCase(refreshToken.rejected, (state, action) => {
       state.loading = false;

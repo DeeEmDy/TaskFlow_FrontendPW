@@ -1,10 +1,17 @@
-import React, { useState } from 'react'; //eslint-disable-line
+import React, { useState } from 'react'; // eslint-disable-line
 import PropTypes from 'prop-types';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import '../style/LoginForm.css';
 import { emailRegex, passwordRegex, phoneRegex } from '../assets/ExpresionesRegulares/ExpresionesRegularesValidacion';
 
-const LoginForm = ({ onLogin, onRegister, errorMessage, confirmPassword, setConfirmPassword, setErrorMessage }) => {
+const LoginForm = ({
+  onLogin,
+  onRegister,
+  errorMessage = '', // Parámetro por defecto
+  confirmPassword = '', // Parámetro por defecto
+  setConfirmPassword,
+  setErrorMessage,
+}) => {
   const [active, setActive] = useState('login');
   const [name, setName] = useState('');
   const [firstSurname, setFirstSurname] = useState('');
@@ -53,7 +60,7 @@ const LoginForm = ({ onLogin, onRegister, errorMessage, confirmPassword, setConf
     }
     setErrorMessage(''); // Limpiar el mensaje de error si todo es válido
     onRegister(e, name, firstSurname, secondSurname, idCard, phoneNumber, email, password, confirmPassword, false, true);
-  };  
+  };
 
   return (
     <div className="container">
@@ -63,16 +70,24 @@ const LoginForm = ({ onLogin, onRegister, errorMessage, confirmPassword, setConf
             <button
               className={`nav-link ${active === 'login' ? 'active' : ''}`}
               onClick={() => setActive('login')}
+              aria-selected={active === 'login'}
             >
               Inicio de Sesión
             </button>
             <button
               className={`nav-link ${active === 'register' ? 'active' : ''}`}
               onClick={() => setActive('register')}
+              aria-selected={active === 'register'}
             >
               Registrarse
             </button>
           </ul>
+
+          {errorMessage && (
+            <div className="alert alert-danger" role="alert">
+              {errorMessage}
+            </div>
+          )}
 
           {active === 'login' ? (
             <form onSubmit={handleLoginSubmit}>
@@ -232,7 +247,7 @@ const LoginForm = ({ onLogin, onRegister, errorMessage, confirmPassword, setConf
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   className="form-control"
-                  placeholder="Confirme su contraseña"
+                  placeholder="Confirme su contraseña aquí"
                   required
                 />
                 <button
@@ -250,7 +265,6 @@ const LoginForm = ({ onLogin, onRegister, errorMessage, confirmPassword, setConf
               </button>
             </form>
           )}
-          {errorMessage && <div className="alert alert-danger mt-3">{errorMessage}</div>}
         </div>
       </div>
     </div>
@@ -261,7 +275,7 @@ LoginForm.propTypes = {
   onLogin: PropTypes.func.isRequired,
   onRegister: PropTypes.func.isRequired,
   errorMessage: PropTypes.string,
-  confirmPassword: PropTypes.string.isRequired,
+  confirmPassword: PropTypes.string,
   setConfirmPassword: PropTypes.func.isRequired,
   setErrorMessage: PropTypes.func.isRequired,
 };
