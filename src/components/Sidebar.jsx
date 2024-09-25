@@ -4,11 +4,12 @@ import eventoIcon from "../imagenes/Evento.png";
 import calendarIcon from "../imagenes/calendar.png";
 import dashboardIcon from "../imagenes/dashboard1.png";
 import informacionIcon from "../imagenes/informacion.png";
-import sesionIcon from "../imagenes/cerrar-sesion.png";
+//import sesionIcon from "../imagenes/cerrar-sesion.png";
 import perfilIcon from "../imagenes/perfil.png";
 import bar1Icon from "../imagenes/bar1.png";
 import inicioIcon from "../imagenes/casa.png";
 import logrosIcon from "../imagenes/logros.png";
+import { FaHome, FaCalendarAlt, FaSignOutAlt, FaCalendarCheck, FaTrophy } from 'react-icons/fa';
 
 function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -95,10 +96,10 @@ function Sidebar() {
               </a>
             </li>
             <li>
-              <a href="/" title="Cerrar Sesión">
-                <img src={sesionIcon} alt="Cerrar-sesion" style={{ width: '25px', height: '25px' }} />
-                <span className="text">Cerrar Sesión</span>
-              </a>
+            <a href="/" title="Cerrar Sesión">
+            <FaSignOutAlt style={{ width: '30px', height: '28px' }} /> 
+            <span className="text">Cerrar Sesión</span>
+            </a>
             </li>
           </ul>
         </div>
