@@ -5,6 +5,11 @@
     box-sizing: border-box;
     font-family: "Inter", sans-serif;
   }
+  .layout {
+    display: flex;
+    min-height: 1vh;
+    
+  }
 
   .containerSide {
     display: flex;

@@ -1,7 +1,7 @@
 /* Layout.css */
 .layout {
     display: flex;
-    min-height: 10vh;
+    min-height: 1vh;
   }
   
   .sidebar {
@@ -27,6 +27,6 @@
     margin-left:110px; /* Igual al ancho del sidebar para que el contenido no se superponga */
     padding: 20px; /* Espaciado alrededor del contenido */
     width: calc(100% - 256px); /* Ocupa el resto del ancho disponible */
-    margin-top: 2rem; 
+    margin-top: 3rem; 
   }
   
