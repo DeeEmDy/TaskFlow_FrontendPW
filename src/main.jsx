@@ -6,6 +6,8 @@ import Calendar from './pages/Calendar';
 import HomePage from './pages/HomePage'; 
 import Layout from './components/Layout';
 import DashBoard from "./components/DashBoard";
+import ForgotPassword from "./components/Forgot-password";
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -14,6 +16,7 @@ root.render(
       <Routes>
         {/* Ruta de App sin Sidebar */}
         <Route path="/" element={<App />} />
+        <Route path="/forgotPassword" element={<ForgotPassword />} />
 
         {/* Ruta de HomePage con Sidebar envuelta en Layout */}
         <Route 

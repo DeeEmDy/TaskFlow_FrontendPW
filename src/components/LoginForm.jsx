@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import '../style/LoginForm.css';
@@ -86,6 +86,13 @@ const LoginForm = ({ onLogin, onRegister }) => {
                 >
                   {passwordVisible ? <FaEyeSlash /> : <FaEye />}
                 </button>
+              </div>
+
+                  {/* Enlace de "Olvido de contraseña" */}
+              <div className="mb-3">
+                <a href="/forgotPassword" className="forgot-password-link">
+                  ¿Olvidaste tu contraseña?
+                </a>
               </div>
 
               <button type="submit" className="btn btn-primary w-100">

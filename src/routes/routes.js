@@ -1,6 +1,7 @@
 import CalendarApp from "../pages/Calendar";
 import HomePageApp from "../pages/HomePage";
 import DashBoardApp from "../components/DashBoard";
+import ForgotPasswordApp from "../components/Forgot-password";
 
 export const Router = [
   {
@@ -14,6 +15,10 @@ export const Router = [
   {
     path: "/dashBoard",
     component: DashBoardApp,
+  },
+  {
+    path: "/forgotPassword",
+    component: ForgotPasswordApp,
   },
 ];
 
