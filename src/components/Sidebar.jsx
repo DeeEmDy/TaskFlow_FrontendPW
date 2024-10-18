@@ -45,7 +45,7 @@ function Sidebar() {
           </a>
           <div className="user-details">
             <p className="title">Task Flow</p>
-            <p className="name">Dixon Gongora</p>
+            <a href="#">Dixon Gongora</a>
           </div>
         </div>
         <div className="nav">
