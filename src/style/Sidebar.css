@@ -156,4 +156,42 @@
   white-space: nowrap;
 }
 
-  
+.relative {
+  position: relative;
+}
+
+.profile-dropdown {
+  margin-top: 10px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: max-height 0.3s ease-in-out;
+  overflow: hidden;
+  max-height: 0;
+}
+
+.profile-dropdown.open {
+  max-height: 300px; /* Ajusta según lo que necesites mostrar */
+}
+
+.profile-dropdown ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.profile-dropdown ul li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.profile-dropdown ul li:hover {
+  background-color: #f0f0f0;
+}
+
+
+.modal-container {
+  max-height: 80vh; /* Limita la altura del modal */
+  overflow-y: auto; /* Habilita el scroll vertical si el contenido excede la altura */
+}
