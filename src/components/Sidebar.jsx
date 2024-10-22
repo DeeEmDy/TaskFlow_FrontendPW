@@ -17,8 +17,12 @@ function Sidebar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [profilePic, setProfilePic] = useState(perfilIcon);
-  const [newName, setNewName] = useState("Dixon Gongora");
-  const [newLastName, setNewLastName] = useState("");
+  const [newName, setNewName] = useState("Dixon");
+  const [newLastName, setNewLastName] = useState("Gongora");
+  const [newLastName2, setNewLastName2] = useState("Muñoz");
+  const [newCedula, setNewCedula] = useState("402520449");
+  const [newTelefono, setNewTelefono] = useState("64069884");
+  
   const navigate = useNavigate(); // Hook para redirigir
 
   const toggleSidebar = () => {
@@ -215,17 +219,48 @@ function Sidebar() {
                 <label className="block text-gray-700">Nombre:</label>
                 <input
                   type="text"
+                  disabled
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
                   className="w-full p-2 border border-gray-300 rounded"
                 />
               </div>
               <div className="mb-4">
-                <label className="block text-gray-700">Apellido:</label>
+                <label className="block text-gray-700">Primer Apellido:</label>
                 <input
                   type="text"
+                  disabled
                   value={newLastName}
                   onChange={(e) => setNewLastName(e.target.value)}
+                  className="w-full p-2 border border-gray-300 rounded"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700">Segundo Apellido:</label>
+                <input
+                  type="text"
+                  disabled
+                  value={newLastName2}
+                  onChange={(e) => setNewLastName2(e.target.value)}
+                  className="w-full p-2 border border-gray-300 rounded"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700">Cedula:</label>
+                <input
+                  type="text"
+                  disabled
+                  value={newCedula}
+                  onChange={(e) => setNewCedula(e.target.value)}
+                  className="w-full p-2 border border-gray-300 rounded"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700">Numero Telefono</label>
+                <input
+                  type="text"
+                  value={newTelefono}
+                  onChange={(e) => setNewTelefono(e.target.value)}
                   className="w-full p-2 border border-gray-300 rounded"
                 />
               </div>
