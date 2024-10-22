@@ -1,7 +1,13 @@
+import { useState } from "react";
 import "../style/DashBoard.css";
 import { BarChart, Bar, ComposedChart, LineChart, Line, XAxis, YAxis, Legend, CartesianGrid, Tooltip } from 'recharts';
 
 export default function DashBoard() {
+
+    const [filter, setFilter] = useState("");
+    const [isFilterSelected, setIsFilterSelected] = useState(false); // Nuevo estado
+
+
     const dataIncompletas = [
         { name: "Page A", uv: 2000, fill: "#ff0000" },
         { name: "Page B", uv: 800, fill: "#ff0000" },
@@ -52,7 +58,75 @@ export default function DashBoard() {
     ];
 
     return (
-        <div className='flex flex-col p-5 gap-5 mt-2'>
+        
+        <div className="flex flex-col p-5 gap-5 mt-2">
+            {/* Dropdown para filtrar */}
+            <div className="flex justify-end mb-5">
+                <select 
+                    value={filter}
+                    onChange={(e) => {
+                        setFilter(e.target.value);
+                        setIsFilterSelected(true); // Actualiza el estado al seleccionar
+                    }}
+                    className="p-2 border rounded-md bg-white shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="">Selecciona una opción</option> {/* Opción inicial vacía */}
+                    <option value="Tareas Completas">Tareas Completas</option>
+                    <option value="Tareas Incompletas">Tareas Incompletas</option>
+                    <option value="Tareas Mensuales">Tareas Mensuales</option>
+                    <option value="Tareas en Progreso">Tareas en Progreso</option>
+                </select>
+            </div>
+
+        {/* Sección de gráficos según filtro */}
+        <div className="bg-white p-4 shadow rounded-lg mb-5 flex flex-col items-center">
+            <p className="text-lg font-semibold text-center">Gráfico de {filter}</p>
+            {isFilterSelected && filter === "Tareas Incompletas" && (
+                <div className="flex justify-center"> {/* Contenedor flex para centrar el gráfico */}
+                    <BarChart width={490} height={200} data={dataIncompletas}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip />
+                        <Bar dataKey="uv" fill="#ff0000" />
+                    </BarChart>
+                </div>
+            )}
+            {isFilterSelected && filter === "Tareas Completas" && (
+                <div className="flex justify-center"> {/* Contenedor flex para centrar el gráfico */}
+                    <BarChart width={490} height={200} data={dataCompletas}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip />
+                        <Bar dataKey="uv" fill="#07c04e" />
+                    </BarChart>
+                </div>
+            )}
+            {isFilterSelected && filter === "Tareas Mensuales" && (
+                <div className="flex justify-center"> {/* Contenedor flex para centrar el gráfico */}
+                    <BarChart width={490} height={200} data={dataMensuales}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip />
+                        <Bar dataKey="uv" fill="#ffa500" />
+                    </BarChart>
+                </div>
+            )}
+            {isFilterSelected && filter === "Tareas en Progreso" && (
+                <div className="flex justify-center"> {/* Contenedor flex para centrar el gráfico */}
+                    <BarChart width={490} height={200} data={data}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip />
+                        <Bar dataKey="uv" fill="#413ea0" />
+                    </BarChart>
+                </div>
+            )}
+        </div>
+
+
             {/* Sección de gráficos de tareas */}
             <div className='flex flex-wrap justify-between gap-5 mb-5'>
                 {/* Gráfico de tareas incompletas */}
