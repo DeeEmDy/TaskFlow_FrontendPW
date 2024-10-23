@@ -80,13 +80,15 @@
 /* Estilos para el botón de alternancia de visibilidad de la contraseña dentro del campo */
 .btn-password-toggle {
     position: absolute;
-    top: 75%;
-    right: -2%;
+    top: 73%;
+    right: 1.5%;
     transform: translateY(-50%);
     background: none;
     border: none;
     cursor: pointer;
     color: #6c757d;
+    font-size: 1.22rem;  /* Tamaño del icono de ojo  */ 
+    padding: 0.3rem;   
 }
 
 .btn-password-toggle:hover {
