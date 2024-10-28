@@ -4,7 +4,6 @@ import "../style/Sidebar.css";
 import eventoIcon from "../imagenes/Evento.png"; 
 import calendarIcon from "../imagenes/calendar.png";
 import dashboardIcon from "../imagenes/dashboard1.png";
-import informacionIcon from "../imagenes/informacion.png";
 import perfilIcon from "../imagenes/perfil.png";
 import bar1Icon from "../imagenes/bar1.png";
 import inicioIcon from "../imagenes/casa.png";
@@ -110,7 +109,7 @@ function Sidebar() {
             </div>
             <div className="user-details">
               <p className="title">Task Flow</p>
-              <a href="#">{newName}</a>
+              <a href="#">{newName} {newLastName} {newLastName2}</a>
             </div>
           </div>
         
@@ -168,12 +167,6 @@ function Sidebar() {
         <div className="menu">
           <p className="title">Account</p>
           <ul>
-            <li>
-              <a href="#" title="Ayuda">
-                <img src={informacionIcon} alt="Informacion" style={{ width: '28px', height: '28px' }} />
-                <span className="text">Ayuda</span>
-              </a>
-            </li>
             <li>
             <a href="/" title="Cerrar Sesión">
             <FaSignOutAlt style={{ width: '30px', height: '28px' }} /> 

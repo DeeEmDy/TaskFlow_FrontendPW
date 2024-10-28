@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react"; 
 import "../style/DashBoard.css";
 import { BarChart, Bar, ComposedChart, LineChart, Line, XAxis, YAxis, Legend, CartesianGrid, Tooltip } from 'recharts';
 
@@ -6,8 +6,11 @@ export default function DashBoard() {
 
     const [filter, setFilter] = useState("");
     const [isFilterSelected, setIsFilterSelected] = useState(false); // Nuevo estado
+    const [showModal, setShowModal] = useState(false);
+    const [taskDetails, setTaskDetails] = useState({});
 
-
+    const modalRef = useRef(null); // Crea una referencia para el modal
+    
     const dataIncompletas = [
         { name: "Page A", uv: 2000, fill: "#ff0000" },
         { name: "Page B", uv: 800, fill: "#ff0000" },
@@ -57,6 +60,48 @@ export default function DashBoard() {
         { name: 'Page F', uv: 1400, amt: 1700 }
     ];
 
+    const exampleTaskDetails = {
+        title: "Nombre de la Tarea",
+        createdDate: "2024-10-01",
+        expirationDate: "2024-11-01",
+        description: "Descripción de la tarea aquí",
+        user: "Usuario X",
+        progress: "75%",
+        score: 90
+    };
+
+    const openModalWithDetails = () => {
+        setTaskDetails(exampleTaskDetails);
+        setShowModal(true);
+    };
+
+
+    const closeModal = () => {
+        setShowModal(false);
+    };
+
+    // Maneja el clic fuera del modal
+    const handleClickOutside = (event) => {
+        if (modalRef.current && !modalRef.current.contains(event.target)) {
+            closeModal();
+        }
+    };
+
+    // Usa useEffect para agregar y limpiar el evento de clic
+    useEffect(() => {
+        if (showModal) {
+            document.addEventListener("mousedown", handleClickOutside);
+        } else {
+            document.removeEventListener("mousedown", handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [showModal]);
+
+
+
     return (
         
         <div className="flex flex-col p-5 gap-5 mt-2">
@@ -77,11 +122,33 @@ export default function DashBoard() {
                 </select>
             </div>
 
+
+            {/* Modal para mostrar detalles */}
+            {showModal && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div ref={modalRef} className="bg-white p-8 rounded-lg max-w-md mx-auto">
+                        <h2 className="text-2xl font-bold mb-4">Detalles de la Tarea</h2>
+                        <p><strong>Título:</strong> {taskDetails.title}</p>
+                        <p><strong>Fecha Creada:</strong> {taskDetails.createdDate}</p>
+                        <p><strong>Fecha Expirada:</strong> {taskDetails.expirationDate}</p>
+                        <p><strong>Descripción:</strong> {taskDetails.description}</p>
+                        <p><strong>Usuario:</strong> {taskDetails.user}</p>
+                        <p><strong>Progreso:</strong> {taskDetails.progress}</p>
+                        <p><strong>Puntuaje:</strong> {taskDetails.score}</p>
+                        <button
+                            onClick={closeModal}
+                            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+                            Cerrar
+                        </button>
+                    </div>
+                </div>
+            )}
+
         {/* Sección de gráficos según filtro */}
         <div className="bg-white p-4 shadow rounded-lg mb-5 flex flex-col items-center">
-            <p className="text-lg font-semibold text-center">Gráfico de {filter}</p>
+            <p className="text-lg font-semibold text-center">Filtro de gráfico de {filter}</p>
             {isFilterSelected && filter === "Tareas Incompletas" && (
-                <div className="flex justify-center"> {/* Contenedor flex para centrar el gráfico */}
+                <div className="flex justify-center" onClick={openModalWithDetails}> {/* Contenedor flex para centrar el gráfico */}
                     <BarChart width={490} height={200} data={dataIncompletas}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="name" />
@@ -92,7 +159,7 @@ export default function DashBoard() {
                 </div>
             )}
             {isFilterSelected && filter === "Tareas Completas" && (
-                <div className="flex justify-center"> {/* Contenedor flex para centrar el gráfico */}
+                <div className="flex justify-center" onClick={openModalWithDetails}> {/* Contenedor flex para centrar el gráfico */}
                     <BarChart width={490} height={200} data={dataCompletas}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="name" />
@@ -103,7 +170,7 @@ export default function DashBoard() {
                 </div>
             )}
             {isFilterSelected && filter === "Tareas Mensuales" && (
-                <div className="flex justify-center"> {/* Contenedor flex para centrar el gráfico */}
+                <div className="flex justify-center" onClick={openModalWithDetails}> {/* Contenedor flex para centrar el gráfico */}
                     <BarChart width={490} height={200} data={dataMensuales}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="name" />
@@ -114,7 +181,7 @@ export default function DashBoard() {
                 </div>
             )}
             {isFilterSelected && filter === "Tareas en Progreso" && (
-                <div className="flex justify-center"> {/* Contenedor flex para centrar el gráfico */}
+                <div className="flex justify-center" onClick={openModalWithDetails}> {/* Contenedor flex para centrar el gráfico */}
                     <BarChart width={490} height={200} data={data}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="name" />
@@ -130,7 +197,7 @@ export default function DashBoard() {
             {/* Sección de gráficos de tareas */}
             <div className='flex flex-wrap justify-between gap-5 mb-5'>
                 {/* Gráfico de tareas incompletas */}
-                <div className='flex flex-col bg-white p-5 shadow rounded-lg flex-1 max-w-xs'>
+                <div className='flex flex-col bg-white p-5 shadow rounded-lg flex-1 max-w-xs' onClick={openModalWithDetails}>
                     <div className='flex-1'>
                         <p className="text-lg font-semibold">Tareas Incompletas</p>
                         <p className="text-3xl font-bold">12</p>
@@ -146,7 +213,7 @@ export default function DashBoard() {
                 </div>
 
                 {/* Gráfico de tareas completadas */}
-                <div className='flex flex-col bg-white p-5 shadow rounded-lg flex-1 max-w-xs'>
+                <div className='flex flex-col bg-white p-5 shadow rounded-lg flex-1 max-w-xs' onClick={openModalWithDetails}>
                     <div className='flex-1'>
                         <p className="text-lg font-semibold">Tareas Completadas</p>
                         <p className="text-3xl font-bold">104</p>
@@ -162,7 +229,7 @@ export default function DashBoard() {
                 </div>
 
                 {/* Gráfico de tareas mensuales */}
-                <div className='flex flex-col bg-white p-5 shadow rounded-lg flex-1 max-w-xs'>
+                <div className='flex flex-col bg-white p-5 shadow rounded-lg flex-1 max-w-xs' onClick={openModalWithDetails}>
                     <div className='flex-1'>
                         <p className="text-lg font-semibold">Tareas Mensuales</p>
                         <p className="text-3xl font-bold">116</p>
@@ -179,7 +246,7 @@ export default function DashBoard() {
             </div>
 
             {/* Gráfico de comparación */}
-            <div className="bg-white p-5 shadow rounded-lg mb-5">
+            <div className="bg-white p-5 shadow rounded-lg mb-5" onClick={openModalWithDetails}>
                 <p className="text-lg font-semibold text-center">Tareas incompletas vs Tareas Completas</p>
                 <LineChart width={955} height={210} data={dataVS} margin={{ top: 5, right: 80, left: 20, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" />
@@ -193,7 +260,7 @@ export default function DashBoard() {
             </div>
 
             {/* Gráfico de tareas en proceso */}
-            <div className='bg-white p-5 shadow rounded-lg'>
+            <div className='bg-white p-5 shadow rounded-lg' onClick={openModalWithDetails}>
                 <p className="text-lg font-semibold">Tareas en Proceso</p>
                 <ComposedChart width={630} height={260} data={data} margin={{ top: 30, right: 20, bottom: 20, left: 20 }}>
                     <CartesianGrid stroke="#f5f5f5" />
