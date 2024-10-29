@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import Modal from 'react-modal';
 import '../assets/SweetAlert/SweetAlert.js'
 import '../style/Calendar.css';
+import { SweetAlertAccept } from '../assets/SweetAlert/SweetAlert.js';
 import { showAlert } from '../assets/SweetAlert/SweetAlert.js';
 import {
   textRegex,
@@ -104,6 +105,8 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    setErrors({});
     // Validar todo el formulario antes de enviarlo
     Object.keys(newEvent).forEach(field => {
       validateField(field, newEvent[field]);
@@ -117,7 +120,7 @@ function App() {
 
     setEvents([...events, newEvent]);
     setModalIsOpen(false);
-    showAlert('Evento agregado con éxito!');
+    SweetAlertAccept('Evento agregado con éxito!');
   };
 
   const getInputClassName = (fieldName) => {
@@ -137,7 +140,7 @@ function App() {
         events={events}
         selectable
         onSelectSlot={handleSlotClick}
-        onSelectEvent={event => showAlert(event.title)}
+        onSelectEvent={event => SweetAlertAccept(event.title)}
         style={{ height: '81vh', width: '100%', margin: '0 auto', borderRadius: '10px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}
       />
 
