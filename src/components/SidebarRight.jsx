@@ -1,4 +1,8 @@
+
+
 import { useState, useEffect, useRef } from "react";
+import { useTasks } from "../hooks/useTask"; // Importamos el hook
+
 import "../style/SidebarRight.css";
 
 const SidebarRight = () => {
@@ -7,12 +11,7 @@ const SidebarRight = () => {
   const [selectedTask, setSelectedTask] = useState(null);
   const sidebarRef = useRef(null);
 
-  const tasks = [
-    { id: 1, name: "Tarea 1", description: "Descripción de la tarea 1", createdDate: "2024-10-01", expirationDate: "2024-10-31", status: "pending" },
-    { id: 2, name: "Tarea 2", description: "Descripción de la tarea 2", createdDate: "2024-10-05", expirationDate: "2024-10-30", status: "completed" },
-    { id: 3, name: "Tarea 3", description: "Descripción de la tarea 3", createdDate: "2024-10-10", expirationDate: "2024-11-05", status: "incomplete" },
-    { id: 4, name: "Tarea 4", description: "Descripción de la tarea 4", createdDate: "2024-10-15", expirationDate: "2024-11-10", status: "pending" }
-  ];
+  const { data: tasks = [], isLoading, error } = useTasks(); // Usamos el hook para obtener las tareas
 
   const toggleSection = (section) => {
     setActiveSection(activeSection === section ? null : section);
@@ -42,6 +41,9 @@ const SidebarRight = () => {
   const handleSidebarToggle = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
+
+  if (isLoading) return <div>Cargando tareas...</div>;
+  if (error) return <div>Error al cargar las tareas</div>;
 
   return (
     <>
@@ -119,3 +121,5 @@ const SidebarRight = () => {
 };
 
 export default SidebarRight;
+
+

@@ -58,3 +58,8 @@ npm install sweetalert2
 
 #Instalar para dashboard
 npm install recharts
+
+
+
+#instala React Query
+npm install @tanstack/react-query
