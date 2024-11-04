@@ -62,9 +62,9 @@ const SidebarRight = () => {
           </button>
           {activeSection === "pending" && (
             <ul className="ml-4 list-disc">
-              {tasks.filter((task) => task.status === "pending").map((task) => (
+              {tasks.filter((task) => task.progress_task === "pending").map((task) => (
                 <li key={task.id} onClick={() => openModal(task)} className="task-item">
-                  {task.name}
+                  {task.title}
                 </li>
               ))}
             </ul>
@@ -77,9 +77,9 @@ const SidebarRight = () => {
           </button>
           {activeSection === "completed" && (
             <ul className="ml-4 list-disc">
-              {tasks.filter((task) => task.status === "completed").map((task) => (
+              {tasks.filter((task) => task.progress_task === "completed").map((task) => (
                 <li key={task.id} onClick={() => openModal(task)} className="task-item">
-                  {task.name}
+                  {task.title}
                 </li>
               ))}
             </ul>
@@ -92,9 +92,9 @@ const SidebarRight = () => {
           </button>
           {activeSection === "incomplete" && (
             <ul className="ml-4 list-disc">
-              {tasks.filter((task) => task.status === "incomplete").map((task) => (
+              {tasks.filter((task) => task.progress_task === "incomplete").map((task) => (
                 <li key={task.id} onClick={() => openModal(task)} className="task-item">
-                  {task.name}
+                  {task.title}
                 </li>
               ))}
             </ul>
