@@ -9,7 +9,7 @@ export const integerRegex = /^\d+$/;
 export const decimalRegex = /^\d+(\.\d+)?$/;
 
 // Validación de Número de Teléfono (Formato Internacional)
-export const phoneRegex = /^\+\d{1,3}-\d{6,14}$/;
+export const phoneRegex = /^\+?\d{8,15}$/;
 
 // Validación de URL
 export const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/;
@@ -23,11 +23,14 @@ export const dateRegex = /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/;
 // Validación de Tarjeta de Crédito (Número de 16 Dígitos)
 export const creditCardRegex = /^\d{16}$/;
 
-// Validación de Nombre (Solo Letras y Espacios)
-export const nameRegex = /^[a-zA-ZÁáÉéÍíÓóÚúÑñ\s]+$/;
+// Validación de Nombre (Solo Letras, Puede Contener Espacios y Acentos)
+export const nameRegex = /^[A-Za-záéíóúÁÉÍÓÚñÑ´ ]+$/;
 
 // Validación de Contraseña (Al menos una Mayúscula, una Minúscula y un Número, Longitud entre 8 y 20)
-export const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,16}$/;
+export const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+
+// Validación de Confirmación de Contraseña (Igual que la contraseña)
+export const confirmPasswordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 
 // Validación de Texto Alfabético (Solo Letras, Puede Contener Espacios)
 export const alphabeticTextRegex = /^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/;
@@ -44,3 +47,9 @@ export const alphanumericRegex = /^[a-zA-Z0-9ñÑ\s]+$/;
 export const textRegex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ,.\-/()¿?¡!\s]{0,40}$/;
 
 export const textRegexDescri = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ,.\-/()¿?¡!\s]{0,230}$/;
+
+// Validación de Número de Cédula (Entre 9 y 12 Dígitos)
+export const idCardRegex = /^\d{9,12}$/;
+
+
+
