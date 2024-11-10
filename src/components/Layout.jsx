@@ -1,4 +1,3 @@
-// src/components/Layout.jsx
 import Sidebar from "./Sidebar";
 import TopBar from "./TopBar";
 import SidebarRight from "./SidebarRight";
@@ -8,12 +7,21 @@ import "../style/Layout.css";
 function Layout({ children }) {
   return (
     <div className="layout">
+      {/* Sidebar izquierdo */}
       <Sidebar />
-      <TopBar />
-      <SidebarRight />
-      <div className="contentLayout">
-        {children}
+
+      <div className="main-content">
+        {/* TopBar */}
+        <TopBar />
+
+        <div className="content-layout">
+          {/* Contenido principal */}
+          {children}
+        </div>
       </div>
+
+      {/* Sidebar derecho */}
+      <SidebarRight />
     </div>
   );
 }
