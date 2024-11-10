@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import PropTypes from 'prop-types';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import Swal from 'sweetalert2'; // Importar SweetAlert2
+import { registerUser } from '../service/Auth/RegisterUser'; // Importar el servicio
 import '../style/LoginForm.css';
 
-const RegisterPage = ({ onRegister }) => {
+const RegisterPage = () => {
   const [name, setName] = useState('');
   const [first_surname, setFirstSurname] = useState('');
   const [second_surname, setSecondSurname] = useState('');
@@ -29,21 +29,37 @@ const RegisterPage = ({ onRegister }) => {
 
   const validateFields = () => {
     const validationErrors = {};
-    // Validación de campos obligatorios
+    
+    // Validación de campos
+    const namePattern = /^[A-Za-záéíóúÁÉÍÓÚñÑ´ ]+$/;
+    const surnamePattern = /^[A-Za-záéíóúÁÉÍÓÚñÑ´ ]+$/;
+    const idCardPattern = /^\d{9,12}$/;
+    const phonePattern = /^\+?\d{8,15}$/;
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
     if (!name) validationErrors.name = 'El nombre es obligatorio';
+    else if (!namePattern.test(name)) validationErrors.name = 'El nombre solo puede contener letras y espacios';
+
     if (!first_surname) validationErrors.first_surname = 'El primer apellido es obligatorio';
+    else if (!surnamePattern.test(first_surname)) validationErrors.first_surname = 'El primer apellido solo puede contener letras y espacios';
+
     if (!second_surname) validationErrors.second_surname = 'El segundo apellido es obligatorio';
+    else if (!surnamePattern.test(second_surname)) validationErrors.second_surname = 'El segundo apellido solo puede contener letras y espacios';
+
     if (!id_card) validationErrors.id_card = 'El número de cédula es obligatorio';
+    else if (!idCardPattern.test(id_card)) validationErrors.id_card = 'El número de cédula debe tener entre 9 y 12 dígitos';
+
     if (!phone_number) validationErrors.phone_number = 'El número de teléfono es obligatorio';
+    else if (!phonePattern.test(phone_number)) validationErrors.phone_number = 'El número de teléfono debe ser válido y contener entre 8 y 15 dígitos';
+
     if (!email) validationErrors.email = 'El correo electrónico es obligatorio';
+    else if (!emailPattern.test(email)) validationErrors.email = 'El correo electrónico debe ser válido';
+
     if (!password) validationErrors.password = 'La contraseña es obligatoria';
     if (!confirm_password) validationErrors.confirm_password = 'Debe confirmar su contraseña';
+    if (password && confirm_password && password !== confirm_password) validationErrors.confirm_password = 'Las contraseñas no coinciden';
 
-    // Validación de contraseñas
-    if (password && confirm_password && password !== confirm_password) {
-      validationErrors.confirm_password = 'Las contraseñas no coinciden';
-    }
-
+    console.log('Errores de validación:', validationErrors); // Esto muestra los errores antes de regresarlos.
     return validationErrors;
   };
 
@@ -70,17 +86,15 @@ const RegisterPage = ({ onRegister }) => {
     };
 
     try {
-      const response = await onRegister(signUpDto); // Enviamos el DTO al backend
+      const response = await registerUser(signUpDto); // Usamos la función del servicio para registrar el usuario
       if (response.success) {
-        Swal.fire('¡Éxito!', response.message, 'success'); // Mensaje de éxito
+        Swal.fire('¡Éxito!', response.data.message || 'Registro exitoso', 'success'); // Mensaje de éxito
       } else {
         // Mostrar los errores del backend usando SweetAlert
-        if (response.error) {
-          const validationErrors = response.error.errors.reduce((acc, error) => {
-            acc[error.field] = error.message;
-            return acc;
-          }, {});
-          setErrors(validationErrors); // Establecemos los errores en el estado
+        if (response.error && response.error.errors) {
+          const errorMessages = response.error.errors.map((err) => `${err.field}: ${err.message}`).join('\n');
+          Swal.fire('Error', `Hubo un problema al registrar el usuario:\n${errorMessages}`, 'error'); // Mostrar los errores específicos
+        } else {
           Swal.fire('Error', 'Hubo un problema al registrar el usuario.', 'error'); // Mensaje de error general
         }
       }
@@ -110,7 +124,6 @@ const RegisterPage = ({ onRegister }) => {
                 required
               />
               {errors.name && <div className="invalid-feedback">{errors.name}</div>}
-              <small className="form-text text-muted">Requiere nombre completo.</small>
             </div>
 
             {/* Primer Apellido */}
@@ -127,7 +140,6 @@ const RegisterPage = ({ onRegister }) => {
                 required
               />
               {errors.first_surname && <div className="invalid-feedback">{errors.first_surname}</div>}
-              <small className="form-text text-muted">Ingrese su primer apellido.</small>
             </div>
 
             {/* Segundo Apellido */}
@@ -144,7 +156,6 @@ const RegisterPage = ({ onRegister }) => {
                 required
               />
               {errors.second_surname && <div className="invalid-feedback">{errors.second_surname}</div>}
-              <small className="form-text text-muted">Ingrese su segundo apellido.</small>
             </div>
 
             {/* Número de Cédula */}
@@ -161,7 +172,6 @@ const RegisterPage = ({ onRegister }) => {
                 required
               />
               {errors.id_card && <div className="invalid-feedback">{errors.id_card}</div>}
-              <small className="form-text text-muted">Requiere una cédula válida.</small>
             </div>
 
             {/* Número de Teléfono */}
@@ -178,7 +188,6 @@ const RegisterPage = ({ onRegister }) => {
                 required
               />
               {errors.phone_number && <div className="invalid-feedback">{errors.phone_number}</div>}
-              <small className="form-text text-muted">Ingrese su número de teléfono.</small>
             </div>
 
             {/* Correo electrónico */}
@@ -195,7 +204,6 @@ const RegisterPage = ({ onRegister }) => {
                 required
               />
               {errors.email && <div className="invalid-feedback">{errors.email}</div>}
-              <small className="form-text text-muted">Ingrese un correo electrónico válido.</small>
             </div>
 
             {/* Contraseña */}
@@ -209,20 +217,25 @@ const RegisterPage = ({ onRegister }) => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className={`form-control ${errors.password ? 'is-invalid' : ''}`}
-                  placeholder="Ingrese su contraseña"
+                  placeholder="Ingrese su contraseña aquí"
                   required
                 />
-                <button type="button" className="btn btn-outline-secondary" onClick={togglePasswordVisibility}>
-                  {passwordVisible ? <FaEyeSlash /> : <FaEye />}
-                </button>
+                <div className="input-group-append">
+                  <button
+                    type="button"
+                    className="btn btn-outline-secondary"
+                    onClick={togglePasswordVisibility}
+                  >
+                    {passwordVisible ? <FaEyeSlash /> : <FaEye />}
+                  </button>
+                </div>
               </div>
               {errors.password && <div className="invalid-feedback">{errors.password}</div>}
-              <small className="form-text text-muted">Debe contener al menos 8 caracteres.</small>
             </div>
 
             {/* Confirmar Contraseña */}
             <div className="mb-3">
-              <label htmlFor="confirm_password" className="form-label">Confirmar contraseña</label>
+              <label htmlFor="confirm_password" className="form-label">Confirmar Contraseña</label>
               <div className="input-group">
                 <input
                   type={confirmPasswordVisible ? 'text' : 'password'}
@@ -231,18 +244,24 @@ const RegisterPage = ({ onRegister }) => {
                   value={confirm_password}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   className={`form-control ${errors.confirm_password ? 'is-invalid' : ''}`}
-                  placeholder="Confirme su contraseña"
+                  placeholder="Confirme su contraseña aquí"
                   required
                 />
-                <button type="button" className="btn btn-outline-secondary" onClick={toggleConfirmPasswordVisibility}>
-                  {confirmPasswordVisible ? <FaEyeSlash /> : <FaEye />}
-                </button>
+                <div className="input-group-append">
+                  <button
+                    type="button"
+                    className="btn btn-outline-secondary"
+                    onClick={toggleConfirmPasswordVisibility}
+                  >
+                    {confirmPasswordVisible ? <FaEyeSlash /> : <FaEye />}
+                  </button>
+                </div>
               </div>
               {errors.confirm_password && <div className="invalid-feedback">{errors.confirm_password}</div>}
             </div>
 
-            {/* Botón de Enviar */}
-            <div className="mb-3">
+            {/* Botón de envío */}
+            <div className="d-grid gap-2">
               <button type="submit" className="btn btn-primary">Registrar</button>
             </div>
           </form>
@@ -250,10 +269,6 @@ const RegisterPage = ({ onRegister }) => {
       </div>
     </div>
   );
-};
-
-RegisterPage.propTypes = {
-  onRegister: PropTypes.func.isRequired,
 };
 
 export default RegisterPage;
