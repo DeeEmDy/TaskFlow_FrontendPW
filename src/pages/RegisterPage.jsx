@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import Swal from 'sweetalert2'; // Importar SweetAlert2
-import { registerUser } from '../service/Auth/RegisterUser'; // Importar el servicio
+import Swal from 'sweetalert2';
+import { registerUser } from '../service/Auth/RegisterUser';
 import '../style/LoginForm.css';
 
 const RegisterPage = () => {
@@ -15,9 +15,9 @@ const RegisterPage = () => {
   const [confirm_password, setConfirmPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
-  const [status] = useState(true); // Estado predeterminado para el usuario
-  const user_verified = false; // Valor predeterminado para el usuario
-  const [errors, setErrors] = useState({}); // Para manejar errores de validación
+  const [status] = useState(true);
+  const user_verified = false;
+  const [errors, setErrors] = useState({});
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -29,8 +29,6 @@ const RegisterPage = () => {
 
   const validateFields = () => {
     const validationErrors = {};
-    
-    // Validación de campos
     const namePattern = /^[A-Za-záéíóúÁÉÍÓÚñÑ´ ]+$/;
     const surnamePattern = /^[A-Za-záéíóúÁÉÍÓÚñÑ´ ]+$/;
     const idCardPattern = /^\d{9,12}$/;
@@ -59,7 +57,6 @@ const RegisterPage = () => {
     if (!confirm_password) validationErrors.confirm_password = 'Debe confirmar su contraseña';
     if (password && confirm_password && password !== confirm_password) validationErrors.confirm_password = 'Las contraseñas no coinciden';
 
-    console.log('Errores de validación:', validationErrors); // Esto muestra los errores antes de regresarlos.
     return validationErrors;
   };
 
@@ -86,20 +83,24 @@ const RegisterPage = () => {
     };
 
     try {
-      const response = await registerUser(signUpDto); // Usamos la función del servicio para registrar el usuario
+      const response = await registerUser(signUpDto);
       if (response.success) {
-        Swal.fire('¡Éxito!', response.data.message || 'Registro exitoso', 'success'); // Mensaje de éxito
+        Swal.fire('¡Éxito!', response.data.message || 'Registro exitoso', 'success');
       } else {
-        // Mostrar los errores del backend usando SweetAlert
+        // Mostrar los errores del backend usando SweetAlert y actualizar los errores en el formulario
         if (response.error && response.error.errors) {
+          const backendErrors = response.error.errors.reduce((acc, err) => {
+            acc[err.field] = err.message;
+            return acc;
+          }, {});
+          setErrors(backendErrors);  // Actualiza los errores en el estado
           const errorMessages = response.error.errors.map((err) => `${err.field}: ${err.message}`).join('\n');
-          Swal.fire('Error', `Hubo un problema al registrar el usuario:\n${errorMessages}`, 'error'); // Mostrar los errores específicos
+          Swal.fire('Error', `Hubo un problema al registrar el usuario:\n${errorMessages}`, 'error');
         } else {
-          Swal.fire('Error', 'Hubo un problema al registrar el usuario.', 'error'); // Mensaje de error general
+          Swal.fire('Error', 'Hubo un problema al registrar el usuario.', 'error');
         }
       }
     } catch (error) {
-      // En caso de un error inesperado
       console.error('Error de conexión o servidor:', error);
       Swal.fire('Error', 'Hubo un problema al registrar el usuario. Intente nuevamente.', 'error');
     }
@@ -190,9 +191,9 @@ const RegisterPage = () => {
               {errors.phone_number && <div className="invalid-feedback">{errors.phone_number}</div>}
             </div>
 
-            {/* Correo electrónico */}
+            {/* Correo Electrónico */}
             <div className="mb-3">
-              <label htmlFor="email" className="form-label">Correo electrónico</label>
+              <label htmlFor="email" className="form-label">Correo Electrónico</label>
               <input
                 type="email"
                 id="email"
@@ -260,10 +261,7 @@ const RegisterPage = () => {
               {errors.confirm_password && <div className="invalid-feedback">{errors.confirm_password}</div>}
             </div>
 
-            {/* Botón de envío */}
-            <div className="d-grid gap-2">
-              <button type="submit" className="btn btn-primary">Registrar</button>
-            </div>
+            <button type="submit" className="btn btn-primary">Registrar</button>
           </form>
         </div>
       </div>

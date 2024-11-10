@@ -1,7 +1,6 @@
 import { isAxiosError } from "axios";
 import api from "../../lib/axios"; // Asegúrate de importar correctamente tu cliente axios
 
-// Función para registrar un nuevo usuario
 export async function registerUser(signUpDto) {
   try {
     // Realizamos la solicitud POST al backend
