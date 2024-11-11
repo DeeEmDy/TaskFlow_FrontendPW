@@ -151,6 +151,7 @@ const RegisterPage = () => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+    setIsLoading(true);  // Iniciar el spinner al hacer submit
 
     const validationErrors = validateFields();
     if (Object.keys(validationErrors).length > 0) {
@@ -319,7 +320,7 @@ const RegisterPage = () => {
             </div>
 
             <div className="mb-3">
-              <button type="submit" className="btn btn-primary btn-block" disabled={isLoading}>
+              <button type="submit" className="btn btn-primary btn-block">
                 {isLoading ? 'Registrando...' : 'Registrar'}
               </button>
             </div>
