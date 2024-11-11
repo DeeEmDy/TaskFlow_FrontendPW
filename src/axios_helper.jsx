@@ -1,4 +1,4 @@
-/*import axios from 'axios';
+import axios from 'axios';
 
 // Configuración global de Axios
 axios.defaults.baseURL = 'http://localhost:8080';
@@ -12,4 +12,3 @@ export const request = (method, url, data) => {
         data,
     });
 };
-*/
