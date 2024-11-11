@@ -57,12 +57,12 @@ const SidebarRight = () => {
         <h2 className="text-lg font-bold mb-4">Tareas o Eventos</h2>
 
         <div>
-          <button onClick={() => toggleSection("pending")} className="section-toggle">
+          <button onClick={() => toggleSection("Pendiente")} className="section-toggle">
             Tareas por Hacer <span>{activeSection === "pending" ? "▲" : "▼"}</span>
           </button>
-          {activeSection === "pending" && (
+          {activeSection === "Pendiente" && (
             <ul className="ml-4 list-disc">
-              {tasks.filter((task) => task.progress_task === "pending").map((task) => (
+              {tasks.filter((task) => task.progress_task === "Pendiente").map((task) => (
                 <li key={task.id} onClick={() => openModal(task)} className="task-item">
                   {task.title}
                 </li>
@@ -72,12 +72,12 @@ const SidebarRight = () => {
         </div>
 
         <div>
-          <button onClick={() => toggleSection("completed")} className="section-toggle">
-            Tareas Completadas <span>{activeSection === "completed" ? "▲" : "▼"}</span>
+          <button onClick={() => toggleSection("Finalizada")} className="section-toggle">
+            Tareas Completadas <span>{activeSection === "Finalizada" ? "▲" : "▼"}</span>
           </button>
-          {activeSection === "completed" && (
+          {activeSection === "Finalizada" && (
             <ul className="ml-4 list-disc">
-              {tasks.filter((task) => task.progress_task === "completed").map((task) => (
+              {tasks.filter((task) => task.progress_task === "Finalizada").map((task) => (
                 <li key={task.id} onClick={() => openModal(task)} className="task-item">
                   {task.title}
                 </li>
@@ -87,12 +87,12 @@ const SidebarRight = () => {
         </div>
 
         <div>
-          <button onClick={() => toggleSection("incomplete")} className="section-toggle">
-            Tareas Incompletas <span>{activeSection === "incomplete" ? "▲" : "▼"}</span>
+          <button onClick={() => toggleSection("Incompleta")} className="section-toggle">
+            Tareas Incompletas <span>{activeSection === "Incompleta" ? "▲" : "▼"}</span>
           </button>
-          {activeSection === "incomplete" && (
+          {activeSection === "Incompleta" && (
             <ul className="ml-4 list-disc">
-              {tasks.filter((task) => task.progress_task === "incomplete").map((task) => (
+              {tasks.filter((task) => task.progress_task === "Incompleta").map((task) => (
                 <li key={task.id} onClick={() => openModal(task)} className="task-item">
                   {task.title}
                 </li>
