@@ -8,7 +8,10 @@ const fetchTasks = async () => {
 };
 
 export const useTasks = () => {
-  return useQuery('tasks', fetchTasks);
+  return useQuery({
+    queryKey: ['tasks'],
+    queryFn: fetchTasks
+  });
 };
 
 
