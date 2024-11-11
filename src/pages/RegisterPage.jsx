@@ -4,6 +4,8 @@ import Swal from 'sweetalert2';
 import { useMutation } from '@tanstack/react-query';  // Importamos useMutation
 import { registerUser } from '../service/Auth/RegisterUser';  // Servicio de registro
 import '../style/LoginForm.css';
+import { useNavigate } from 'react-router-dom';
+import { emailRegex, phoneRegex, nameRegex, passwordRegex, confirmPasswordRegex, idCardRegex } from '../assets/ExpresionesRegulares/ExpresionesRegularesValidacion';
 
 const RegisterPage = () => {
   const [name, setName] = useState('');
@@ -19,28 +21,60 @@ const RegisterPage = () => {
   const [status] = useState(true);
   const user_verified = false;
   const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);  // Para manejar el estado de carga
 
-  // Mutación para el registro de usuario
+  const navigate = useNavigate(); // Hook para la redirección
+
   const mutation = useMutation({
     mutationFn: registerUser,
     onSuccess: (data) => {
-      console.log("Registro exitoso:", data); // Depuración
-      Swal.fire('¡Éxito!', data.message || 'Registro exitoso', 'success');
+      Swal.fire({
+        title: '¡Éxito!',
+        text: data.message || 'Registro exitoso',
+        icon: 'success',
+        timer: 4500,
+        showConfirmButton: false,
+      }).then(() => {
+        // Limpiar los campos del formulario
+        setName('');
+        setFirstSurname('');
+        setSecondSurname('');
+        setIdCard('');
+        setPhoneNumber('');
+        setEmail('');
+        setPassword('');
+        setConfirmPassword('');
+  
+        // Redirigir al login
+        navigate('/login');
+      });
     },
     onError: (error) => {
-      console.error("Error en la mutación:", error); // Depuración
-      const backendErrors = error?.response?.data?.errors || [];
-      const errorMessages = backendErrors.map(err => `${err.field}: ${err.message}`).join('\n');
-      Swal.fire('Error', `Hubo un problema al registrar el usuario:\n${errorMessages}`, 'error');
-      setErrors(
-        backendErrors.reduce((acc, err) => {
-          acc[err.field] = err.message;
-          return acc;
-        }, {})
-      );
-    },
-  });
+      // Mostrar el mensaje de error
+      Swal.fire({
+        title: 'Error',
+        text: error.error?.message || 'Hubo un problema al registrar el usuario',
+        icon: 'error',
+        timer: 4500,
+        showConfirmButton: false,
+      });
   
+      // Si hay errores de validación, actualizamos el estado de errores
+      if (error.error?.errors?.length > 0) {
+        setErrors(
+          error.error.errors.reduce((acc, err) => {
+            acc[err.field] = err.message;
+            return acc;
+          }, {})
+        );
+      }
+    },
+    onSettled: () => {
+      setIsLoading(false);
+    }
+  });
+
+
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
@@ -49,35 +83,68 @@ const RegisterPage = () => {
     setConfirmPasswordVisible(!confirmPasswordVisible);
   };
 
+  const validateName = (name) => {
+    if (!name) return 'El nombre es obligatorio';
+    if (!nameRegex.test(name)) return 'El nombre solo puede contener letras y espacios';
+    return null;
+  };
+
+  const validateSurname = (surname) => {
+    if (!surname) return 'El apellido es obligatorio';
+    if (!nameRegex.test(surname)) return 'El apellido solo puede contener letras y espacios';
+    return null;
+  };
+
+  const validateIdCard = (idCard) => {
+    if (!idCard) return 'El número de cédula es obligatorio';
+    if (!idCardRegex.test(idCard)) return 'El número de cédula debe tener entre 9 y 12 dígitos';
+    return null;
+  };
+
+  const validatePhoneNumber = (phoneNumber) => {
+    if (!phoneNumber) return 'El número de teléfono es obligatorio';
+    if (!phoneRegex.test(phoneNumber)) return 'El número de teléfono debe ser válido y contener entre 8 y 15 dígitos';
+    return null;
+  };
+
+  const validateEmail = (email) => {
+    if (!email) return 'El correo electrónico es obligatorio';
+    if (!emailRegex.test(email)) return 'El correo electrónico debe ser válido';
+    return null;
+  };
+
+  const validatePassword = (password) => {
+    if (!password) return 'La contraseña es obligatoria';
+    if (!passwordRegex.test(password)) return 'La contraseña debe cumplir con los requisitos de seguridad';
+    return null;
+  };
+
+  const validateConfirmPassword = (password, confirmPassword) => {
+    if (!confirmPassword) return 'Debe confirmar su contraseña';
+    if (password && confirmPassword && password !== confirmPassword) return 'Las contraseñas no coinciden';
+    if (!confirmPasswordRegex.test(confirmPassword)) return 'La contraseña de confirmación no es válida';
+    return null;
+  };
+
   const validateFields = () => {
     const validationErrors = {};
-    const namePattern = /^[A-Za-záéíóúÁÉÍÓÚñÑ´ ]+$/;
-    const surnamePattern = /^[A-Za-záéíóúÁÉÍÓÚñÑ´ ]+$/;
-    const idCardPattern = /^\d{9,12}$/;
-    const phonePattern = /^\+?\d{8,15}$/;
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-    if (!name) validationErrors.name = 'El nombre es obligatorio';
-    else if (!namePattern.test(name)) validationErrors.name = 'El nombre solo puede contener letras y espacios';
+    // Validación de los campos
+    validationErrors.name = validateName(name);
+    validationErrors.firstSurname = validateSurname(firstSurname);
+    validationErrors.secondSurname = validateSurname(secondSurname);
+    validationErrors.idCard = validateIdCard(idCard);
+    validationErrors.phoneNumber = validatePhoneNumber(phoneNumber);
+    validationErrors.email = validateEmail(email);
+    validationErrors.password = validatePassword(password);
+    validationErrors.confirmPassword = validateConfirmPassword(password, confirmPassword);
 
-    if (!firstSurname) validationErrors.firstSurname = 'El primer apellido es obligatorio';
-    else if (!surnamePattern.test(firstSurname)) validationErrors.firstSurname = 'El primer apellido solo puede contener letras y espacios';
-
-    if (!secondSurname) validationErrors.secondSurname = 'El segundo apellido es obligatorio';
-    else if (!surnamePattern.test(secondSurname)) validationErrors.secondSurname = 'El segundo apellido solo puede contener letras y espacios';
-
-    if (!idCard) validationErrors.idCard = 'El número de cédula es obligatorio';
-    else if (!idCardPattern.test(idCard)) validationErrors.idCard = 'El número de cédula debe tener entre 9 y 12 dígitos';
-
-    if (!phoneNumber) validationErrors.phoneNumber = 'El número de teléfono es obligatorio';
-    else if (!phonePattern.test(phoneNumber)) validationErrors.phoneNumber = 'El número de teléfono debe ser válido y contener entre 8 y 15 dígitos';
-
-    if (!email) validationErrors.email = 'El correo electrónico es obligatorio';
-    else if (!emailPattern.test(email)) validationErrors.email = 'El correo electrónico debe ser válido';
-
-    if (!password) validationErrors.password = 'La contraseña es obligatoria';
-    if (!confirmPassword) validationErrors.confirmPassword = 'Debe confirmar su contraseña';
-    if (password && confirmPassword && password !== confirmPassword) validationErrors.confirmPassword = 'Las contraseñas no coinciden';
+    // Eliminar valores nulos de los errores
+    for (const key in validationErrors) {
+      if (validationErrors[key] === null) {
+        delete validationErrors[key];
+      }
+    }
 
     return validationErrors;
   };
@@ -104,7 +171,7 @@ const RegisterPage = () => {
       status,
     };
 
-    // Realizamos la mutación para registrar al usuario
+    setIsLoading(true);  // Activar isLoading al enviar la solicitud
     mutation.mutate(signUpDto);  // Usamos mutate de useMutation para enviar la solicitud
   };
 
@@ -179,7 +246,7 @@ const RegisterPage = () => {
 
             {/* Número de Teléfono */}
             <div className="mb-3">
-              <label htmlFor="phoneNumber" className="form-label">Número de teléfono</label>
+              <label htmlFor="phoneNumber" className="form-label">Número de Teléfono</label>
               <input
                 type="text"
                 id="phoneNumber"
@@ -223,7 +290,7 @@ const RegisterPage = () => {
                   placeholder="Ingrese su contraseña aquí"
                   required
                 />
-                <button type="button" onClick={togglePasswordVisibility} className="btn btn-outline-secondary">
+                <button type="button" onClick={togglePasswordVisibility} className="input-group-text">
                   {passwordVisible ? <FaEyeSlash /> : <FaEye />}
                 </button>
               </div>
@@ -241,20 +308,21 @@ const RegisterPage = () => {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   className={`form-control ${errors.confirmPassword ? 'is-invalid' : ''}`}
-                  placeholder="Confirme su contraseña aquí"
+                  placeholder="Confirme su contraseña"
                   required
                 />
-                <button type="button" onClick={toggleConfirmPasswordVisibility} className="btn btn-outline-secondary">
+                <button type="button" onClick={toggleConfirmPasswordVisibility} className="input-group-text">
                   {confirmPasswordVisible ? <FaEyeSlash /> : <FaEye />}
                 </button>
               </div>
               {errors.confirmPassword && <div className="invalid-feedback">{errors.confirmPassword}</div>}
             </div>
 
-            {/* Botón de Registro */}
-            <button type="submit" className="btn btn-primary w-100">
-              Registrar
-            </button>
+            <div className="mb-3">
+              <button type="submit" className="btn btn-primary btn-block" disabled={isLoading}>
+                {isLoading ? 'Registrando...' : 'Registrar'}
+              </button>
+            </div>
           </form>
         </div>
       </div>
