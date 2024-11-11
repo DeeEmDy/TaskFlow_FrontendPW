@@ -4,11 +4,17 @@ import RegisterPage from "../pages/RegisterPage";
 import ForgotPassword from "../components/Forgot-password";
 
 const PublicRoutes = () => {
-  // Función para manejar el login
-  const handleLogin = (e, email, password) => {
-    e.preventDefault();
-    console.log("Iniciando sesión con:", email, password);
-    // Aquí puedes añadir la lógica de autenticación, como una llamada a la API
+
+
+  // Función para manejar el inicio de sesión
+  const handleLogin = async (credentialsDto) => {
+    try {
+      console.log("Iniciando sesión con:", credentialsDto);
+      return { success: true, message: 'Login exitoso.' };
+    } catch (error) {
+      console.error("Error al iniciar sesión:", error);
+      return { success: false, error: { message: "Error al iniciar sesión" } };
+    }
   };
 
   // Función para manejar el registro
@@ -21,6 +27,7 @@ const PublicRoutes = () => {
       return { success: false, error: { message: "Error al registrar usuario" } };
     }
   };
+
 
   // Función para manejar la recuperación de contraseña
   const handleForgotPassword = (email) => {
