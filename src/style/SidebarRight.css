@@ -177,3 +177,27 @@
     background-color: #2563eb; /* Azul oscuro */
   }
   
+
+  .task-item {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  position: relative; /* Necesario para posicionar el ícono en la esquina */
+}
+
+.task-item:hover {
+  background-color: #f3f4f6;
+}
+
+.reminder-icon {
+  position: absolute;
+  top: 50%;
+  right: 0.5rem; /* Alineación a la derecha */
+  transform: translateY(-50%); /* Centrado vertical */
+  color: #2563eb;
+  cursor: pointer;
+  z-index: 10; /* Asegura que esté encima de otros elementos */
+}
+
+.reminder-icon:hover {
+  color: #1d4ed8;
+}
