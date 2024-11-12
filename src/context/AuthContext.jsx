@@ -10,35 +10,27 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Efecto para verificar autenticación en cambios de ruta
-  useEffect(() => {
-    const currentToken = sessionStorage.getItem('token');
-    
-    // Lista de rutas protegidas
-    const protectedRoutes = ['/homePage', '/calendar', '/dashBoard'];
-    
-    // Verifica si la ruta actual está protegida
-    const isProtectedRoute = protectedRoutes.some(route => 
-      location.pathname.startsWith(route)
-    );
+  // Lista de rutas protegidas
+  const protectedRoutes = ['/homePage', '/calendar', '/dashBoard'];
 
-    // Si es una ruta protegida y no hay token, redirige al login
-    if (isProtectedRoute && !currentToken) {
-      navigate('/login', { replace: true });
-    }
-  }, [location, navigate]);
-
-  // Efecto para sincronizar el estado con sessionStorage
+  // Efecto para verificar si el token está en sessionStorage y sincronizarlo con el estado
   useEffect(() => {
     const storedToken = sessionStorage.getItem('token');
-    if (storedToken && !token) {
+    if (storedToken !== token) {
       setToken(storedToken);
-      setIsAuthenticated(true);
-    } else if (!storedToken && token) {
-      setToken(null);
-      setIsAuthenticated(false);
+      setIsAuthenticated(!!storedToken);
     }
   }, [token]);
+
+  // Efecto para redirigir si no hay token en rutas protegidas
+  useEffect(() => {
+    const isProtectedRoute = protectedRoutes.some(route => location.pathname.startsWith(route));
+
+    // Si es una ruta protegida y no hay token, redirige al login
+    if (isProtectedRoute && !token) {
+      navigate('/login', { replace: true });
+    }
+  }, [location, navigate, token]);
 
   const login = (newToken) => {
     sessionStorage.setItem('token', newToken);

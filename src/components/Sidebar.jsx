@@ -16,13 +16,30 @@ function Sidebar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [profilePic, setProfilePic] = useState(perfilIcon);
-  const [newName, setNewName] = useState("Dixon");
-  const [newLastName, setNewLastName] = useState("Gongora");
-  const [newLastName2, setNewLastName2] = useState("Muñoz");
-  const [newCedula, setNewCedula] = useState("402520449");
-  const [newTelefono, setNewTelefono] = useState("64069884");
+  const [newName, setNewName] = useState("");
+  const [newLastName, setNewLastName] = useState("");
+  const [newLastName2, setNewLastName2] = useState("");
+  const [newCedula, setNewCedula] = useState("");
+  const [newTelefono, setNewTelefono] = useState("");
+  const [newEmail, setNewEmail] = useState("");
   
   const navigate = useNavigate(); // Hook para redirigir
+
+  // Obtener información del usuario desde sessionStorage
+  useEffect(() => {
+    const user = JSON.parse(sessionStorage.getItem('user')); // Obtener el objeto usuario desde sessionStorage
+    if (user) {
+      setNewName(user.name);
+      setNewLastName(user.firstSurname);
+      setNewLastName2(user.secondSurname);
+      setNewCedula(user.idCard);
+      setNewTelefono(user.phoneNumber);
+      setNewEmail(user.email);
+      if (user.idImage?.imageContent) {
+        setProfilePic(user.idImage.imageContent); // Si tiene foto de perfil
+      }
+    }
+  }, []);
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -261,9 +278,9 @@ function Sidebar() {
                 <label className="block text-gray-700">Correo electrónico:</label>
                 <input
                   type="email"
-                  value="johndoe@example.com"
-                  disabled
-                  className="w-full p-2 border border-gray-300 bg-gray-100 rounded"
+                  value={newEmail}
+                  onChange={(e) => setNewEmail(e.target.value)}
+                  className="w-full p-2 border border-gray-300 rounded"
                 />
               </div>
               <div className="text-right">
