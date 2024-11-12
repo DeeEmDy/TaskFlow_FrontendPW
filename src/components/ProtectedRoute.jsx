@@ -1,14 +1,9 @@
 import { Navigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import { useAuth } from '../context/AuthContext';
 
 const ProtectedRoute = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
-
-  useEffect(() => {
-    const token = sessionStorage.getItem('token'); // Obtener el token del sessionStorage
-    setIsAuthenticated(!!token);  // Actualiza el estado según la existencia del token
-  }, []);
+  const { isAuthenticated } = useAuth();
 
   if (isAuthenticated === null) {
     return (
@@ -17,11 +12,11 @@ const ProtectedRoute = ({ children }) => {
           <span className="sr-only">Loading...</span>
         </div>
       </div>
-    );  // Mostrar el spinner mientras se determina la autenticación
+    );
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;  // Redirige a /login si no está autenticado
+    return <Navigate to="/login" replace />;
   }
 
   return children;

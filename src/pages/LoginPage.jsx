@@ -6,6 +6,7 @@ import { loginUser } from '../service/Auth/LoginUser';
 import '../style/LoginForm.css';
 import { useNavigate } from 'react-router-dom';  // Usamos el hook useNavigate para redirigir
 import { emailRegex, passwordRegex } from '../assets/ExpresionesRegulares/ExpresionesRegularesValidacion';
+import { useAuth } from '../context/AuthContext';
 
 
 const LoginPage = () => {
@@ -16,11 +17,14 @@ const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   // Crear la mutación para el inicio de sesión.
   const mutation = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
+      login(data.data.token);
+      
       Swal.fire({
         title: 'Inicio de sesión exitoso',
         text: data.message || 'Inicio de sesión exitoso',
