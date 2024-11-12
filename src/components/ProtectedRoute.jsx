@@ -1,13 +1,29 @@
 import { Navigate } from 'react-router-dom';
-import PropTypes from 'prop-types'; 
+import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 
-//Children es el contenido que se renderizará si la condición de autenticación se cumple.
-const ProtectedRoute = ({ children }) => { //recibe children, que representa el contenido (otros componentes) que se renderizará si la condición de autenticación se cumple.
-  const token = localStorage.getItem('token'); //Obtiene el token del localStorage obtenido al iniciar sesión.
+const ProtectedRoute = ({ children }) => {
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
 
-  if (!token) {
-    return <Navigate to="/" replace />;
+  useEffect(() => {
+    const token = sessionStorage.getItem('token'); // Obtener el token del sessionStorage
+    setIsAuthenticated(!!token);  // Actualiza el estado según la existencia del token
+  }, []);
+
+  if (isAuthenticated === null) {
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+        <div className="spinner-border text-primary" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      </div>
+    );  // Mostrar el spinner mientras se determina la autenticación
   }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;  // Redirige a /login si no está autenticado
+  }
+
   return children;
 };
 

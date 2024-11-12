@@ -5,7 +5,6 @@ import ForgotPassword from "../components/Forgot-password";
 
 const PublicRoutes = () => {
 
-
   // Función para manejar el inicio de sesión
   const handleLogin = async (credentialsDto) => {
     try {
@@ -27,7 +26,6 @@ const PublicRoutes = () => {
       return { success: false, error: { message: "Error al registrar usuario" } };
     }
   };
-
 
   // Función para manejar la recuperación de contraseña
   const handleForgotPassword = (email) => {

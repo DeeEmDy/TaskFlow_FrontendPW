@@ -1,9 +1,9 @@
 import { Route, Routes, Navigate } from "react-router-dom";
-import ProtectedRoute from "../components/ProtectedRoute"; // Componente que protegerá las rutas privadas
-import Layout from "../components/Layout"; // Importa el Layout que contiene Sidebar, TopBar, SidebarRight
-import DashBoard from "../components/DashBoard"; // Componente de ejemplo para rutas privadas
-import Calendar from "../pages/Calendar"; // Componente de ejemplo para rutas privadas
-import HomePage from "../pages/HomePage"; // Componente de ejemplo para rutas privadas
+import ProtectedRoute from "../components/ProtectedRoute";
+import Layout from "../components/Layout";
+import DashBoard from "../components/DashBoard";
+import Calendar from "../pages/Calendar";
+import HomePage from "../pages/HomePage";
 
 const PrivateRoutes = () => {
   return (
@@ -11,24 +11,24 @@ const PrivateRoutes = () => {
       {/* Envolvemos las rutas privadas dentro de Layout */}
       <Route element={<Layout />}>
         {/* Envolvemos cada ruta privada con ProtectedRoute */}
-        <Route 
-          path="/homePage" 
+        <Route
+          path="/homePage"
           element={
             <ProtectedRoute>
               <HomePage />
             </ProtectedRoute>
-          } 
+          }
         />
-        <Route 
-          path="/calendar" 
+        <Route
+          path="/calendar"
           element={
             <ProtectedRoute>
               <Calendar />
             </ProtectedRoute>
           }
         />
-        <Route 
-          path="/dashBoard" 
+        <Route
+          path="/dashBoard"
           element={
             <ProtectedRoute>
               <DashBoard />

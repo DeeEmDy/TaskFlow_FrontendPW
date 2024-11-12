@@ -1,22 +1,16 @@
-import { Routes, Route } from "react-router-dom";
-
-// Rutas
+import { Routes, Route, Navigate } from "react-router-dom";
 import PublicRoutes from "./PublicRoutes";
 import PrivateRoutes from "./PrivateRoutes";
 
 export default function AppRouter() {
-  // Verifica si el usuario está autenticado al buscar el token en el sessionStorage
-  const isAuth = !!sessionStorage.getItem("token"); // Obtén el token del sessionStorage, si está presente, el usuario está autenticado
+  const isAuth = !!sessionStorage.getItem("token"); // Verifica si hay un token en sessionStorage
 
   return (
     <Routes>
       {/* Si el usuario está autenticado, renderiza las rutas privadas */}
-      {isAuth ? (
-        <Route path="/*" element={<PrivateRoutes />} />
-      ) : (
-        // Si no está autenticado, renderiza las rutas públicas
-        <Route path="/*" element={<PublicRoutes />} />
-      )}
+      <Route path="/" element={isAuth ? <PrivateRoutes /> : <Navigate to="/login" />} />
+      {/* Si no está autenticado, renderiza las rutas públicas */}
+      <Route path="/*" element={isAuth ? <PrivateRoutes /> : <PublicRoutes />} />
     </Routes>
   );
 }

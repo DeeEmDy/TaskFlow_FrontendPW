@@ -5,7 +5,10 @@ export async function loginUser(credentialsDto) {
     try {
         const { data } = await api.post("/auth/login", credentialsDto);
 
+        console.log("Data obtenida del login:" + JSON.stringify(data));
         if (data.success) {
+            sessionStorage.setItem('token', data.data.token);
+            console.log("Token obtenido del login:" + data.data.token);
             return {
                 success: true,
                 message: "Inicio de sesión exitoso",
@@ -13,7 +16,6 @@ export async function loginUser(credentialsDto) {
             };
         }
 
-        // Si no es exitoso, lanzamos el error para que lo maneje el catch.
         throw new Error(JSON.stringify({
             code: data.error?.code || "UNKNOWN_ERROR",
             message: data.error?.message || "Error desconocido en el servidor",
@@ -25,7 +27,6 @@ export async function loginUser(credentialsDto) {
             const errorCode = error.response.data.error?.code || "UNKNOWN_ERROR";
             const errorDetails = error.response.data.error?.errors || [];
 
-            // Construimos el objeto de error.
             const errorResponse = {
                 success: false,
                 error: {
@@ -35,11 +36,9 @@ export async function loginUser(credentialsDto) {
                 }
             };
 
-            // En lugar de retornar el error, lo lanzamos.
             throw errorResponse;
         }
 
-        // Error genérico.
         throw new Error(JSON.stringify({
             success: false,
             error: {

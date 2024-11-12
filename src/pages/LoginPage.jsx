@@ -12,11 +12,11 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [errors, setErrors] = useState({});
-  const [isLoading, setIsLoading] = useState(false);  // Para manejar el estado de carga
+  const [isLoading, setIsLoading] = useState(false);
 
-  const navigate = useNavigate(); // Usamos el hook useNavigate para redirigir
+  const navigate = useNavigate();
 
-  //Crear la mutación para el inicio de sesión.
+  // Crear la mutación para el inicio de sesión.
   const mutation = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
@@ -28,16 +28,12 @@ const LoginPage = () => {
         showConfirmButton: false,
         timerProgressBar: true
       }).then(() => {
-        //Limpiar los campos del formulario del login.
         setEmail('');
         setPassword('');
-
-        //Redirigir a la HomePage.
         navigate('/homePage');
       });
     },
     onError: (error) => {
-      //Mostrar un mensaje de error.
       Swal.fire({
         title: 'Error al iniciar sesión',
         text: error.error?.message || 'Error al iniciar sesión',
@@ -46,7 +42,6 @@ const LoginPage = () => {
         showConfirmButton: false,
       });
 
-      // Si hay errores de validación, mostrarlos en consola y actualizamos el estado de los errores.
       if (error.error?.errors?.length > 0) {
         console.log('Errores de validación:', error.error.errors);
         setErrors(
@@ -66,71 +61,50 @@ const LoginPage = () => {
     setPasswordVisible(!passwordVisible);
   };
 
-  // Función para validar el formulario de inicio de sesión.
+  // Validación de campos del formulario
   const validateEmailFormField = (email) => {
     if (!email) return 'El email es obligatorio';
     if (!emailRegex.test(email)) return 'El formato del email no es válido';
     return null;
   };
 
-  // Función para validar el campo de contraseña del inicio de sesión.
   const validatePasswordFormField = (password) => {
     if (!password) return 'La contraseña es obligatoria';
     if (!passwordRegex.test(password)) return 'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número';
     return null;
   };
 
-
-  //Función para validar los campos del formulario de inicio de sesión.
   const validateLoginFormFields = () => {
     const validationErrors = {};
-
-    //Validación de los campos del formulario.
     validationErrors.email = validateEmailFormField(email);
     validationErrors.password = validatePasswordFormField(password);
-
-    //Eliminar valores nulos o indefinidos de los errores de validación.
     for (const key in validationErrors) {
-      if (validationErrors[key] === null) {
-        delete validationErrors[key];
-      }
+      if (validationErrors[key] === null) delete validationErrors[key];
     }
-
     return validationErrors;
   };
 
-
-  // Función para manejar el envío del formulario.
+  // Manejo del envío del formulario
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    setIsLoading(true);  // Iniciar el spinner al hacer submit
+    setIsLoading(true);
 
-    // Validar los campos del formulario.
     const validationErrors = validateLoginFormFields();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
 
-    //Enviar el formulario de inicio de sesión en un credentialsDto.
-
-    const credentialsDto = {
-      email,
-      password,
-    };
-
-    //Llamar a la mutación de inicio de sesión.
-    setIsLoading(true);  // Activar isLoading al enviar la solicitud
+    const credentialsDto = { email, password };
     mutation.mutate(credentialsDto);
   };
 
-
   const redirectToForgotPassword = () => {
-    navigate('/forgotPassword');  // Redirigir a la página ForgotPassword
+    navigate('/forgotPassword');
   };
 
   const redirectToRegister = () => {
-    navigate('/register'); // Redirigir a la página de registro
+    navigate('/register');
   };
 
   return (
@@ -185,7 +159,6 @@ const LoginPage = () => {
             </button>
           </form>
 
-          {/* Agregar el enlace de redirección a la página de registro con el mismo estilo que "Olvidaste tu contraseña" */}
           <div className="text-center mt-3">
             <button type="button" onClick={redirectToRegister} className="forgot-password-link">
               ¿No estás registrado? Regístrate
