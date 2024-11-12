@@ -5,18 +5,22 @@ export async function loginUser(credentialsDto) {
     try {
         const { data } = await api.post("/auth/login", credentialsDto);
 
-        console.log("Data obtenida del login:" + JSON.stringify(data));
+        // Verificamos si la respuesta es exitosa
         if (data.success) {
-            sessionStorage.setItem('token', data.data.token);
-            console.log("Token obtenido del login:" + data.data.token);
+            const { token, user } = data.data;  // Desestructuramos el token y los datos del usuario
+
+            // Guardamos el token en el sessionStorage (el usuario será manejado por el AuthContext)
+            sessionStorage.setItem('token', token);
+            sessionStorage.setItem('user', JSON.stringify(user));  // Guardamos el usuario en sessionStorage
+
             return {
                 success: true,
                 message: "Inicio de sesión exitoso",
-                data: data.data
+                data: { token, user }  // Retornamos tanto el token como los datos del usuario
             };
         }
 
-
+        // Si no es exitoso, lanzamos un error con la información correspondiente
         throw new Error(JSON.stringify({
             code: data.error?.code || "UNKNOWN_ERROR",
             message: data.error?.message || "Error desconocido en el servidor",
@@ -37,9 +41,10 @@ export async function loginUser(credentialsDto) {
                 }
             };
 
-            throw errorResponse;
+            throw errorResponse;  // Lanzamos el objeto de error
         }
 
+        // Si ocurre un error inesperado
         throw new Error(JSON.stringify({
             success: false,
             error: {
