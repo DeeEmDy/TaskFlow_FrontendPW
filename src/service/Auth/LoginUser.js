@@ -5,10 +5,10 @@ export async function loginUser(credentialsDto) {
     try {
         const { data } = await api.post("/auth/login", credentialsDto);
 
-        //console.log("Data obtenida del login:" + JSON.stringify(data));
+        console.log("Data obtenida del login:" + JSON.stringify(data));
         if (data.success) {
             sessionStorage.setItem('token', data.data.token);
-            //console.log("Token obtenido del login:" + data.data.token);
+            console.log("Token obtenido del login:" + data.data.token);
             return {
                 success: true,
                 message: "Inicio de sesión exitoso",

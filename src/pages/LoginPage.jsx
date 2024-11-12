@@ -48,7 +48,7 @@ const LoginPage = () => {
       });
 
       if (error.error?.errors?.length > 0) {
-        //console.log('Errores de validación:', error.error.errors);
+        console.log('Errores de validación:', error.error.errors);
         setErrors(
           error.error.errors.reduce((acc, err) => {
             acc[err.field] = err.message;
