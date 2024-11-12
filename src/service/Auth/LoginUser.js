@@ -16,6 +16,7 @@ export async function loginUser(credentialsDto) {
             };
         }
 
+
         throw new Error(JSON.stringify({
             code: data.error?.code || "UNKNOWN_ERROR",
             message: data.error?.message || "Error desconocido en el servidor",

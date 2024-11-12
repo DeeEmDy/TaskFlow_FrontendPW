@@ -7,6 +7,7 @@ import '../style/LoginForm.css';
 import { useNavigate } from 'react-router-dom';  // Usamos el hook useNavigate para redirigir
 import { emailRegex, passwordRegex } from '../assets/ExpresionesRegulares/ExpresionesRegularesValidacion';
 
+
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
