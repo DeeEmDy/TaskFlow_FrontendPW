@@ -9,7 +9,8 @@ api.interceptors.request.use((config) => {
     const token = sessionStorage.getItem("token");
     console.log("Token presente en axios.js:", token);
     if (token) {
-        config.headers.Authorization = `Bearer ${token}`; // Agregar token al encabezado
+        //Agregar token al encabezado.
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         console.log("Token agregado al encabezado de la solicitud:", token);
     }
     return config;

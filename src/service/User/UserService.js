@@ -67,6 +67,7 @@ export async function logout() {
 
         // Realizar la solicitud de logout al servidor
         const { data } = await api.delete("/auth/logout", {
+            withCredentials: true,
             headers: {
                 Authorization: `Bearer ${token}`
             }
