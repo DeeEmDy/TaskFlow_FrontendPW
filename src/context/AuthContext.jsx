@@ -1,48 +1,50 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { logout as logoutService } from "../service/User/UserService";
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(sessionStorage.getItem('token'));
-  const [isAuthenticated, setIsAuthenticated] = useState(!!token);
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Lista de rutas protegidas
-  const protectedRoutes = ['/homePage', '/calendar', '/dashBoard'];
+  // Verificar si ya hay un token en sessionStorage al inicio
+  const [token, setToken] = useState(() => sessionStorage.getItem('token'));
+  const [isAuthenticated, setIsAuthenticated] = useState(!!token);
 
-  // Efecto para verificar si el token está en sessionStorage y sincronizarlo con el estado
-  useEffect(() => {
-    const storedToken = sessionStorage.getItem('token');
-    if (storedToken !== token) {
-      setToken(storedToken);
-      setIsAuthenticated(!!storedToken);
-    }
-  }, [token]);
+  const protectedRoutes = ['/homePage', '/calendar', '/dashBoard'];
 
   // Efecto para redirigir si no hay token en rutas protegidas
   useEffect(() => {
     const isProtectedRoute = protectedRoutes.some(route => location.pathname.startsWith(route));
 
-    // Si es una ruta protegida y no hay token, redirige al login
-    if (isProtectedRoute && !token) {
+    if (isProtectedRoute && !isAuthenticated) {
       navigate('/login', { replace: true });
     }
-  }, [location, navigate, token]);
+  }, [location, navigate, isAuthenticated]);
 
+  // Función de login
   const login = (newToken) => {
     sessionStorage.setItem('token', newToken);
     setToken(newToken);
     setIsAuthenticated(true);
   };
 
-  const logout = () => {
-    sessionStorage.removeItem('token');
-    setToken(null);
-    setIsAuthenticated(false);
-    navigate('/login', { replace: true });
+  // Función de logout
+  const logout = async () => {
+    try {
+      const response = await logoutService();
+
+      if (response.success) {
+        sessionStorage.removeItem('token');
+        setToken(null);
+        setIsAuthenticated(false);
+        navigate('/login', { replace: true });
+      }
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+    }
   };
 
   return (

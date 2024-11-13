@@ -10,6 +10,8 @@ import inicioIcon from "../imagenes/casa.png";
 import logrosIcon from "../imagenes/logros.png";
 import { FaSignOutAlt } from 'react-icons/fa';
 import { FaCamera, FaTrashAlt } from 'react-icons/fa';
+import { useAuth } from '../context/AuthContext'; // Importar el hook de AuthContext
+
 
 function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,6 +26,8 @@ function Sidebar() {
   const [newEmail, setNewEmail] = useState("");
   
   const navigate = useNavigate(); // Hook para redirigir
+  const { logout } = useAuth(); // Obtener la función logout desde el contexto
+
 
   // Obtener información del usuario desde sessionStorage
   useEffect(() => {
@@ -78,10 +82,21 @@ function Sidebar() {
     setIsDropdownOpen(false); 
   };
 
-  const handleCerrarSesion = () => {
-    navigate("/"); 
-    setIsDropdownOpen(false); 
+  const handleCerrarSesion = async () => {
+    try {
+      await logout();
+      console.log("Cerrando sesión al token en SideBar.jsx:" + sessionStorage.getItem("token"));
+      sessionStorage.removeItem("token"); // Eliminar el token de sessionStorage
+      sessionStorage.removeItem("user");  // Eliminar el usuario de sessionStorage
+      
+      console.log("Redirigiendo a /login después de logout");
+      navigate('/login', { replace: true });
+      setIsDropdownOpen(false);
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+    }
   };
+  
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
