@@ -11,6 +11,7 @@ import logrosIcon from "../imagenes/logros.png";
 import { FaSignOutAlt } from 'react-icons/fa';
 import { FaCamera, FaTrashAlt } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext'; // Importar el hook de AuthContext
+import Swal from "sweetalert2";
 
 
 function Sidebar() {
@@ -84,18 +85,39 @@ function Sidebar() {
 
   const handleCerrarSesion = async () => {
     try {
-      await logout();
-      //console.log("Cerrando sesión al token en SideBar.jsx:" + sessionStorage.getItem("token"));
-      sessionStorage.removeItem("token"); // Eliminar el token de sessionStorage
-      sessionStorage.removeItem("user");  // Eliminar el usuario de sessionStorage
+      await logout();  // Llamada a la función logout
+      sessionStorage.removeItem("token");  // Eliminar el token de sessionStorage
+      sessionStorage.removeItem("user");   // Eliminar el usuario de sessionStorage
 
-      //console.log("Redirigiendo a /login después de logout");
-      navigate('/login', { replace: true });
-      setIsDropdownOpen(false);
+      // Mostrar el SweetAlert en caso de éxito
+      Swal.fire({
+        icon: 'success',
+        title: 'Sesión cerrada',
+        text: 'Se ha cerrado la sesión correctamente.',
+        showConfirmButton: false,
+        timer: 2000  // El alert se cerrará automáticamente después de 2 segundos
+      });
+
+      // Redirigir a la página de login después del tiempo de espera
+      setTimeout(() => {
+        navigate('/login', { replace: true });
+      }, 2000);
+
+      setIsDropdownOpen(false);  // Cerrar el dropdown
+
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
+
+      // Mostrar SweetAlert en caso de error
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Hubo un problema al cerrar la sesión. Intenta de nuevo.',
+        showConfirmButton: true
+      });
     }
   };
+
 
 
   const handleFileChange = (e) => {
