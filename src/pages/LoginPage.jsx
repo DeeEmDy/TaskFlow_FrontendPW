@@ -4,10 +4,9 @@ import Swal from 'sweetalert2';
 import { useMutation } from '@tanstack/react-query';
 import { loginUser } from '../service/Auth/LoginUser';
 import '../style/LoginForm.css';
-import { useNavigate } from 'react-router-dom';  // Usamos el hook useNavigate para redirigir
+import { useNavigate } from 'react-router-dom';
 import { emailRegex, passwordRegex } from '../assets/ExpresionesRegulares/ExpresionesRegularesValidacion';
 import { useAuth } from '../context/AuthContext';
-
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -19,11 +18,10 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  // Crear la mutación para el inicio de sesión.
   const mutation = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
-      login(data.data.token);  // Actualiza el contexto con el nuevo token
+      login(data.data.token);
       Swal.fire({
         title: 'Inicio de sesión exitoso',
         text: data.message || 'Inicio de sesión exitoso',
@@ -47,7 +45,6 @@ const LoginPage = () => {
       });
 
       if (error.error?.errors?.length > 0) {
-        console.log('Errores de validación:', error.error.errors);
         setErrors(
           error.error.errors.reduce((acc, err) => {
             acc[err.field] = err.message;
@@ -65,7 +62,6 @@ const LoginPage = () => {
     setPasswordVisible(!passwordVisible);
   };
 
-  // Validación de campos del formulario
   const validateEmailFormField = (email) => {
     if (!email) return 'El email es obligatorio';
     if (!emailRegex.test(email)) return 'El formato del email no es válido';
@@ -88,7 +84,6 @@ const LoginPage = () => {
     return validationErrors;
   };
 
-  // Manejo del envío del formulario
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -112,10 +107,10 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="container">
-      <div className="card">
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <div className="card w-full max-w-sm p-6 shadow-lg rounded-lg bg-white">
         <div className="card-body">
-          <h3>Inicio de Sesión</h3>
+          <h3 className="text-center text-2xl font-semibold">Inicio de Sesión</h3>
           <form onSubmit={onSubmitHandler}>
             <div className="mb-3">
               <label htmlFor="email" className="form-label">Correo electrónico</label>
@@ -144,7 +139,7 @@ const LoginPage = () => {
               />
               <button
                 type="button"
-                className="btn-password-toggle"
+                className="absolute right-2 top-12 transform -translate-y-1/2 text-gray-600 text-xl"
                 onClick={togglePasswordVisibility}
               >
                 {passwordVisible ? <FaEyeSlash /> : <FaEye />}
@@ -158,7 +153,7 @@ const LoginPage = () => {
               </button>
             </div>
 
-            <button type="submit" className="btn btn-primary w-100">
+            <button type="submit" className="btn btn-primary w-full py-2">
               {isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
             </button>
           </form>

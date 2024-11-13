@@ -278,46 +278,53 @@ const RegisterPage = () => {
             </div>
 
             {/* Contraseña */}
-            <div className="mb-3">
-              <label htmlFor="password" className="form-label">Contraseña</label>
-              <div className="input-group">
-                <input
-                  type={passwordVisible ? 'text' : 'password'}
-                  id="password"
-                  name="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className={`form-control ${errors.password ? 'is-invalid' : ''}`}
-                  placeholder="Ingrese su contraseña aquí"
-                  required
-                />
-                <button type="button" onClick={togglePasswordVisibility} className="input-group-text">
-                  {passwordVisible ? <FaEyeSlash /> : <FaEye />}
-                </button>
-              </div>
-              {errors.password && <div className="invalid-feedback">{errors.password}</div>}
-            </div>
+            <div className="mb-3 relative">
+          <label htmlFor="password" className="form-label">Contraseña</label>
+          <div className="input-group">
+            <input
+              type={passwordVisible ? 'text' : 'password'}
+              id="password"
+              name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className={`form-control ${errors.password ? 'is-invalid' : ''} pr-10`} // pr-10 para dar espacio al ícono
+              placeholder="Ingrese su contraseña aquí"
+              required
+            />
+            <button
+              type="button"
+              onClick={togglePasswordVisibility}
+              className="absolute right-2 top-12 transform -translate-y-1/2 text-gray-600 text-xl"
+            >
+              {passwordVisible ? <FaEyeSlash /> : <FaEye />}
+            </button>
+          </div>
+          {errors.password && <div className="invalid-feedback">{errors.password}</div>}
+        </div>
 
-            {/* Confirmar Contraseña */}
-            <div className="mb-3">
-              <label htmlFor="confirmPassword" className="form-label">Confirmar Contraseña</label>
-              <div className="input-group">
-                <input
-                  type={confirmPasswordVisible ? 'text' : 'password'}
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className={`form-control ${errors.confirmPassword ? 'is-invalid' : ''}`}
-                  placeholder="Confirme su contraseña"
-                  required
-                />
-                <button type="button" onClick={toggleConfirmPasswordVisibility} className="input-group-text">
-                  {confirmPasswordVisible ? <FaEyeSlash /> : <FaEye />}
-                </button>
-              </div>
-              {errors.confirmPassword && <div className="invalid-feedback">{errors.confirmPassword}</div>}
-            </div>
+        <div className="mb-3 relative">
+          <label htmlFor="confirmPassword" className="form-label">Confirmar Contraseña</label>
+          <div className="input-group">
+            <input
+              type={confirmPasswordVisible ? 'text' : 'password'}
+              id="confirmPassword"
+              name="confirmPassword"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className={`form-control ${errors.confirmPassword ? 'is-invalid' : ''} pr-10`} // pr-10 para dar espacio al ícono
+              placeholder="Confirme su contraseña"
+              required
+            />
+            <button
+              type="button"
+              onClick={toggleConfirmPasswordVisibility}
+              className="absolute right-2 top-12 transform -translate-y-1/2 text-gray-600 text-xl"
+            >
+              {confirmPasswordVisible ? <FaEyeSlash /> : <FaEye />}
+            </button>
+          </div>
+          {errors.confirmPassword && <div className="invalid-feedback">{errors.confirmPassword}</div>}
+        </div>
 
             <div className="mb-3">
               <button type="submit" className="btn btn-primary btn-block">
