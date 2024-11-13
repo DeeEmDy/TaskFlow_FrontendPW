@@ -39,9 +39,16 @@ function App() {
   const [errors, setErrors] = useState({});
 
   const users = [
-    { id: '1', name: 'Usuario 1' },
-    { id: '2', name: 'Usuario 2' },
-    { id: '3', name: 'Usuario 3' },
+    { id: '1', name: 'Dylan Arias Durán' },
+    { id: '2', name: 'Dixon Góngora Muñoz' },
+    { id: '3', name: 'Sofia Camacho Alcocer' },
+    { id: '4', name: 'Derek Arias Durán' },
+  ];
+
+  const tasks = [
+    { id: '1', name: 'Pendiente' },
+    { id: '2', name: 'Haciendo' },
+    { id: '3', name: 'Finalizada' },
   ];
 
   const handleSlotClick = (slotInfo) => {
@@ -146,55 +153,7 @@ function App() {
 
       <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} className="event-modal" overlayClassName="modal-overlay">
         <h2 className="modal-title">Agregar Nuevo Evento</h2>
-        <form onSubmit={handleSubmit} className="event-form">
-          <div className="form-group">
-            <label>Título:</label>
-            <input
-              type="text"
-              name="title"
-              value={newEvent.title}
-              onChange={handleInputChange}
-              required
-              className={getInputClassName('title')}
-            />
-            {errors.title && <span className="error-message">{errors.title}</span>}
-          </div>
-          <div className="form-group">
-            <label>Fecha Tarea Creada:</label>
-            <input
-              type="datetime-local"
-              name="created_task_date"
-              value={dayjs(newEvent.created_task_date).format('YYYY-MM-DDTHH:mm')}
-              onChange={handleInputChange}
-              required
-              className={getInputClassName('created_task_date')}
-            />
-            {errors.created_task_date && <span className="error-message">{errors.created_task_date}</span>}
-          </div>
-          <div className="form-group">
-            <label>Fecha de Tarea Expirada:</label>
-            <input
-              type="datetime-local"
-              name="expiration_task_date"
-              value={dayjs(newEvent.expiration_task_date).format('YYYY-MM-DDTHH:mm')}
-              onChange={handleInputChange}
-              required
-              className={getInputClassName('expiration_task_date')}
-            />
-            {errors.expiration_task_date && <span className="error-message">{errors.expiration_task_date}</span>}
-          </div>
-          <div className="form-group">
-            <label>Descripción:</label>
-            <textarea
-              name="description_task"
-              value={newEvent.description_task}
-              onChange={handleInputChange}
-              className={getInputClassName('description_task')}
-            />
-            {errors.description_task && <span className="error-message">{errors.description_task}</span>}
-          </div>
-
-          <div className="form-group">
+        <div className="form-group">
             <label>Usuario:</label>
             <select
               name="id_user"
@@ -211,25 +170,74 @@ function App() {
               ))}
             </select>
           </div>
-  
+
+        <form onSubmit={handleSubmit} className="event-form">
           <div className="form-group">
-            <label>Progreso de Tarea (%):</label>
+            <label>Título:</label>
             <input
-              type="range"
-              name="progress_task"
-              value={newEvent.progress_task || 0}
+              type="text"
+              name="title"
+              value={newEvent.title}
               onChange={handleInputChange}
-              min="0"
-              max="100"
               required
-              className="form-input"
-              disabled
+              className={getInputClassName('title')}
             />
-            <div>{newEvent.progress_task || 0}%</div>
+            {errors.title && <span className="error-message">{errors.title}</span>}
+          </div>
+          <div className="form-group">
+            <label>Fecha de creación:</label>
+            <input
+              type="datetime-local"
+              name="created_task_date"
+              value={dayjs(newEvent.created_task_date).format('YYYY-MM-DDTHH:mm')}
+              onChange={handleInputChange}
+              required
+              className={getInputClassName('created_task_date')}
+            />
+            {errors.created_task_date && <span className="error-message">{errors.created_task_date}</span>}
+          </div>
+          <div className="form-group">
+            <label>Descripción:</label>
+            <textarea
+              name="description_task"
+              value={newEvent.description_task}
+              onChange={handleInputChange}
+              className={getInputClassName('description_task')}
+            />
+            {errors.description_task && <span className="error-message">{errors.description_task}</span>}
           </div>
 
           <div className="form-group">
-            <label>Fecha de Tarea Expirada:</label>
+            <label>Fecha de expiración de tarea:</label>
+            <input
+              type="datetime-local"
+              name="expiration_task_date"
+              value={dayjs(newEvent.expiration_task_date).format('YYYY-MM-DDTHH:mm')}
+              onChange={handleInputChange}
+              required
+              className={getInputClassName('expiration_task_date')}
+            />
+            {errors.expiration_task_date && <span className="error-message">{errors.expiration_task_date}</span>}
+          </div>
+          <div className="form-group">
+            <label>Estado de tarea:</label>
+            <select
+              name="progress_task"
+              value={newEvent.id_user}
+              onChange={handleInputChange}
+              required
+              className="form-input"
+            >
+              <option value="">Seleccione un estado para la tarea</option>
+              {tasks.map(user => (
+                <option key={user.id} value={user.id}>
+                  {user.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="form-group">
+            <label>Fecha de expiración:</label>
             <input
               type="datetime-local"
               name="finalization_task_date"
@@ -239,19 +247,6 @@ function App() {
               className={getInputClassName('finalization_task_date')}
             />
             {errors.finalization_task_date && <span className="error-message">{errors.finalization_task_date}</span>}
-          </div>
-          <div className="form-group">
-            <label>Puntaje:</label>
-            <input
-              type="number"
-              name="score"
-              value={newEvent.score}
-              onChange={handleInputChange}
-              min="0"
-              max="100"
-              disabled
-              className="form-input"
-            />
           </div>
           <div className="form-buttons">
             <button type="submit" className="submit-button">Agregar Evento</button>
