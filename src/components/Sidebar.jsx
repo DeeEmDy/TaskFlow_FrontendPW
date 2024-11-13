@@ -85,11 +85,11 @@ function Sidebar() {
   const handleCerrarSesion = async () => {
     try {
       await logout();
-      console.log("Cerrando sesión al token en SideBar.jsx:" + sessionStorage.getItem("token"));
+      //console.log("Cerrando sesión al token en SideBar.jsx:" + sessionStorage.getItem("token"));
       sessionStorage.removeItem("token"); // Eliminar el token de sessionStorage
       sessionStorage.removeItem("user");  // Eliminar el usuario de sessionStorage
       
-      console.log("Redirigiendo a /login después de logout");
+      //console.log("Redirigiendo a /login después de logout");
       navigate('/login', { replace: true });
       setIsDropdownOpen(false);
     } catch (error) {

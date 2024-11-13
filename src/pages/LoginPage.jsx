@@ -23,8 +23,7 @@ const LoginPage = () => {
   const mutation = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
-      login(data.data.token);
-      
+      login(data.data.token);  // Actualiza el contexto con el nuevo token
       Swal.fire({
         title: 'Inicio de sesión exitoso',
         text: data.message || 'Inicio de sesión exitoso',

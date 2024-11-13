@@ -57,13 +57,13 @@ export async function logout() {
         const token = sessionStorage.getItem('token'); // Cambiar de localStorage a sessionStorage
 
         // Verificación detallada del token
-        console.log("Token presente en UserService.js:", token);
+        //console.log("Token presente en UserService.js:", token);
         if (!token) {
             console.log("No se encontró un token en sessionStorage.");
             throw new Error("No se encontró un token de autenticación.");
         }
 
-        console.log("Realizando la solicitud de logout con el token:", token);
+        //console.log("Realizando la solicitud de logout con el token:", token);
 
         // Realizar la solicitud de logout al servidor
         const { data } = await api.delete("/auth/logout", {
@@ -75,14 +75,14 @@ export async function logout() {
 
         // Verificar si la respuesta del servidor indica éxito
         if (data.success) {
-            console.log("Sesión cerrada correctamente, eliminando token de sessionStorage.");
+            //console.log("Sesión cerrada correctamente, eliminando token de sessionStorage.");
             sessionStorage.removeItem('token'); // Eliminar el token de sessionStorage
             return {
                 success: true,
                 message: "Sesión cerrada correctamente"
             };
         } else {
-            console.log("Error al intentar cerrar sesión:", data);
+            //console.log("Error al intentar cerrar sesión:", data);
             // Si la respuesta del servidor no es exitosa, lanzar un error con detalles
             throw new Error(JSON.stringify({
                 code: data.error?.code || "UNKNOWN_ERROR",
@@ -92,8 +92,8 @@ export async function logout() {
         }
     } catch (error) {
         // Manejo de errores y depuración
-        console.error("Error al cerrar sesión:", error);
-        throw handleApiError(error); // Función de manejo de errores (ajústala según sea necesario)
+        //console.error("Error al cerrar sesión:", error);
+        throw handleApiError(error); // Función de manejo de errores
     }
 }
 

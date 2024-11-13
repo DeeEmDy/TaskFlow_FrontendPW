@@ -13,16 +13,17 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(() => sessionStorage.getItem('token'));
   const [isAuthenticated, setIsAuthenticated] = useState(!!token);
 
+
   const protectedRoutes = ['/homePage', '/calendar', '/dashBoard'];
 
   // Efecto para redirigir si no hay token en rutas protegidas
   useEffect(() => {
     const isProtectedRoute = protectedRoutes.some(route => location.pathname.startsWith(route));
-
+  
     if (isProtectedRoute && !isAuthenticated) {
       navigate('/login', { replace: true });
     }
-  }, [location, navigate, isAuthenticated]);
+  }, [location, navigate, isAuthenticated]);  
 
   // Función de login
   const login = (newToken) => {
@@ -48,11 +49,11 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ 
-      token, 
-      isAuthenticated, 
-      login, 
-      logout 
+    <AuthContext.Provider value={{
+      token,
+      isAuthenticated,
+      login,
+      logout
     }}>
       {children}
     </AuthContext.Provider>

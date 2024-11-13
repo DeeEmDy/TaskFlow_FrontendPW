@@ -1,24 +1,22 @@
 import axios from 'axios';
 
+// Crear instancia de Axios
 const api = axios.create({
-    baseURL: 'http://localhost:8080', // URL de la API del backend
+  baseURL: 'http://localhost:8080',  // Cambia esta URL a la de tu API
 });
 
-// Interceptor de solicitud para agregar el token al encabezado
-api.interceptors.request.use((config) => {
-    const token = sessionStorage.getItem("token");
-    console.log("Token presente en axios.js:", token);
+// Establecer el token en los headers de todas las solicitudes
+api.interceptors.request.use(
+  (config) => {
+    const token = sessionStorage.getItem('token');
     if (token) {
-        //Agregar token al encabezado.
-        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        console.log("Token agregado al encabezado de la solicitud:", token);
+      config.headers['Authorization'] = `Bearer ${token}`;  // Añadir el token en el header
     }
     return config;
-}, (error) => {
-
-    console.log("Error al agregar token al encabezado de la solicitud:", error);
+  },
+  (error) => {
     return Promise.reject(error);
-});
-
+  }
+);
 
 export default api;
