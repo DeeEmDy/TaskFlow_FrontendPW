@@ -46,3 +46,47 @@ export async function getUserByEmail(email) {
     }
 }
 
+//http://localhost:8080/auth/logout
+export async function logout() {
+    try {
+        const { data } = await api.post("/auth/logout");
+        if (data.success) {
+            return {
+                success: true,
+                message: "Sesión cerrada correctamente"
+            };
+        }
+        throw new Error(JSON.stringify({
+            code: data.error?.code || "UNKNOWN_ERROR",
+            message: data.error?.message || "Error desconocido en el servidor",
+            errors: data.error?.errors || []
+        }));
+    } catch (error) {
+        if (isAxiosError(error) && error.response) {
+            const errorMessage = error.response.data.error?.message || "Error en el servidor, intenta de nuevo.";
+            const errorCode = error.response.data.error?.code || "UNKNOWN_ERROR";
+            const errorDetails = error.response.data.error?.errors || [];
+
+            const errorResponse = {
+                success: false,
+                error: {
+                    code: errorCode,
+                    message: errorMessage,
+                    errors: errorDetails
+                }
+            };
+
+            throw errorResponse;
+        }
+
+        throw new Error(JSON.stringify({
+            success: false,
+            error: {
+                code: "UNKNOWN_ERROR",
+                message: "Error inesperado al procesar la solicitud",
+                errors: []
+            }
+        }));
+    }
+}
+
