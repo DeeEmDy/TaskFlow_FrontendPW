@@ -1,10 +1,10 @@
 import Sidebar from "./Sidebar";
 import TopBar from "./TopBar";
 import SidebarRight from "./SidebarRight";
+import { Outlet } from "react-router-dom"; // Importamos Outlet de react-router-dom
 import "../style/Layout.css";
 
-// eslint-disable-next-line react/prop-types
-function Layout({ children }) {
+function Layout() {
   return (
     <div className="layout">
       {/* Sidebar izquierdo */}
@@ -15,8 +15,8 @@ function Layout({ children }) {
         <TopBar />
 
         <div className="content-layout">
-          {/* Contenido principal */}
-          {children}
+          {/* Contenido principal, donde se renderizan las rutas hijas */}
+          <Outlet />
         </div>
       </div>
 
