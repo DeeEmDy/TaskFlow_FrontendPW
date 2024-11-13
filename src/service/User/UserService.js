@@ -28,6 +28,120 @@ function handleApiError(error) {
     };
 }
 
+//Para crear un usuario.
+export async function createUser(user) {
+    try {
+        const { data } = await api.post("/user/create", user);
+
+        if (data.success) {
+            return {
+                success: true,
+                message: "Usuario creado correctamente",
+                data: data.data
+            };
+        }
+
+        throw new Error(JSON.stringify({
+            code: data.error?.code || "UNKNOWN_ERROR",
+            message: data.error?.message || "Error desconocido en el servidor",
+            errors: data.error?.errors || []
+        }));
+    } catch (error) {
+        throw handleApiError(error);
+    }
+}
+
+//Obtener todos los registros de usuarios.
+export async function getAllUsers() {
+    try {
+        const { data } = await api.get("/user/getAll");
+
+        if (data.success) {
+            return {
+                success: true,
+                message: "Usuarios encontrados",
+                data: data.data
+            };
+        }
+
+        throw new Error(JSON.stringify({
+            code: data.error?.code || "UNKNOWN_ERROR",
+            message: data.error?.message || "Error desconocido en el servidor",
+            errors: data.error?.errors || []
+        }));
+    } catch (error) {
+        throw handleApiError(error);
+    }
+}
+
+//Obtener un usuario por su id.
+export async function getUserById(id) {
+    try {
+        const { data } = await api.get(`/user/getById/${id}`);
+
+        if (data.success) {
+            return {
+                success: true,
+                message: "Usuario encontrado",
+                data: data.data
+            };
+        }
+
+        throw new Error(JSON.stringify({
+            code: data.error?.code || "UNKNOWN_ERROR",
+            message: data.error?.message || "Error desconocido en el servidor",
+            errors: data.error?.errors || []
+        }));
+    } catch (error) {
+        throw handleApiError(error);
+    }
+}
+
+//Actualizar un usuario por su id.
+export async function updateUser(id, user) {
+    try {
+        const { data } = await api.put(`/user/update/${id}`, user);
+
+        if (data.success) {
+            return {
+                success: true,
+                message: "Usuario actualizado correctamente",
+                data: data.data
+            };
+        }
+
+        throw new Error(JSON.stringify({
+            code: data.error?.code || "UNKNOWN_ERROR",
+            message: data.error?.message || "Error desconocido en el servidor",
+            errors: data.error?.errors || []
+        }));
+    } catch (error) {
+        throw handleApiError(error);
+    }
+}
+
+//Eliminar un usuario por su id.
+export async function deleteUser(id) {
+    try {
+        const { data } = await api.delete(`/user/delete/${id}`);
+
+        if (data.success) {
+            return {
+                success: true,
+                message: "Usuario eliminado correctamente"
+            };
+        }
+
+        throw new Error(JSON.stringify({
+            code: data.error?.code || "UNKNOWN_ERROR",
+            message: data.error?.message || "Error desconocido en el servidor",
+            errors: data.error?.errors || []
+        }));
+    } catch (error) {
+        throw handleApiError(error);
+    }
+}
+
 // Manejo de la solicitud para obtener el usuario por email
 export async function getUserByEmail(email) {
     try {
