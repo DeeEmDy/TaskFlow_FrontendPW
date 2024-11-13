@@ -2,28 +2,27 @@ import Sidebar from "./Sidebar";
 import TopBar from "./TopBar";
 import SidebarRight from "./SidebarRight";
 import "../style/Layout.css";
+import { Outlet } from 'react-router-dom'; // Importar Outlet
+import PropTypes from 'prop-types';
 
-// eslint-disable-next-line react/prop-types
+console.log("Hola desde el Layout");
 function Layout({ children }) {
   return (
     <div className="layout">
-      {/* Sidebar izquierdo */}
       <Sidebar />
-
       <div className="main-content">
-        {/* TopBar */}
         <TopBar />
-
         <div className="content-layout">
-          {/* Contenido principal */}
-          {children}
+          {children || <Outlet />} {/* Renderiza children o Outlet */}
         </div>
       </div>
-
-      {/* Sidebar derecho */}
       <SidebarRight />
     </div>
   );
 }
+
+Layout.propTypes = {
+  children: PropTypes.node,
+};
 
 export default Layout;

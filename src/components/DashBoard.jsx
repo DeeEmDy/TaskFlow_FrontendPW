@@ -4,6 +4,7 @@ import { BarChart, Bar, ComposedChart, LineChart, Line, XAxis, YAxis, Legend, Ca
 
 export default function DashBoard() {
 
+    console.log("Hola desde el DashBoard");
     const [filter, setFilter] = useState("");
     const [isFilterSelected, setIsFilterSelected] = useState(false); // Nuevo estado
     const [showModal, setShowModal] = useState(false);
