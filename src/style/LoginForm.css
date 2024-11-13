@@ -6,6 +6,7 @@
     min-height: 100vh;
     padding: 1rem;
     box-sizing: border-box;
+    margin-left: 4%; /* Mover el formulario hacia la derecha */
 }
 
 /* Estilos para la tarjeta que contiene el formulario */
@@ -89,6 +90,17 @@
     color: #6c757d;
     font-size: 1.22rem;  /* Tamaño del icono de ojo  */ 
     padding: 0.3rem;   
+}
+
+
+.input-group-text{
+    position: absolute;
+    left: 49rem; 
+    border: none;
+    cursor: pointer;
+    color: #6c757d;
+    font-size: 1.2rem;  /* Tamaño del icono de ojo  */ 
+    padding: 0.69rem;   
 }
 
 .btn-password-toggle:hover {
